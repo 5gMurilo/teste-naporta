@@ -9,6 +9,11 @@ describe("PostgreSQL integration", () => {
 				Array<{ result: number }>
 			>`SELECT 1 AS result`;
 			expect(Number(result[0].result)).toBe(1);
+
+			const database = await prisma.$queryRaw<
+				Array<{ database: string }>
+			>`SELECT current_database() AS database`;
+			expect(database[0].database).toBe("teste_naporta_test");
 		} finally {
 			await prisma.$disconnect();
 		}
