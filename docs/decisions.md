@@ -149,7 +149,7 @@ precisam de scripts inline. No container web, o Nginx envia uma CSP restrita a `
 
 ## 12. Testes
 
-Jest ESM na API, Vitest e Testing Library na web, Playwright (Chromium) no fluxo ponta a ponta,
+Jest ESM na API, Vitest e Testing Library na web (sem testes de navegador, para manter a suíte leve),
 Testcontainers para PostgreSQL e Redis reais, Node test runner para os containers. Persistência, cache e
 concorrência não usam mocks como prova. Falhas de escrita e de invalidação são induzidas na fronteira
 (trigger no PostgreSQL, rejeição do `DEL`). Cobertura mínima de 80 % de linhas e 70 % de branches, imposta

@@ -21,14 +21,13 @@ UI (`/docs`).
 | Cache | Redis, cache-aside só no detalhe | Atende ao pedido de cache sem arriscar consistência |
 | Frontend | React 19, Vite 8, shadcn/ui, Tailwind 4 | SPA pequena, sem SSR |
 | Monorepo | pnpm workspaces + Turborepo | Comandos únicos na raiz |
-| Testes | Jest, Vitest, Playwright, Testcontainers | Persistência, cache e navegador reais |
+| Testes | Jest, Vitest, Testcontainers | Persistência e cache reais |
 
 ## Pré-requisitos
 
 - Node.js 22.22.3 ou superior
 - pnpm 10.33.0 (`corepack enable` instala a versão certa)
 - Docker (Engine, Desktop ou OrbStack) com Docker Compose
-- Para os testes de navegador, uma vez: `pnpm --filter @naporta/web exec playwright install chromium`
 
 ```sh
 pnpm install --frozen-lockfile
@@ -216,18 +215,17 @@ filtros e paginação, detalhe, criação, edição e exclusão com confirmaçã
 | `pnpm test:coverage` | Cobertura mínima de 80 % de linhas e 70 % de branches em cada app |
 | `pnpm test:e2e` | API via HTTP com providers controlados |
 | `pnpm test:integration` | API com PostgreSQL e Redis reais (Testcontainers) |
-| `pnpm test:e2e:web` | Playwright com frontend, API, PostgreSQL e Redis reais e isolados |
 | `pnpm test:containers [api\|web\|stack]` | Imagens e Compose reais, em projeto, volumes e portas próprios |
 | `pnpm check` | Todos os gates acima, em ordem, propagando a falha de cada etapa |
 
-Os comandos de teste não usam cache do Turbo. Os testes de integração, de navegador e de containers exigem
+Os comandos de teste não usam cache do Turbo. Os testes de integração e de containers exigem
 Docker e falham, em vez de serem ignorados, se ele não estiver disponível.
 
 ## Estrutura
 
 ```text
 apps/api   NestJS: auth, health, orders, cache, docs, common, prisma/
-apps/web   React + Vite: app, features/{auth,orders}, components, lib, test/e2e
+apps/web   React + Vite: app, features/{auth,orders}, components, lib
 docs       decisions.md e openapi.json
 scripts    check, test:containers e testes dos containers
 docker-compose.yml, turbo.json, biome.json, pnpm-workspace.yaml

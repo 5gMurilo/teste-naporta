@@ -35,7 +35,6 @@ describe('login rate limit configuration (C13, C14)', () => {
   it('raises the login rate limit in the disposable stacks', () => {
     for (const [file, pattern] of [
       ['apps/api/test/helpers/postgres-test-context.ts', /LOGIN_RATE_LIMIT = '(\d+)'/],
-      ['apps/web/test/e2e/support/stack.ts', /LOGIN_RATE_LIMIT: '(\d+)'/],
     ]) {
       const match = read(file).match(pattern);
       assert.ok(match, `${file} must set LOGIN_RATE_LIMIT`);

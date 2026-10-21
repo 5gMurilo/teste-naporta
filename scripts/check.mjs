@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
  * pnpm check [--keep-going]
- * The complete verification of the delivery. Needs Docker (integration, browser, and container
- * steps) and the Playwright Chromium browser (`pnpm --filter @naporta/web exec playwright install chromium`).
+ * The complete verification of the delivery. Needs Docker (integration and container steps).
  */
 import { runSteps, STEPS } from './lib/run-steps.mjs';
 

@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
-import { createRequire } from 'node:module';
 import { createServer } from 'node:net';
 import { after, before, describe, it } from 'node:test';
 import { promisify } from 'node:util';
@@ -206,27 +205,5 @@ describe('Compose stack (OPS-01, PACK-02, PACK-03, PACK-04, OPS-04)', () => {
     assert.equal(await psql(`SELECT count(*) FROM "Order" WHERE "orderNumber" = 'NP-STACK'`), '1');
     const token = await login(web);
     assert.equal((await fetch(`${web}/api/v1/orders?orderNumber=NP-STACK`, { headers: authed(token) })).status, 200);
-  });
-
-  it('shows the login page in a real browser through nginx, the API, and PostgreSQL', async () => {
-    const require = createRequire(new URL('../../apps/web/package.json', import.meta.url));
-    const { chromium } = require('@playwright/test');
-    const browser = await chromium.launch();
-    try {
-      const page = await browser.newPage();
-      const problems = [];
-      page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
-
-      await page.goto(`${web}/`);
-      await page.getByLabel('E-mail').fill(SEED.email);
-      await page.getByLabel('Senha').fill(SEED.password);
-      await page.getByRole('button', { name: 'Entrar' }).click();
-      await page.getByRole('link', { name: 'NP-STACK' }).waitFor();
-
-      assert.deepEqual(problems, []);
-      assert.equal(await page.getByRole('rowheader').count() >= 13, true);
-    } finally {
-      await browser.close();
-    }
   });
 });
