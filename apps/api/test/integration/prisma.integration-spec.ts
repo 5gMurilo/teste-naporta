@@ -1,8 +1,9 @@
+import { loadApiConfig } from '../../src/config/env.js';
 import { PrismaService } from '../../src/prisma/prisma.service.js';
 
 describe('PostgreSQL integration', () => {
   it('executes SELECT 1 against PostgreSQL', async () => {
-    const prisma = new PrismaService();
+    const prisma = new PrismaService(loadApiConfig());
     await prisma.$connect();
     try {
       const result = await prisma.$queryRaw<Array<{ result: number }>>`SELECT 1 AS result`;

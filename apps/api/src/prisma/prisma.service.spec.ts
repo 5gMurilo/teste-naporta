@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import { loadApiConfig } from '../config/env.js';
 import { PrismaService } from './prisma.service.js';
 
 jest.mock('../generated/prisma/client', () => ({
@@ -11,16 +12,34 @@ jest.mock('@prisma/adapter-pg', () => ({ PrismaPg: class {} }));
 
 describe('PrismaService', () => {
   it('connects once on module initialization', async () => {
-    process.env.DATABASE_URL = 'postgresql://localhost/db';
-    const service = new PrismaService();
+    const service = new PrismaService(
+      loadApiConfig({
+        NODE_ENV: 'test',
+        DATABASE_URL: 'postgresql://localhost/db',
+        JWT_SECRET: 'a'.repeat(32),
+        JWT_ISSUER: 'naporta',
+        JWT_AUDIENCE: 'naporta-web',
+        JWT_EXPIRES_IN: '3600',
+        REDIS_URL: 'redis://localhost:6379',
+      }),
+    );
     const connect = jest.spyOn(service, '$connect');
     await service.onModuleInit();
     expect(connect).toHaveBeenCalledTimes(1);
   });
 
   it('disconnects once on module shutdown', async () => {
-    process.env.DATABASE_URL = 'postgresql://localhost/db';
-    const service = new PrismaService();
+    const service = new PrismaService(
+      loadApiConfig({
+        NODE_ENV: 'test',
+        DATABASE_URL: 'postgresql://localhost/db',
+        JWT_SECRET: 'a'.repeat(32),
+        JWT_ISSUER: 'naporta',
+        JWT_AUDIENCE: 'naporta-web',
+        JWT_EXPIRES_IN: '3600',
+        REDIS_URL: 'redis://localhost:6379',
+      }),
+    );
     const disconnect = jest.spyOn(service, '$disconnect');
     await service.onModuleDestroy();
     expect(disconnect).toHaveBeenCalledTimes(1);

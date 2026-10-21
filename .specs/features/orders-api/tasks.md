@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **4 de 53 tarefas concluídas (T1–T4).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **5 de 53 tarefas concluídas (T1–T5).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
 
@@ -174,7 +174,7 @@ T47 -> T48
 **Depends on**: T4
 **Reuses**: Schema/testes de env atuais; Zod.
 **Requirement**: BOOT-03, OPS-04, AUTH-01, CACHE-04.
-**Done when**: [ ] Todas as variáveis/unidades/limites da spec validados; seed credentials só no comando seed; invalid config falha sem segredos; fixture de integração recebe env sintético válido.
+**Done when**: [x] Todas as variáveis/unidades/limites da spec validados; seed credentials só no comando seed; invalid config falha sem segredos; fixture de integração recebe env sintético válido.
 **Tests**: Unit + bootstrap/config, U01, >=12 casos/parametrizações incluindo segredo ausente/curto, URL, porta, TTL, timeout, issuer/audience e sentinelas.
 **Gate**: Q e smoke de startup inválido sem listen.
 **Commit**: `feat(config): validate api and seed environment safely`

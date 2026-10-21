@@ -16,7 +16,7 @@ docker compose up -d --wait postgres
 
 O Compose declara um healthcheck TCP usando `pg_isready`. O healthcheck declara quando o serviço está saudável; `--wait` faz o comando aguardar esse estado. O serviço publica somente em `127.0.0.1:5432` e persiste os dados no volume nomeado `postgres_data`.
 
-Copie `.env.example` para `.env`. A URL local é `postgresql://postgres:postgres@localhost:5432/teste_naporta`. A conexão é obrigatória durante o startup da API; sem ela a API não inicia.
+Copie `.env.example` para `.env`, gere um segredo exclusivo com `openssl rand -base64 48` e preencha `JWT_SECRET`. A URL local é `postgresql://postgres:postgres@localhost:5432/teste_naporta`. Banco, Redis e segredo JWT são obrigatórios no startup da API; credenciais de seed só são necessárias ao executar o seed explícito.
 
 Execute, nesta ordem:
 
