@@ -10,9 +10,9 @@ const DEV_PROXY_TARGET = process.env.DEV_PROXY_TARGET ?? 'http://localhost:3000'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': path.resolve(import.meta.dirname, './src') } },
-  server: {
-    proxy: { '/api': { target: DEV_PROXY_TARGET, changeOrigin: true } },
-  },
+  server: { proxy: { '/api': { target: DEV_PROXY_TARGET, changeOrigin: true } } },
+  // `vite preview` serves the production build for the browser tests with the same /api proxy.
+  preview: { proxy: { '/api': { target: DEV_PROXY_TARGET, changeOrigin: true } } },
   build: { outDir: 'dist', sourcemap: false },
   test: {
     environment: 'jsdom',

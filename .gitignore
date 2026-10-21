@@ -13,3 +13,5 @@ apps/api/src/generated/prisma/
 .specs/features/*
 !.specs/features/orders-api/
 !.specs/features/orders-api/**
+test-results/
+playwright-report/
