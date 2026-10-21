@@ -19,7 +19,9 @@ import { setupDocs } from './docs/openapi.js';
 import { applyHttpSecurity } from './http-security.js';
 
 /** One JSON object per line on stderr: no colours, no prefix, parseable by any log collector. */
-const jsonErrorLogger: ProblemLogger = { error: (message) => process.stderr.write(`${message}\n`) };
+export const jsonErrorLogger: ProblemLogger = {
+  error: (message) => process.stderr.write(`${message}\n`),
+};
 
 export type ApplicationMode = 'http' | 'docs';
 
