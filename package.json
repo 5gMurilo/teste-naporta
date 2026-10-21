@@ -12,11 +12,14 @@
 		"typecheck": "turbo run typecheck",
 		"test:unit": "turbo run test:unit",
 		"test:coverage": "turbo run test:coverage",
+		"test:contract": "turbo run test:contract",
 		"test:e2e": "turbo run test:e2e",
 		"test:integration": "turbo run test:integration",
 		"prisma:generate": "turbo run prisma:generate",
 		"prisma:validate": "turbo run prisma:validate",
-		"db:seed": "pnpm --filter @naporta/api db:seed"
+		"db:seed": "pnpm --filter @naporta/api db:seed",
+		"docs:openapi": "turbo run docs:openapi",
+		"docs:openapi:check": "turbo run docs:openapi:check"
 	},
 	"devDependencies": {
 		"turbo": "2.9.0"

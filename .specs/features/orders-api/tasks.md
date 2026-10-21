@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T17 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T18 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -321,7 +321,7 @@ T47 -> T48
 **Depends on**: T17
 **Reuses**: Factory sem init, metadata/schema dos endpoints existentes e filtro.
 **Requirement**: DOC-01, DOC-02, DOC-03, DOC-04, DOC-05, OPS-05.
-**Done when**: [ ] /docs e /docs-json públicos, bearerAuth; duas exportações idênticas sem DB/Redis; test:contract/docs:openapi reais; representação Standard Schema provada, fallback fino somente com falha documentada.
+**Done when**: [x] /docs e /docs-json públicos, bearerAuth; duas exportações idênticas sem DB/Redis; test:contract/docs:openapi reais; representação Standard Schema provada, fallback fino somente com falha documentada.
 **Tests**: Unit/contrato/HTTP U29/I31 parciais, >=5 casos de schemas, security, export offline/determinístico, exemplo e erro; endpoints de pedidos completam sete operações em T25.
 **Gate**: F e B da etapa.
 **Commit**: `feat(openapi): expose and export deterministic api contracts`

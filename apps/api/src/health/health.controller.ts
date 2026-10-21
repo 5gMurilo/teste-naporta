@@ -35,7 +35,6 @@ export class HealthController {
       detail: 'The service is temporarily unavailable.',
       instance: '/api/v1/health',
       code: 'SERVICE_UNAVAILABLE',
-      requestId: '5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10',
     }),
   })
   async check() {

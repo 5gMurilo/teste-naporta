@@ -16,6 +16,7 @@ import {
 } from './common/errors/validation.exception.js';
 import { requestIdMiddleware } from './common/http/request-id.middleware.js';
 import type { ApiConfig } from './config/env.js';
+import { setupDocs } from './docs/openapi.js';
 
 export type ApplicationMode = 'http' | 'docs';
 
@@ -47,6 +48,7 @@ export async function createApplication(
       logger: false,
     });
     configureApplication(app);
+    if (mode === 'http') setupDocs(app);
     if (mode === 'http') await app.init();
     return app;
   } catch {

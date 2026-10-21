@@ -2,9 +2,9 @@ import { jest } from '@jest/globals';
 import type { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Test } from '@nestjs/testing';
-import { createAppModule } from '../app.module.js';
-import { loadApiConfig } from '../config/env.js';
-import { PrismaService } from '../prisma/prisma.service.js';
+import { createAppModule } from '../../src/app.module.js';
+import { loadApiConfig } from '../../src/config/env.js';
+import { PrismaService } from '../../src/prisma/prisma.service.js';
 
 describe('POST /api/v1/auth/login OpenAPI contract', () => {
   let app: INestApplication;

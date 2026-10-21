@@ -1,7 +1,11 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../common/decorators/public.decorator.js';
-import { ProblemDetailsDto, problemJsonContent } from '../common/errors/problem-details.dto.js';
+import {
+  ProblemDetailsDto,
+  problemJsonContent,
+  ValidationProblemDetailsDto,
+} from '../common/errors/problem-details.dto.js';
 import {
   type LoginRequest,
   type LoginResponse,
@@ -18,12 +22,11 @@ const problem = (status: number, title: string, code: string, detail: string) =>
     detail,
     instance: '/api/v1/auth/login',
     code,
-    requestId: '5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10',
   });
 
 @Public()
 @ApiTags('auth')
-@ApiExtraModels(ProblemDetailsDto)
+@ApiExtraModels(ProblemDetailsDto, ValidationProblemDetailsDto)
 @Controller('api/v1/auth')
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
@@ -38,21 +41,18 @@ export class AuthController {
   @ApiResponse({
     status: 400,
     description: 'Invalid or unknown body properties.',
-    content: {
-      'application/problem+json': {
-        schema: { $ref: '#/components/schemas/ProblemDetailsDto' },
-        example: {
-          type: 'about:blank',
-          title: 'Bad Request',
-          status: 400,
-          detail: 'The request is invalid.',
-          instance: '/api/v1/auth/login',
-          code: 'VALIDATION_ERROR',
-          requestId: '5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10',
-          errors: [{ field: 'email', message: 'Invalid email address' }],
-        },
+    content: problemJsonContent(
+      {
+        type: 'about:blank',
+        title: 'Bad Request',
+        status: 400,
+        detail: 'The request is invalid.',
+        instance: '/api/v1/auth/login',
+        code: 'VALIDATION_ERROR',
+        errors: [{ field: 'email', message: 'Invalid email address' }],
       },
-    },
+      'ValidationProblemDetails',
+    ),
   })
   @ApiResponse({
     status: 401,

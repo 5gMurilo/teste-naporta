@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T17 concluídas, 17/53 tarefas concluídas.
-- **Completed**: T11–T16 commitadas (até `eb3f8ad`). T17: `JwtAuthGuard` registrado como APP_GUARD em AuthModule; bypass só por metadata @Public; valida bearer, assinatura/algoritmo/exp/iss/aud (verifyOptions do JwtModule) e claims sub/email; principal mínimo em `request.principal`. GET / agora retorna 401 sem token (teste de request-id ajustado: o contrato mudou, a asserção de header permanece). U07 N/A: sem @CurrentUser. Gate F verde: 117 unitários, e2e 1, integração 22, cobertura e build.
+- **Phase / Task**: T1–T18 concluídas, 18/53 tarefas concluídas.
+- **Completed**: T11–T17 commitadas (até `d4ef683`). T18: Swagger UI em `/docs` e JSON em `/docs-json` (públicos, fora dos controllers), esquema `bearerAuth`, GET / excluído do contrato, schemas ProblemDetails/ValidationProblemDetails/FieldError nomeados, documento com chaves ordenadas e export offline em `docs/openapi.json` (`pnpm docs:openapi` e `docs:openapi:check`, via build compilado com DATABASE_URL sintética). `test:contract` real (`test/contract/*.contract-spec.ts`). O loader ts-node/esm não resolve `@nestjs/swagger` (gera `.js.js`), então `dev` passou a compilar com tsc --watch e rodar `node --watch dist/main.js`. Gate F e B da etapa 3 verdes pelos comandos da raiz: lint, format:check, typecheck, build, test:unit (116), test:contract (7), e2e (1), integração (22), cobertura, docs:openapi:check.
 - **In-progress**: Nada.
-- **Next step**: T18 (OpenAPI Swagger UI/JSON + export determinístico; fecha a Phase 3 com gate B).
+- **Next step**: T19 (Phase 4, branch feat/naporta-orders a partir de feat/naporta-security) — exige nova autorização; Phase 3 encerrada.
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.

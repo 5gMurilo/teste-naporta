@@ -8,13 +8,14 @@
   },
   "scripts": {
     "build": "pnpm prisma:generate && tsc -p tsconfig.build.json",
-    "dev": "node --loader ts-node/esm src/main.ts",
-    "start:dev": "node --loader ts-node/esm src/main.ts",
+    "dev": "tsc -p tsconfig.build.json && (tsc -p tsconfig.build.json --watch --preserveWatchOutput & node --watch dist/main.js)",
+    "start:dev": "pnpm dev",
     "start:prod": "node dist/main.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs",
     "test:unit": "pnpm test --runInBand && pnpm test:workspace",
     "test:workspace": "node --test test/workspace/*.test.mjs",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs --runInBand --coverage",
+    "test:contract": "NODE_OPTIONS=--experimental-vm-modules jest --config test/jest-contract.config.cjs",
     "test:e2e": "NODE_OPTIONS=--experimental-vm-modules jest --config test/jest-e2e.config.cjs",
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest --config test/jest-integration.config.cjs",
     "lint": "biome check .",
@@ -25,7 +26,9 @@
     "prisma:generate": "prisma generate",
     "prisma:validate": "prisma validate",
     "prisma:migrate:dev": "prisma migrate dev",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "docs:openapi": "DATABASE_URL=postgresql://docs:docs@localhost:5432/docs pnpm build && node dist/docs/export-openapi.js",
+    "docs:openapi:check": "DATABASE_URL=postgresql://docs:docs@localhost:5432/docs pnpm build && node dist/docs/export-openapi.js --check"
   },
   "dependencies": {
     "@nestjs/common": "12.2.0",
