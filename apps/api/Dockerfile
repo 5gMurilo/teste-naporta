@@ -41,6 +41,13 @@ USER node
 ENV NODE_ENV=production
 CMD ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
 
+# Explicit, on-demand job (never started by default): upserts the demo user and its 12 demo orders.
+FROM build AS seed
+WORKDIR /repo/apps/api
+USER node
+ENV NODE_ENV=production
+CMD ["node", "--loader", "ts-node/esm", "prisma/seed.ts"]
+
 FROM node:${NODE_VERSION}-slim AS runtime
 ENV NODE_ENV=production
 WORKDIR /app

@@ -54,13 +54,21 @@ export type SeedConfig = Readonly<z.infer<typeof seedSchema>>;
 
 export const API_CONFIG = Symbol('API_CONFIG');
 
+/** Names the invalid variables and nothing else, so it is always safe to print. */
+export class ConfigError extends Error {
+  constructor(fields: string[]) {
+    super(`Invalid environment fields: ${fields.join(', ')}`);
+    this.name = 'ConfigError';
+  }
+}
+
 function parseConfig<T extends z.ZodType>(schema: T, env: NodeJS.ProcessEnv): Readonly<z.infer<T>> {
   const result = schema.safeParse(env);
   if (!result.success) {
     const fields = [
       ...new Set(result.error.issues.map((issue) => String(issue.path[0] ?? 'environment'))),
     ].sort();
-    throw new Error(`Invalid environment fields: ${fields.join(', ')}`);
+    throw new ConfigError(fields);
   }
   return Object.freeze(result.data);
 }

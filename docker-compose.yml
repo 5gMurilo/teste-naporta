@@ -1,12 +1,18 @@
+# Local stack: PostgreSQL, Redis, the API, and the web app.
+#   docker compose up -d --build          start everything (migrations run before the API)
+#   docker compose run --rm seed          explicit demo data (profile "tools"; never automatic)
+#   docker compose down                   stop; the PostgreSQL volume is kept
+# JWT_SECRET (see .env.example) must be set to start the API; an empty value makes it stop with a
+# clear message instead of running with a weak secret. Published ports are bound to 127.0.0.1 only.
 services:
   postgres:
     image: postgres:17-alpine
     environment:
       POSTGRES_DB: teste_naporta
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -15,6 +21,86 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+
+  # Cache only: no published port and nothing written to disk. Losing it loses nothing but speed.
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # One-shot job: applies the versioned migrations and exits. The API waits for it to succeed.
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: migrate
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/teste_naporta
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: runtime
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/teste_naporta
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_ISSUER: ${JWT_ISSUER:-naporta}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-naporta-web}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-3600}
+      CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-60}
+      CACHE_TIMEOUT_MS: ${CACHE_TIMEOUT_MS:-200}
+    ports:
+      - "127.0.0.1:${API_PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      # Started, not healthy: the API keeps working without Redis.
+      redis:
+        condition: service_started
+    restart: on-failure:5
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      API_UPSTREAM: http://api:3000
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Explicit demo data. Requires SEED_USER_EMAIL and SEED_USER_PASSWORD; never started by `up`.
+  seed:
+    profiles: ["tools"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: seed
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/teste_naporta
+      SEED_USER_EMAIL: ${SEED_USER_EMAIL:-}
+      SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:-}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
 
 volumes:
   postgres_data:

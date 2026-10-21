@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T49 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T50 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -685,7 +685,7 @@ T47 -> T48
 **Depends on**: T49
 **Reuses**: PostgreSQL 17/volume atual, imagens testadas e health API.
 **Requirement**: OPS-01, PACK-02, PACK-03, PACK-04, OPS-04.
-**Done when**: [ ] config válida, portas loopback configuráveis, Redis sem exposição/persistência, migrate antes da API, web pronto, down/up conserva PG; nenhuma remoção de volume da pessoa, nenhum seed automático.
+**Done when**: [x] config válida, portas loopback configuráveis, Redis sem exposição/persistência, migrate antes da API, web pronto, down/up conserva PG; nenhuma remoção de volume da pessoa, nenhum seed automático.
 **Tests**: Smoke Compose real E07/E08, >=6 casos de config/saúde/ordem/proxy/persistência/perda de Redis, em projeto/volumes/portas de prova exclusivos.
 **Gate**: C completo e H.
 **Commit**: `build(compose): orchestrate the complete local stack safely`

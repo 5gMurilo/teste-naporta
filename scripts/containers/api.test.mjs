@@ -125,7 +125,8 @@ describe('API image (PACK-01, BOOT-01, OPS-04, OPS-05)', () => {
       runtimeImage]).then(() => ({ exited: false }), (error) => ({ exited: true, output: error.output }));
 
     assert.equal(result.exited, true);
-    assert.match(result.output, /API startup failed/);
+    assert.match(result.output, /API startup failed: Invalid environment fields: .*DATABASE_URL/);
+    assert.match(result.output, /JWT_SECRET/);
     assert.doesNotMatch(result.output, /short-secret-value|not-a-url/);
   });
 });
