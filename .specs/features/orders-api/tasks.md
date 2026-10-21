@@ -1,8 +1,8 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T10 de 53 tarefas concluída; Phase 2 encerrada.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T11 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
-**Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
+**Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
 ## Execution Protocol
 
@@ -244,7 +244,7 @@ T47 -> T48
 **Depends on**: T10
 **Reuses**: Factory, Node crypto e contexto HTTP.
 **Requirement**: ERR-07.
-**Done when**: [ ] Toda resposta recebe X-Request-Id UUID novo e contexto interno correspondente, sem ecoar headers sensíveis.
+**Done when**: [x] Toda resposta recebe X-Request-Id UUID novo e contexto interno correspondente, sem ecoar headers sensíveis.
 **Tests**: Unit + HTTP, U22 parcial/I21 parcial, >=3 casos de UUID/header/contexto e ID hostil de entrada.
 **Gate**: F.
 **Commit**: `feat(http): correlate responses with generated request ids`

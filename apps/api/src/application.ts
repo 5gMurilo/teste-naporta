@@ -1,6 +1,7 @@
 import { type INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { createAppModule } from './app.module.js';
+import { requestIdMiddleware } from './common/http/request-id.middleware.js';
 import type { ApiConfig } from './config/env.js';
 
 export type ApplicationMode = 'http' | 'docs';
@@ -15,6 +16,7 @@ export async function createApplication(
       abortOnError: false,
       logger: false,
     });
+    app.use(requestIdMiddleware);
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,

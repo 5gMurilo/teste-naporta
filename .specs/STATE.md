@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 2 — Persistência encerrada; T1–T10 concluídas, 10/53 tarefas concluídas.
-- **Completed**: T7–T9 commitadas (`da9a2a9`, `3f8110d`, `a64ffcc`). T10 adiciona `db:seed` (argon2id, usuário por email normalizado, 12 pedidos `SEED-NP-0001..0012` criados só se ausentes, sem tocar em pedidos externos ou soft-deleted). Gate F e B da etapa: lint, format:check, typecheck, build (com `DATABASE_URL` sentinela, exigida pelo `prisma generate`), 59 testes unitários + 10 workspace, e2e (1), integração PostgreSQL (7, seed executado via CLI contra o container) e cobertura 97,22% linhas / 76,92% branches. Saída do seed não contém senha nem hash.
-- **In-progress**: Nada; T10 commitada em `da928ff`.
-- **Next step**: T11 (Phase 3, branch `feat/naporta-security`) — fora da autorização atual; aguardar autorização explícita antes de criar a branch.
+- **Phase / Task**: T1–T11 concluídas, 11/53 tarefas concluídas.
+- **Completed**: Phase 2 commitada até T10 (`da928ff`). T11: middleware `requestIdMiddleware` (UUID novo por requisição, header `X-Request-Id`, contexto em `request.requestId`, ID de entrada ignorado) registrado antes dos parsers. Gate F verde: 63 unitários, e2e 1, integração 7, cobertura e build.
+- **In-progress**: Nada.
+- **Next step**: T12 (mapper de conflito Prisma orderNumber).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-persistence.
+- **Branch**: feat/naporta-security.
