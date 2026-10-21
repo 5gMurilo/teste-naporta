@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { createClient } from 'redis';
 import { API_CONFIG, type ApiConfig } from '../config/env.js';
+import { OrdersDetailCache } from './orders-detail.cache.js';
 import { REDIS_CLIENT, type RedisClientLike, RedisService } from './redis.service.js';
 
 const MAX_RECONNECT_DELAY_MS = 2000;
@@ -29,7 +30,8 @@ export function createRedisClient(config: ApiConfig): RedisClientLike {
   providers: [
     { provide: REDIS_CLIENT, useFactory: createRedisClient, inject: [API_CONFIG] },
     RedisService,
+    OrdersDetailCache,
   ],
-  exports: [RedisService],
+  exports: [RedisService, OrdersDetailCache],
 })
-export class RedisModule {}
+export class CacheModule {}

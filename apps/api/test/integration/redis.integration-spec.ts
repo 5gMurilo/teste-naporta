@@ -1,7 +1,7 @@
 import { createServer, type Socket } from 'node:net';
 import { jest } from '@jest/globals';
 import { createClient } from 'redis';
-import { createRedisClient } from '../../src/cache/redis.module.js';
+import { createRedisClient } from '../../src/cache/cache.module.js';
 import {
   RedisService,
   RedisTimeoutError,

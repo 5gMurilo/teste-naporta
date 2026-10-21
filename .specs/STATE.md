@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T26 concluídas, 26/53 tarefas concluídas.
-- **Completed**: Etapa 4 encerrada em `7048fb4` (feat/naporta-orders); branch feat/naporta-cache criada a partir dela. T26: RedisService/RedisModule global com node-redis 6.3.0 (fila offline desligada, conexão em segundo plano que nunca bloqueia o startup, reconexão com backoff, fila limitada a 100, handler de erro que guarda só o nome do erro, destroy no shutdown) e deadline de CACHE_TIMEOUT_MS por operação no serviço (o timeout nativo do node-redis deixa de valer depois que o comando é escrito; verificado com servidor RESP que não responde). Helper redis-test-context (Testcontainers redis:7-alpine, REDIS_URL restaurado, reset só do namespace naporta:). Configs de teste herméticas apontam para porta fechada. Gate F verde: 255 unitários, e2e 1, integração 100, contrato 22, cobertura e build.
+- **Phase / Task**: T1–T27 concluídas, 27/53 tarefas concluídas.
+- **Completed**: T26 `17a9b69`. T27: OrdersDetailCache (módulo renomeado para CacheModule) com chave `naporta:v1:orders:{id}:detail`, envelope estrito {revision, data} validado pelo schema público de saída e pelo id, TTL de CACHE_TTL_SECONDS, get(id, revisão) que só devolve a revisão exata, falhas e payload inválido absorvidos como miss, contadores hits/misses/errors sem payload ou id. Provado também contra Redis real (TTL, expiração, entrada corrompida, namespace). Gate F verde: 272 unitários, e2e 1, integração 104, contrato 22, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T27 (OrdersDetailCache com codec e TTL).
+- **Next step**: T28 (cache-aside no GET de detalhe).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-cache.

@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T26 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T27 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -424,7 +424,7 @@ T47 -> T48
 **Depends on**: T26
 **Reuses**: RedisService, schema público de saída; envelope interno revision/data.
 **Requirement**: CACHE-01, CACHE-04, CACHE-06, CACHE-07, CACHE-08.
-**Done when**: [ ] GET/SET/DEL finitos, TTL padrão 60, id/revisão/shape validados; payload inválido vira miss; erro não escapa para API; logs/keys sem PII.
+**Done when**: [x] GET/SET/DEL finitos, TTL padrão 60, id/revisão/shape validados; payload inválido vira miss; erro não escapa para API; logs/keys sem PII.
 **Tests**: Unit + Redis real U24/U25/U28/I24/I30, >=7 casos de roundtrip, TTL, codec inválido/id errado, erro e contadores.
 **Gate**: F.
 **Commit**: `feat(cache): encode versioned expiring order detail entries`
