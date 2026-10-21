@@ -233,4 +233,24 @@ describe('OrdersListPage (U31, U33, U35)', () => {
       'Cancelado',
     ]);
   });
+
+  it('treats a whitespace-only order number as no filter and trims a padded one', async () => {
+    const app = await renderApp({
+      path: '/orders',
+      authenticated: true,
+      routes: { '/api/v1/orders': listRoute(() => page([order(1)])) },
+    });
+    await screen.findByRole('table');
+
+    await app.user.type(screen.getByLabelText('Número do pedido'), '   ');
+    await app.user.click(screen.getByRole('button', { name: 'Aplicar filtros' }));
+    await waitFor(() => expect(orderCalls(app.calls).length).toBeGreaterThan(1));
+    expect(lastQuery(app.calls)).toEqual({ page: '1', pageSize: '20' });
+    expect(screen.getByLabelText('Número do pedido')).toHaveValue('');
+
+    await app.user.type(screen.getByLabelText('Número do pedido'), '  NP-7  ');
+    await app.user.click(screen.getByRole('button', { name: 'Aplicar filtros' }));
+    await waitFor(() => expect(lastQuery(app.calls).orderNumber).toBe('NP-7'));
+    expect(screen.getByLabelText('Número do pedido')).toHaveValue('NP-7');
+  });
 });

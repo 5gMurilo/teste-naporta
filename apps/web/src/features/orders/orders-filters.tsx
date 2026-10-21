@@ -40,7 +40,10 @@ export function OrdersFilters({
       return;
     }
     setRangeError(undefined);
-    onApply(draft);
+    // A blank number is no filter: whitespace would reach the API as an invalid order number.
+    const applied = { ...draft, orderNumber: draft.orderNumber.trim() };
+    setDraft(applied);
+    onApply(applied);
   }
 
   function clear() {
