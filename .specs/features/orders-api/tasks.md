@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T31 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T32 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -481,7 +481,7 @@ T47 -> T48
 **Depends on**: T31
 **Reuses**: Contrato OpenAPI exportado; tipos locais públicos sem import do Prisma/segredos.
 **Requirement**: WEB-02, WEB-03, WEB-09, DOC-03.
-**Done when**: [ ] 204 não tenta parse JSON; 400 conserva fields, 409 code, 401 protegido notifica sessão; abort não vira falso erro; sem retry automático POST/PATCH/DELETE e sem token em URL.
+**Done when**: [x] 204 não tenta parse JSON; 400 conserva fields, 409 code, 401 protegido notifica sessão; abort não vira falso erro; sem retry automático POST/PATCH/DELETE e sem token em URL.
 **Tests**: Unit U30/U33, >=8 casos de status, rede, cancelamento e headers; payloads confrontados com contrato real exportado.
 **Gate**: W.
 **Commit**: `feat(web): handle typed api requests and problem details`

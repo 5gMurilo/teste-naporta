@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T31 concluídas, 31/53 tarefas concluídas.
-- **Completed**: Etapa 5 encerrada em `3cd9798`; branch feat/naporta-web-platform; item extra CORS/helmet em `5e9e71e`. T31: apps/web com React 19.3.1, Vite 8.3.5, TypeScript 5.9.3 strict, Tailwind 4.3.3 + tw-animate-css, configuração shadcn (components.json, utils cn; CLI 4.22.1 validado, componentes só quando usados), Vitest 5.0.5 + Testing Library em jsdom, Biome com suporte a diretivas Tailwind e vendor shadcn fora do lint, proxy /api no dev (DEV_PROXY_TARGET, fora do namespace VITE_), único env público VITE_API_BASE_URL, cobertura 80/70 incluindo arquivos não importados. Raiz: lint e lint:fix passam a delegar ao Turbo para os dois apps; teste de workspace cobre o grafo com os dois pacotes. Gate W e B com ambos os apps verdes pelos comandos da raiz (web: 10 testes, 100% de cobertura nas linhas próprias).
+- **Phase / Task**: T1–T32 concluídas, 32/53 tarefas concluídas.
+- **Completed**: T31 `726b3ae`. T32: `createHttpClient` em apps/web/src/lib: Bearer lido a cada requisição, 204 sem parse, ApiError com status/code/errors por campo/requestId, 401 com token notifica a sessão uma vez (login e requisição sem sessão não), corpo de erro que não é Problem Details vira mensagem genérica, NetworkError com mensagem segura, abort relançado como abort, nenhum retry em nenhum método, token fora da URL; payloads conferidos contra o docs/openapi.json real. Gate W verde: 30 testes web, cobertura 100% linhas / 90,9% branches.
 - **In-progress**: Nada.
-- **Next step**: T32 (cliente HTTP tipado da web).
+- **Next step**: T33 (sessão em memória).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-platform.
