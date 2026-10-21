@@ -733,6 +733,14 @@ Itens exigidos pela spec que nenhuma tarefa numerada cobria, entregues como comm
 | `.env` da raiz não era lido pela API após a relocation (caminho `../../.env` a partir de `apps/api/src`) | Spec, seção Configuração e Scripts | `fix(api): read the repository .env and expose the documented db and start scripts` na branch `feat/naporta-delivery` |
 | Aliases de script da spec (`db:generate`, `db:migrate:dev`, `db:migrate:deploy`, `start:prod` na raiz) | Spec, tabela de scripts | mesmo commit |
 
+### Ciclo 1 da verificação independente
+
+O relatório do Verifier fresco (`validation.md`, nesta pasta) deu 87 PASS, 7 PARTIAL e 0 FAIL. As correções abaixo são commits atômicos na `feat/naporta-delivery`.
+
+| Lacuna do relatório | Requisito | Commit |
+| --- | --- | --- |
+| Em clone limpo, `typecheck`, `test:unit` e `test:contract` falhavam: o client Prisma só era gerado pelo `build` | OPS-05 | `fix(workspace): generate the prisma client before anything that imports it` |
+
 ## Fechamento independente após T53
 
 V1 não é tarefa de implementação do autor. Após o commit de T53, um Verifier fresco, sem herdar conclusões do autor, rederiva cada AC, confronta asserts com resultados definidos na spec, executa mutações comportamentais em scratch isolado, verifica porcelain real antes/depois e escreve validation.md com PASS/FAIL, file:line, comandos e diff range. QA-07 só pode ser Verified depois desse relatório e validate_state.py PASS.

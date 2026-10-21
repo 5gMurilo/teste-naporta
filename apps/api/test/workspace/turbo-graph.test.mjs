@@ -28,9 +28,9 @@ test('API build and typecheck expose workspace tasks with build outputs', () => 
   assert.equal(typeof apiPackage.scripts['format:check'], 'string');
   assert.equal(typeof apiPackage.scripts['test:coverage'], 'string');
   assert.deepEqual(turbo.tasks.build.dependsOn, ['^build']);
-  assert.deepEqual(turbo.tasks.build.outputs, ['dist/**']);
+  assert.deepEqual(turbo.tasks.build.outputs, ['dist/**', 'src/generated/**']);
   assert.deepEqual(turbo.tasks.build.passThroughEnv, ['DATABASE_URL']);
-  assert.deepEqual(turbo.tasks.typecheck.dependsOn, ['^typecheck']);
+  assert.deepEqual(turbo.tasks.typecheck.dependsOn, ['^typecheck', 'prisma:generate']);
 });
 
 test('Turbo resolves the root build command to both application packages', () => {
@@ -105,4 +105,35 @@ test('coverage includes unimported source and enforces the reviewed thresholds',
   assert.match(jestConfig, /lines: 80, branches: 70/);
   assert.match(jestConfig, /!src\/generated/);
   assert.match(jestConfig, /!src\/main\.ts/);
+});
+
+test('everything that imports the generated Prisma client waits for its generation', () => {
+  for (const task of [
+    'typecheck',
+    'test:unit',
+    'test:coverage',
+    'test:contract',
+    'test:e2e',
+    'test:integration',
+  ]) {
+    assert.ok(
+      turbo.tasks[task].dependsOn?.includes('prisma:generate'),
+      `${task} must depend on prisma:generate so a fresh clone does not need a build first`,
+    );
+  }
+  assert.ok(
+    turbo.tasks.build.outputs.includes('src/generated/**'),
+    'a cached build must restore the client',
+  );
+});
+
+test('a typecheck on a clean tree schedules client generation before it', () => {
+  const result = spawnSync('pnpm', ['exec', 'turbo', 'run', 'typecheck', '--dry=json'], {
+    cwd: fileURLToPath(root),
+    encoding: 'utf8',
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const plan = JSON.parse(result.stdout.slice(result.stdout.indexOf('{')));
+  const typecheck = plan.tasks.find((task) => task.taskId === '@naporta/api#typecheck');
+  assert.ok(typecheck.dependencies.includes('@naporta/api#prisma:generate'));
 });

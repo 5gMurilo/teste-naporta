@@ -4,21 +4,21 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"passThroughEnv": ["DATABASE_URL"],
-			"outputs": ["dist/**"]
+			"outputs": ["dist/**", "src/generated/**"]
 		},
 		"lint": { "cache": false },
 		"lint:fix": { "cache": false },
 		"typecheck": {
-			"dependsOn": ["^typecheck"],
+			"dependsOn": ["^typecheck", "prisma:generate"],
 			"outputs": []
 		},
-		"test:unit": { "cache": false },
-		"test:coverage": { "cache": false },
+		"test:unit": { "cache": false, "dependsOn": ["prisma:generate"] },
+		"test:coverage": { "cache": false, "dependsOn": ["prisma:generate"] },
 		"test:workspace": { "cache": false },
-		"test:contract": { "cache": false },
-		"test:e2e": { "cache": false },
+		"test:contract": { "cache": false, "dependsOn": ["prisma:generate"] },
+		"test:e2e": { "cache": false, "dependsOn": ["prisma:generate"] },
 		"test:e2e:web": { "cache": false, "dependsOn": ["build", "@naporta/api#build"] },
-		"test:integration": { "cache": false },
+		"test:integration": { "cache": false, "dependsOn": ["prisma:generate"] },
 		"prisma:generate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
 		"prisma:validate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
 		"start:prod": { "cache": false, "persistent": true, "dependsOn": ["build"] },
