@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T32 concluídas, 32/53 tarefas concluídas.
-- **Completed**: T31 `726b3ae`. T32: `createHttpClient` em apps/web/src/lib: Bearer lido a cada requisição, 204 sem parse, ApiError com status/code/errors por campo/requestId, 401 com token notifica a sessão uma vez (login e requisição sem sessão não), corpo de erro que não é Problem Details vira mensagem genérica, NetworkError com mensagem segura, abort relançado como abort, nenhum retry em nenhum método, token fora da URL; payloads conferidos contra o docs/openapi.json real. Gate W verde: 30 testes web, cobertura 100% linhas / 90,9% branches.
+- **Phase / Task**: T1–T33 concluídas, 33/53 tarefas concluídas.
+- **Completed**: T31 `726b3ae`, T32 `c7f396a`. T33: SessionProvider/useSession com token só em ref (sem storage, cookie ou URL), login que descarta o resultado se a sessão mudou no meio, logout e 401 abortam toda requisição pendente via sinal de sessão (resposta tardia não repovoa a UI), 401 marca sessão expirada, credencial errada não, novo mount sempre anônimo. Gate W verde: 39 testes web, 100% linhas / 88,7% branches.
 - **In-progress**: Nada.
-- **Next step**: T33 (sessão em memória).
+- **Next step**: T34 (rotas protegidas e layout).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-platform.

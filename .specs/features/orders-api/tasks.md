@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T32 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T33 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -492,7 +492,7 @@ T47 -> T48
 **Depends on**: T32
 **Reuses**: React Context e callback 401 do HTTP client.
 **Requirement**: WEB-02, WEB-03.
-**Done when**: [ ] Token não vai a storage/cookie/URL; logout/reload/401 limpa sessão e dados; erro de credenciais não gera loop de expiração; pending requests não repovoam estado após logout.
+**Done when**: [x] Token não vai a storage/cookie/URL; logout/reload/401 limpa sessão e dados; erro de credenciais não gera loop de expiração; pending requests não repovoam estado após logout.
 **Tests**: Componentes U30, >=5 casos de login, logout, novo mount, 401 e request antigo.
 **Gate**: W.
 **Commit**: `feat(web): keep bearer sessions in memory only`
