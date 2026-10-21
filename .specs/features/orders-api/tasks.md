@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T43 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T47 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -617,7 +617,7 @@ T47 -> T48
 **Depends on**: T43
 **Reuses**: Reader HTTP existente, AsyncState, router e formatting helpers pequenos.
 **Requirement**: WEB-06, WEB-09, WEB-10, ORDER-14, ORDER-15.
-**Done when**: [ ] Exibe DTO e total R$ 49,90 para 4990, DATE igual, máximo total; estados loading/404/erro/retry; não aparece metadata interna; navegação de lista abre pedido real.
+**Done when**: [x] Exibe DTO e total R$ 49,90 para 4990, DATE igual, máximo total; estados loading/404/erro/retry; não aparece metadata interna; navegação de lista abre pedido real.
 **Tests**: Componentes U35 + browser E01 parcial/E04, >=6 casos incluindo dois fusos, rede/404 e request antigo.
 **Gate**: H.
 **Commit**: `feat(web): display order details with precise dates and totals`
@@ -628,7 +628,7 @@ T47 -> T48
 **Depends on**: T44
 **Reuses**: Form, HTTP, detalhe/router e lista existentes.
 **Requirement**: WEB-05, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] POST conforme contrato, 201 abre detalhe; 400/409 no campo certo; rede preserva dados e não retry automático; duplo clique não duplica.
+**Done when**: [x] POST conforme contrato, 201 abre detalhe; 400/409 no campo certo; rede preserva dados e não retry automático; duplo clique não duplica.
 **Tests**: Componentes + browser E01 parcial/E03/E04, >=6 casos de sucesso, payload, 400, conflito real, rede e pending.
 **Gate**: H.
 **Commit**: `feat(web): create orders through the real api`
@@ -639,7 +639,7 @@ T47 -> T48
 **Depends on**: T45
 **Reuses**: OrderForm/model, cliente, reader e router.
 **Requirement**: WEB-07, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] Sem mudança não envia {}; escalar omite items; item/objeto alterado é completo; após sucesso recarrega detalhe confirmado/cache atualizado; 400/409/404 não simulam sucesso.
+**Done when**: [x] Sem mudança não envia {}; escalar omite items; item/objeto alterado é completo; após sucesso recarrega detalhe confirmado/cache atualizado; 400/409/404 não simulam sucesso.
 **Tests**: Componentes + browser E01 parcial/E03/E04, >=7 casos de omissão/substituição, ausência de mudanças, conflito/404, pending e snapshot novo.
 **Gate**: H.
 **Commit**: `feat(web): edit orders with explicit patch semantics`
@@ -650,7 +650,7 @@ T47 -> T48
 **Depends on**: T46
 **Reuses**: AlertDialog shadcn, cliente HTTP, detalhe/lista e estados existentes.
 **Requirement**: WEB-08, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] Cancelar não chama; confirmar espera 204 e atualiza lista; último item em página posterior retorna à anterior; pending/foco/erro corretos; E01–E04 completos com stack real.
+**Done when**: [x] Cancelar não chama; confirmar espera 204 e atualiza lista; último item em página posterior retorna à anterior; pending/foco/erro corretos; E01–E04 completos com stack real.
 **Tests**: Componentes U34/U35 + browser E01/E03/E04, >=6 casos incluindo cancelamento, confirmação, double-click, rede, 404 e paginação pós-delete.
 **Gate**: H e coverage/regressão completa dos dois apps da etapa.
 **Commit**: `feat(web): confirm order deletion and refresh browsing state`

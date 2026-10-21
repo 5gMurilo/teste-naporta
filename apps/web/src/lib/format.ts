@@ -22,3 +22,15 @@ export const STATUS_LABELS = {
   DELIVERED: 'Entregue',
   CANCELED: 'Cancelado',
 } as const;
+
+const integerFormat = new Intl.NumberFormat('pt-BR');
+
+/**
+ * Cents to "R$ 49,90" with integer arithmetic only, so large totals keep every cent and no float
+ * rounding can appear.
+ */
+export function formatBRL(cents: number): string {
+  const reais = Math.floor(cents / 100);
+  const rest = String(cents % 100).padStart(2, '0');
+  return `R$ ${integerFormat.format(reais)},${rest}`;
+}
