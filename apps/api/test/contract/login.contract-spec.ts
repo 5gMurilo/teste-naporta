@@ -60,7 +60,10 @@ describe('POST /api/v1/auth/login OpenAPI contract', () => {
       type: 'string',
       enum: ['Bearer'],
     });
-    expect(Object.keys(operation.responses).sort()).toEqual(['200', '400', '401', '500']);
+    expect(Object.keys(operation.responses).sort()).toEqual(['200', '400', '401', '429', '500']);
+    expect(operation.responses['429']?.content['application/problem+json']?.example?.code).toBe(
+      'HTTP_ERROR',
+    );
     expect(operation.responses['401']?.content['application/problem+json']?.example?.code).toBe(
       'INVALID_CREDENTIALS',
     );
