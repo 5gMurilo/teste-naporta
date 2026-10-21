@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 2 — Persistência; T1–T9 concluídas, 9/53 tarefas concluídas.
-- **Completed**: Phase 1 T1–T6 está commitada até `019b1f0`; T7/T8 estão commitadas em `da9a2a9` e `3f8110d`. T9 centralizou container, migration deploy, configuração temporária, reset PostgreSQL por caso e teardown. Gate F passou: lint, format, typecheck, build, 54 testes unitários + 10 workspace, e2e (1) e integração PostgreSQL (5). A integração foi iniciada com `DATABASE_URL` sentinela externa, mas migration e conexão real usaram o container; reset foi comprovado entre dois casos. Testes unitários cobrem URL ausente, URL sentinela, reset, falha parcial e runtime Docker ausente.
-- **In-progress**: Commit atômico de T9.
-- **Next step**: T10, seed explícito/idempotente do usuário demonstrativo e dos 12 pedidos reservados com fixtures determinísticas.
-- **Blockers**: Nenhum conhecido. Docker disponível via OrbStack.
-- **Uncommitted files**: Helper/testes do harness PostgreSQL, setup de integração e atualização do estado da feature.
+- **Phase / Task**: Phase 2 — Persistência encerrada; T1–T10 concluídas, 10/53 tarefas concluídas.
+- **Completed**: T7–T9 commitadas (`da9a2a9`, `3f8110d`, `a64ffcc`). T10 adiciona `db:seed` (argon2id, usuário por email normalizado, 12 pedidos `SEED-NP-0001..0012` criados só se ausentes, sem tocar em pedidos externos ou soft-deleted). Gate F e B da etapa: lint, format:check, typecheck, build (com `DATABASE_URL` sentinela, exigida pelo `prisma generate`), 59 testes unitários + 10 workspace, e2e (1), integração PostgreSQL (7, seed executado via CLI contra o container) e cobertura 97,22% linhas / 76,92% branches. Saída do seed não contém senha nem hash.
+- **In-progress**: Commit atômico de T10.
+- **Next step**: T11 (Phase 3, branch `feat/naporta-security`) — fora da autorização atual; aguardar autorização explícita antes de criar a branch.
+- **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
+- **Uncommitted files**: Seed, testes, wiring de scripts/dependência argon2 e atualização do estado.
 - **Branch**: feat/naporta-persistence.

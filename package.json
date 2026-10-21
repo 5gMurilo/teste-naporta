@@ -15,7 +15,8 @@
 		"test:e2e": "turbo run test:e2e",
 		"test:integration": "turbo run test:integration",
 		"prisma:generate": "turbo run prisma:generate",
-		"prisma:validate": "turbo run prisma:validate"
+		"prisma:validate": "turbo run prisma:validate",
+		"db:seed": "pnpm --filter @naporta/api db:seed"
 	},
 	"devDependencies": {
 		"turbo": "2.9.0"

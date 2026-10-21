@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T9 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T10 de 53 tarefas concluída; Phase 2 encerrada.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
 
@@ -231,7 +231,7 @@ T47 -> T48
 **Depends on**: T9
 **Reuses**: Config seed, schema, client e harness; helper de hash extraído só se AuthService realmente reutilizar.
 **Requirement**: OPS-02, OPS-03, OPS-04, AUTH-08.
-**Done when**: [ ] Duas execuções não duplicam itens/pedidos; cinco status e >=3 dias; alterar senha atualiza usuário; pedidos externos/seed excluído preservados; nada automático no startup.
+**Done when**: [x] Duas execuções não duplicam itens/pedidos; cinco status e >=3 dias; alterar senha atualiza usuário; pedidos externos/seed excluído preservados; nada automático no startup.
 **Tests**: Unit/falhas + PostgreSQL real I02/I03, >=5 casos, senha em hash e saída/log sem valor secreto.
 **Gate**: F e B da etapa.
 **Commit**: `feat(seed): add repeatable demo user and orders`
