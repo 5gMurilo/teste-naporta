@@ -1,0 +1,24 @@
+{
+	"$schema": "https://turborepo.dev/schema.json",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"passThroughEnv": ["DATABASE_URL"],
+			"outputs": ["dist/**"]
+		},
+		"typecheck": {
+			"dependsOn": ["^typecheck"],
+			"outputs": []
+		},
+		"test:unit": { "cache": false },
+		"test:coverage": { "cache": false },
+		"test:workspace": { "cache": false },
+		"test:e2e": { "cache": false },
+		"test:integration": { "cache": false },
+		"prisma:generate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
+		"prisma:validate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
+		"format": { "cache": false },
+		"format:check": { "cache": false },
+		"dev": { "cache": false, "persistent": true }
+	}
+}

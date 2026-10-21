@@ -1,6 +1,14 @@
 node_modules/
 dist/
+apps/*/dist/
 coverage/
+.turbo/
 .env
 src/generated/prisma/
-.specs/
+apps/api/src/generated/prisma/
+.specs/*
+!.specs/STATE.md
+!.specs/features/
+.specs/features/*
+!.specs/features/orders-api/
+!.specs/features/orders-api/**
