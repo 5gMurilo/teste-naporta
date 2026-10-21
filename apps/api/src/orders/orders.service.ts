@@ -54,6 +54,9 @@ export class OrdersService {
 
   async delete(id: string): Promise<void> {
     if (!(await this.repository.softDeleteActive(id))) throw new OrderNotFoundError();
+    // After the update committed; a failed DEL is harmless because the detail reader confirms the
+    // order is still active in PostgreSQL before it ever looks at the cache.
+    await this.cache.invalidate(id);
   }
 
   /** Active existence and revision; the answer that decides whether a cached detail may be served. */

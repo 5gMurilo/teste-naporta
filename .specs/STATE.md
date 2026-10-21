@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T29 concluídas, 29/53 tarefas concluídas.
-- **Completed**: T26–T28 commitadas (até `6228857`); `63c753a` ignora .omc no biome e git. T29: OrdersService.patch tenta DEL do detalhe somente depois do commit da transação (nunca dentro dela), sem invalidar em rollback, 404, 400 ou 409; falha de DEL é absorvida e não muda o 200. Provado com PostgreSQL e Redis reais: entrada removida e próximo GET traz dados e revisão novos, rollback por trigger mantém a entrada válida, DEL que falha não permite servir dado velho (revisão incompatível). Também: sonda de porta no host nos contextos de teste (Postgres e Redis), porque o runtime de containers às vezes reporta pronto antes de a porta publicada aceitar conexões (causava falha intermitente do beforeAll). Gate F verde: 281 unitários, e2e 1, integração 116, contrato 22, cobertura e build.
+- **Phase / Task**: T1–T30 concluídas, 30/53 tarefas concluídas.
+- **Completed**: T26–T29 commitadas (até `8e6d5c1`). T30: OrdersService.delete tenta DEL após o soft delete commitado; sem invalidar para 404 ou falha; 404 nunca é cacheado; DEL que falha ou escrita tardia de um GET antigo não ressuscitam o pedido porque o reader confirma no PostgreSQL que ele está ativo; número continua reservado. Provado em PostgreSQL e Redis reais. Gate F e B da etapa 5 verdes pelos comandos da raiz: 286 unitários, e2e 1, integração 121, contrato 22, cobertura, build e docs:openapi:check.
 - **In-progress**: Nada.
-- **Next step**: T30 (invalidação após DELETE; fecha a etapa 5 com gate B).
+- **Next step**: T31 (Phase 6, branch feat/naporta-web-platform: SPA Vite/shadcn em apps/web).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-cache.

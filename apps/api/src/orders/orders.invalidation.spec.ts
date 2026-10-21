@@ -58,3 +58,46 @@ describe('OrdersService.patch cache invalidation (U26)', () => {
     expect(events).toEqual(['transaction-start', 'transaction-end']);
   });
 });
+
+describe('OrdersService.delete cache invalidation (U26, U27)', () => {
+  function deleteSetup(result: boolean | Error) {
+    const events: string[] = [];
+    const repository = {
+      softDeleteActive: jest.fn(async () => {
+        events.push('update');
+        if (result instanceof Error) throw result;
+        return result;
+      }),
+    };
+    const cache = {
+      invalidate: jest.fn(async (_id: string) => {
+        events.push('invalidate');
+      }),
+    };
+    const service = new OrdersService(
+      repository as unknown as OrdersRepository,
+      cache as unknown as OrdersDetailCache,
+    );
+    return { service, cache, events };
+  }
+
+  it('deletes the entry after the committed soft delete', async () => {
+    const { service, cache, events } = deleteSetup(true);
+
+    await service.delete(ID);
+
+    expect(cache.invalidate).toHaveBeenCalledWith(ID);
+    expect(events).toEqual(['update', 'invalidate']);
+  });
+
+  it.each([
+    ['an order that is missing or already deleted', false],
+    ['a database failure', new Error('connection lost')],
+  ])('does not touch the cache for %s', async (_name, outcome) => {
+    const { service, cache } = deleteSetup(outcome);
+
+    await expect(service.delete(ID)).rejects.toBeDefined();
+
+    expect(cache.invalidate).not.toHaveBeenCalled();
+  });
+});

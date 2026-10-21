@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T29 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T30 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -457,7 +457,7 @@ T47 -> T48
 **Depends on**: T29
 **Reuses**: Mesma operação concreta de invalidação, guard de atividade/revisão no reader.
 **Requirement**: CACHE-03, CACHE-04, CACHE-05, CACHE-06, ORDER-09, ORDER-10, QA-08.
-**Done when**: [ ] Após DELETE, GET novo 404 mesmo se DEL falhar/GET antigo repopular; não cachear ausência; contadores e cleanup seguros; nenhuma mudança de semântica pública.
+**Done when**: [x] Após DELETE, GET novo 404 mesmo se DEL falhar/GET antigo repopular; não cachear ausência; contadores e cleanup seguros; nenhuma mudança de semântica pública.
 **Tests**: Unit + HTTP/PG/Redis U26/U27/I26/I28/I29/I30, >=5 cenários de exclusão, cache antigo e falha de Redis.
 **Gate**: F e B da etapa.
 **Commit**: `feat(cache): invalidate deleted orders without stale resurrection`
