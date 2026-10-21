@@ -1,12 +1,12 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **6 de 53 tarefas concluídas (T1–T6).** Phase 1 concluída; demais tarefas seguem pendentes e não estão autorizadas nesta execução.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T7 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
-**Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
+**Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
 
 ## Execution Protocol
 
-Executar futuramente com a skill **tlc-spec-driven**, ativada por nome. Se não estiver disponível, parar. Ler implement.md integralmente e validar este arquivo antes de executar. Um commit por tarefa, somente após gate verde, incluindo testes/documentação/conclusão da tarefa e traceabilidade. Não enfraquecer/remover testes para passar. Merge e push não fazem parte da autorização.
+Um commit por tarefa, somente após gate verde, incluindo testes/documentação/conclusão da tarefa e traceabilidade. Não enfraquecer/remover testes para passar. Merge, push e T11 não fazem parte da autorização desta execução.
 
 Cada tarefa tem uma unidade principal; arquivos auxiliares de wiring, teste, docs de contrato e lockfile são permitidos somente quando necessários para tornar essa mesma unidade verificável. Não tratar esse apoio como permissão para implementar componentes de tarefas futuras. Mudanças mecânicas de relocation são isoladas de mudanças funcionais.
 
@@ -198,7 +198,7 @@ T47 -> T48
 **Depends on**: T6
 **Reuses**: Prisma 7/PostgreSQL existentes; migração versionada, sem SQL de entrypoint.
 **Requirement**: BOOT-02, ORDER-11, ORDER-14, CACHE-05, OPS-05.
-**Done when**: [ ] UUID, unique, enum, DATE, JSONB, timestamps UTC, FK/índices e cacheRevision 1 presentes; migrate deploy em banco vazio funciona; inspeção prova os tipos/constraints.
+**Done when**: [x] UUID, unique, enum, DATE, JSONB, timestamps UTC, FK/índices e cacheRevision 1 presentes; migrate deploy em banco vazio funciona; inspeção prova os tipos/constraints.
 **Tests**: Integração real de migration com lifecycle existente e setup focal, I01, >=5 verificações de tipo/constraint/relacionamento/default.
 **Gate**: F e prisma:validate; até T9 o teste focal aplica migration no container atual antes de inspecionar, sem adiar a prova.
 **Commit**: `feat(database): add order aggregate and user migration`
