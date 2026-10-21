@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T37 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T43 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -549,7 +549,7 @@ T47 -> T48
 **Depends on**: T37
 **Reuses**: Cliente, router/layout, AsyncState e primitives de tabela/filtro.
 **Requirement**: WEB-04, WEB-09, WEB-10, LIST-01, LIST-05.
-**Done when**: [ ] Query exata, reset page 1 ao aplicar filtros, meta/prev/next/vazio corretos; cancelar/ignorar resposta antiga; sem N requisições por item para montar tabela.
+**Done when**: [x] Query exata, reset page 1 ao aplicar filtros, meta/prev/next/vazio corretos; cancelar/ignorar resposta antiga; sem N requisições por item para montar tabela.
 **Tests**: Componentes U31/U33 + browser da lista E01 parcial, >=7 casos de filtros combinados, limpeza, paginação, vazio, rede/retry e corrida de resposta.
 **Gate**: H.
 **Commit**: `feat(web): browse orders with filters and pagination`
@@ -560,7 +560,7 @@ T47 -> T48
 **Depends on**: T38
 **Reuses**: Tipos públicos/OpenAPI e semântica da spec; sem pacote compartilhado ou service no browser.
 **Requirement**: WEB-05, WEB-07, VAL-01, VAL-04.
-**Done when**: [ ] Centavos inteiros, DATE texto; PATCH só alterações com objetos/coleção completos; ids de item não enviados; mudança inexistente não envia PATCH vazio; validação cliente não cria regra nova de negócio.
+**Done when**: [x] Centavos inteiros, DATE texto; PATCH só alterações com objetos/coleção completos; ids de item não enviados; mudança inexistente não envia PATCH vazio; validação cliente não cria regra nova de negócio.
 **Tests**: Unit U32, >=9 casos de create, diff escalar/objeto/itens, omissão/limpeza complement, preço float, datas e sem alteração.
 **Gate**: W.
 **Commit**: `feat(web): serialize precise order form changes`
@@ -571,7 +571,7 @@ T47 -> T48
 **Depends on**: T39
 **Reuses**: Form model e input/button shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-10, VAL-01, VAL-04.
-**Done when**: [ ] Respeita 1..50 e preço inteiro 0..2000000000; não inventa quantity; preserva identidade local de input para foco ao remover/adicionar.
+**Done when**: [x] Respeita 1..50 e preço inteiro 0..2000000000; não inventa quantity; preserva identidade local de input para foco ao remover/adicionar.
 **Tests**: Componentes U32/U34/U35, >=6 casos de mínimo/máximo/zero/invalid-price/remover/foco.
 **Gate**: W.
 **Commit**: `feat(web): edit order items as an accessible collection`
@@ -582,7 +582,7 @@ T47 -> T48
 **Depends on**: T40
 **Reuses**: Form model e primitives shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-10, VAL-05.
-**Done when**: [ ] Name/document editáveis e erros associados; documento genérico permitido; sem máscara/algoritmo CPF/CNPJ obrigatório ou log de documento.
+**Done when**: [x] Name/document editáveis e erros associados; documento genérico permitido; sem máscara/algoritmo CPF/CNPJ obrigatório ou log de documento.
 **Tests**: Componentes U32/U35, >=3 casos de valor, documento genérico e mensagens/labels acessíveis.
 **Gate**: W.
 **Commit**: `feat(web): collect order customer fields accessibly`
@@ -593,7 +593,7 @@ T47 -> T48
 **Depends on**: T41
 **Reuses**: Form model e primitives shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-10, VAL-03.
-**Done when**: [ ] Todos os campos da spec, complement pode ser removido sem merge invisível, UF uppercase e postalCode texto de oito dígitos; labels/erros e foco corretos.
+**Done when**: [x] Todos os campos da spec, complement pode ser removido sem merge invisível, UF uppercase e postalCode texto de oito dígitos; labels/erros e foco corretos.
 **Tests**: Componentes U32/U35, >=4 casos de edição completa, complement ausente, UF/CEP e mensagens acessíveis.
 **Gate**: W.
 **Commit**: `feat(web): collect complete delivery addresses`
@@ -604,7 +604,7 @@ T47 -> T48
 **Depends on**: T42
 **Reuses**: Model, CustomerFields, AddressFields, ItemsEditor, shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-09, WEB-10.
-**Done when**: [ ] Estado inicial/create/edit corretos, messages 400/409 distribuídas, pending bloqueia submit, falha preserva dados; reset de initial order não mistura dois pedidos.
+**Done when**: [x] Estado inicial/create/edit corretos, messages 400/409 distribuídas, pending bloqueia submit, falha preserva dados; reset de initial order não mistura dois pedidos.
 **Tests**: Componentes U32/U33/U34/U35, >=6 casos de composição, submit, pending, erros, valores iniciais/reset e teclado.
 **Gate**: W e H de regressão da etapa; fluxo HTTP de criação/edição será habilitado nas páginas próprias, não fingido por callback.
 **Commit**: `feat(web): compose the reusable order form`

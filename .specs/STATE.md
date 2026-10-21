@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T37 concluídas, 37/53 tarefas concluídas.
-- **Completed**: T31–T36 commitadas (até `e5e6eec`). T37: LoginPage (shadcn Card/Input/Label/Button) com labels associados, validação cliente sem chamada à API, erro de credencial calmo em pt-BR (foco na senha, e-mail preservado), 400 mapeado nos campos sem repetir texto da API, falha de rede com nova tentativa, envio único durante a requisição (botão desabilitado, aria-busy, guarda contra Enter), aviso de sessão expirada diferente de senha incorreta, redirecionamento pós-login seguro (safeRedirect só aceita caminhos internos), nada de senha ou token em DOM, URL ou storage. Browser real: 7 cenários em 390 px e 1280 px (login, logout, reload exige novo login, senha errada, teclado sem rolagem horizontal, clique repetido gera uma só chamada). Gate H e fechamento da etapa 6 verdes: 84 testes web (99,4% linhas, 91,1% branches), 13 e2e web, regressão completa da API e comandos da raiz.
+- **Phase / Task**: T1–T43 concluídas, 43/53 tarefas concluídas.
+- **Completed**: T38–T42 commitadas (até `aa338ad`). T43: OrderForm criação/edição que não chama a API (entrega payload pronto ao onSubmit): número, status em pt-BR, previsão, CustomerFields, AddressFields, ItemsEditor; validação estrutural com foco no primeiro campo inválido (aplicado depois da renderização), envio único com formulário desabilitado e aria-busy, falha preserva tudo o que foi digitado, 409 no campo do número, 400 distribuído por campo (inclusive item N) com mensagens em pt-BR sem repetir texto da API, sem alteração na edição não envia e avisa, PATCH só com o que mudou, reinício completo ao trocar de pedido ou de versão salva (nunca mistura dois pedidos). Gates W e H e fechamento da etapa 7 verdes: 162 testes web (99,2% linhas, 92,8% branches), 18 e2e web, regressão da API e comandos da raiz.
 - **In-progress**: Nada.
-- **Next step**: T38 (Phase 7, branch feat/naporta-web-forms: lista e filtros na web).
+- **Next step**: T44 (Phase 8, branch feat/naporta-web-orders: detalhe do pedido).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-web-platform.
+- **Branch**: feat/naporta-web-forms.

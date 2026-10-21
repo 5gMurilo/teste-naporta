@@ -24,6 +24,9 @@ export const problem = (status: number, code: string, extra: Record<string, unkn
     { status, headers: { 'Content-Type': 'application/problem+json' } },
   );
 
+export const emptyList: Route = () =>
+  json({ data: [], meta: { page: 1, pageSize: 20, total: 0, totalPages: 0 } });
+
 export const loginSuccess: Route = () =>
   json({ accessToken: 'jwt-test-token', tokenType: 'Bearer', expiresIn: 3600 });
 
@@ -60,7 +63,11 @@ export async function renderApp({
   routes = {},
   authenticated = false,
 }: RenderAppOptions = {}) {
-  const api = createFakeApi({ '/api/v1/auth/login': loginSuccess, ...routes });
+  const api = createFakeApi({
+    '/api/v1/auth/login': loginSuccess,
+    '/api/v1/orders': emptyList,
+    ...routes,
+  });
   const captured: { session?: Session; navigate?: ReturnType<typeof useNavigate> } = {};
 
   function Probe() {
