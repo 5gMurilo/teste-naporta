@@ -1,6 +1,14 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller.js';
-import { PrismaModule } from './prisma/prisma.module.js';
+import type { ApiConfig } from './config/env.js';
+import { createPrismaModule } from './prisma/prisma.module.js';
 
-@Module({ imports: [PrismaModule], controllers: [AppController] })
+@Module({ controllers: [AppController] })
 export class AppModule {}
+
+export function createAppModule(config: ApiConfig): DynamicModule {
+  return {
+    module: AppModule,
+    imports: [createPrismaModule(config)],
+  };
+}

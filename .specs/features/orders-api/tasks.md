@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **5 de 53 tarefas concluídas (T1–T5).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **6 de 53 tarefas concluídas (T1–T6).** Phase 1 concluída; demais tarefas seguem pendentes e não estão autorizadas nesta execução.
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
 
@@ -185,7 +185,7 @@ T47 -> T48
 **Depends on**: T5
 **Reuses**: main/AppModule/controller atuais.
 **Requirement**: BOOT-01, BOOT-04, ERR-06, DOC-05, OPS-04.
-**Done when**: [ ] Main usa factory e shutdown hooks; testes a usam sem listen; modo docs não inicializa conexões; startup não imprime error cru; nenhum seed automático. Hooks de segurança/Swagger serão registrados nas tarefas próprias, não simulados.
+**Done when**: [x] Main usa factory e shutdown hooks; testes a usam sem listen; modo docs não inicializa conexões; startup não imprime error cru; nenhum seed automático. Hooks de segurança/Swagger serão registrados nas tarefas próprias, não simulados.
 **Tests**: Unit/HTTP fixture + regressão, >=4 casos de create/listen/close/falha segura, U02 parcial.
 **Gate**: B.
 **Commit**: `refactor(api): separate application creation from listening`
