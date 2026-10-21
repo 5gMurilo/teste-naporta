@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T42 concluídas, 42/53 tarefas concluídas.
-- **Completed**: T38–T41 commitadas (até `22354bd`). T42: AddressFields completo (rua, número, complemento opcional removível, bairro, cidade, UF em maiúsculas limitada a duas letras, CEP como texto numérico que preserva zero à esquerda), labels e erros associados, ordem de tabulação igual à visual. Gate W verde: 147 testes web.
+- **Phase / Task**: T1–T43 concluídas, 43/53 tarefas concluídas.
+- **Completed**: T38–T42 commitadas (até `aa338ad`). T43: OrderForm criação/edição que não chama a API (entrega payload pronto ao onSubmit): número, status em pt-BR, previsão, CustomerFields, AddressFields, ItemsEditor; validação estrutural com foco no primeiro campo inválido (aplicado depois da renderização), envio único com formulário desabilitado e aria-busy, falha preserva tudo o que foi digitado, 409 no campo do número, 400 distribuído por campo (inclusive item N) com mensagens em pt-BR sem repetir texto da API, sem alteração na edição não envia e avisa, PATCH só com o que mudou, reinício completo ao trocar de pedido ou de versão salva (nunca mistura dois pedidos). Gates W e H e fechamento da etapa 7 verdes: 162 testes web (99,2% linhas, 92,8% branches), 18 e2e web, regressão da API e comandos da raiz.
 - **In-progress**: Nada.
-- **Next step**: T43 (formulário de pedido reutilizável; fecha a etapa 7).
+- **Next step**: T44 (Phase 8, branch feat/naporta-web-orders: detalhe do pedido).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-forms.

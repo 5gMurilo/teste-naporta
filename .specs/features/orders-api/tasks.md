@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T42 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T43 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -604,7 +604,7 @@ T47 -> T48
 **Depends on**: T42
 **Reuses**: Model, CustomerFields, AddressFields, ItemsEditor, shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-09, WEB-10.
-**Done when**: [ ] Estado inicial/create/edit corretos, messages 400/409 distribuídas, pending bloqueia submit, falha preserva dados; reset de initial order não mistura dois pedidos.
+**Done when**: [x] Estado inicial/create/edit corretos, messages 400/409 distribuídas, pending bloqueia submit, falha preserva dados; reset de initial order não mistura dois pedidos.
 **Tests**: Componentes U32/U33/U34/U35, >=6 casos de composição, submit, pending, erros, valores iniciais/reset e teclado.
 **Gate**: W e H de regressão da etapa; fluxo HTTP de criação/edição será habilitado nas páginas próprias, não fingido por callback.
 **Commit**: `feat(web): compose the reusable order form`
