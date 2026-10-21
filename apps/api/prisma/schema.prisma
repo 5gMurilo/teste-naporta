@@ -1,9 +1,52 @@
 generator client {
   provider     = "prisma-client"
   output       = "../src/generated/prisma"
-  moduleFormat = "cjs"
+  moduleFormat = "esm"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique(map: "User_email_key")
+  passwordHash String
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model Order {
+  id                   String      @id @default(uuid()) @db.Uuid
+  orderNumber          String      @unique(map: "Order_orderNumber_key")
+  status               OrderStatus @default(PENDING)
+  expectedDeliveryDate DateTime    @db.Date
+  customerName         String
+  customerDocument     String
+  deliveryAddress      Json        @db.JsonB
+  createdAt            DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime    @updatedAt @db.Timestamptz(3)
+  deletedAt            DateTime?   @db.Timestamptz(3)
+  cacheRevision        Int         @default(1)
+  items                OrderItem[]
+
+  @@index([deletedAt, createdAt, id], map: "Order_deletedAt_createdAt_id_idx")
+}
+
+model OrderItem {
+  id          String @id @default(uuid()) @db.Uuid
+  orderId     String @db.Uuid
+  description String
+  priceCents  Int
+  order       Order  @relation(fields: [orderId], references: [id], onDelete: Restrict, map: "OrderItem_orderId_fkey")
+
+  @@index([orderId], map: "OrderItem_orderId_idx")
 }

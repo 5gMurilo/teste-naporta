@@ -1,16 +1,16 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **6 de 53 tarefas concluídas (T1–T6).** Phase 1 concluída; demais tarefas seguem pendentes e não estão autorizadas nesta execução.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T10 de 53 tarefas concluída; Phase 2 encerrada.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
-**Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
+**Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
 
 ## Execution Protocol
 
-Executar futuramente com a skill **tlc-spec-driven**, ativada por nome. Se não estiver disponível, parar. Ler implement.md integralmente e validar este arquivo antes de executar. Um commit por tarefa, somente após gate verde, incluindo testes/documentação/conclusão da tarefa e traceabilidade. Não enfraquecer/remover testes para passar. Merge e push não fazem parte da autorização.
+Um commit por tarefa, somente após gate verde, incluindo testes/documentação/conclusão da tarefa e traceabilidade. Não enfraquecer/remover testes para passar. Merge, push e T11 não fazem parte da autorização desta execução.
 
 Cada tarefa tem uma unidade principal; arquivos auxiliares de wiring, teste, docs de contrato e lockfile são permitidos somente quando necessários para tornar essa mesma unidade verificável. Não tratar esse apoio como permissão para implementar componentes de tarefas futuras. Mudanças mecânicas de relocation são isoladas de mudanças funcionais.
 
-Ferramentas propostas por tarefa: ferramentas locais de arquivo/shell; Context7 para as bibliotecas tocadas; skills tlc-spec-driven, codenavi e coding-guidelines na implementação; well-commited antes de cada commit. Não usar MCP remoto de Jira/Workforce nem abrir PR. Confirmar ferramentas e eventual delegação antes da execução, não nesta rodada bloqueada. Verifier independente é obrigatório ao final, sem delegar implementação sem consentimento.
+Ferramentas propostas por tarefa: ferramentas locais de arquivo/shell; Context7 para as bibliotecas tocadas; skills tlc-spec-driven, codenavi e coding-guidelines na implementação; commits feitos diretamente com git (Conventional Commits, escopo da tarefa, sem `git add .`). Não usar MCP remoto de Jira/Workforce nem abrir PR. Confirmar ferramentas e eventual delegação antes da execução, não nesta rodada bloqueada. Verifier independente é obrigatório ao final, sem delegar implementação sem consentimento.
 
 ## Test Coverage Matrix
 
@@ -198,7 +198,7 @@ T47 -> T48
 **Depends on**: T6
 **Reuses**: Prisma 7/PostgreSQL existentes; migração versionada, sem SQL de entrypoint.
 **Requirement**: BOOT-02, ORDER-11, ORDER-14, CACHE-05, OPS-05.
-**Done when**: [ ] UUID, unique, enum, DATE, JSONB, timestamps UTC, FK/índices e cacheRevision 1 presentes; migrate deploy em banco vazio funciona; inspeção prova os tipos/constraints.
+**Done when**: [x] UUID, unique, enum, DATE, JSONB, timestamps UTC, FK/índices e cacheRevision 1 presentes; migrate deploy em banco vazio funciona; inspeção prova os tipos/constraints.
 **Tests**: Integração real de migration com lifecycle existente e setup focal, I01, >=5 verificações de tipo/constraint/relacionamento/default.
 **Gate**: F e prisma:validate; até T9 o teste focal aplica migration no container atual antes de inspecionar, sem adiar a prova.
 **Commit**: `feat(database): add order aggregate and user migration`
@@ -209,7 +209,7 @@ T47 -> T48
 **Depends on**: T7
 **Reuses**: PrismaPg, PrismaModule e teste de shutdown.
 **Requirement**: BOOT-01, BOOT-04, QA-03.
-**Done when**: [ ] Uma instância por app, connect/disconnect seguros; generator/client/adapter alinhados e Node compilado consulta PostgreSQL sem depender de Jest resolver.
+**Done when**: [x] Uma instância por app, connect/disconnect seguros; generator/client/adapter alinhados e Node compilado consulta PostgreSQL sem depender de Jest resolver.
 **Tests**: Unit + integração, U02 e I01, >=3 casos de lifecycle/erro/consulta compilada, sem remover prova SELECT 1/current_database.
 **Gate**: F.
 **Commit**: `fix(database): align prisma lifecycle and esm runtime`
@@ -220,7 +220,7 @@ T47 -> T48
 **Depends on**: T8
 **Reuses**: setup Testcontainers atual, inclusive porta dinâmica e restauração de URL.
 **Requirement**: QA-01, QA-02, QA-03, QA-04.
-**Done when**: [ ] Migrations reais antes de tests, dados resetados por caso, nenhuma URL externa de fallback; falha parcial libera recursos; Docker ausente falha; não criar container por teste.
+**Done when**: [x] Migrations reais antes de tests, dados resetados por caso, nenhuma URL externa de fallback; falha parcial libera recursos; Docker ausente falha; não criar container por teste.
 **Tests**: Unit de lifecycle + integração do próprio helper, I32 parcial, >=5 casos: sem URL, sentinela externa, isolamento, falha parcial, Docker ausente.
 **Gate**: F; testes reais de conexão não substituídos por doubles de lifecycle.
 **Commit**: `test(harness): migrate and isolate disposable postgres suites`
@@ -231,7 +231,7 @@ T47 -> T48
 **Depends on**: T9
 **Reuses**: Config seed, schema, client e harness; helper de hash extraído só se AuthService realmente reutilizar.
 **Requirement**: OPS-02, OPS-03, OPS-04, AUTH-08.
-**Done when**: [ ] Duas execuções não duplicam itens/pedidos; cinco status e >=3 dias; alterar senha atualiza usuário; pedidos externos/seed excluído preservados; nada automático no startup.
+**Done when**: [x] Duas execuções não duplicam itens/pedidos; cinco status e >=3 dias; alterar senha atualiza usuário; pedidos externos/seed excluído preservados; nada automático no startup.
 **Tests**: Unit/falhas + PostgreSQL real I02/I03, >=5 casos, senha em hash e saída/log sem valor secreto.
 **Gate**: F e B da etapa.
 **Commit**: `feat(seed): add repeatable demo user and orders`
