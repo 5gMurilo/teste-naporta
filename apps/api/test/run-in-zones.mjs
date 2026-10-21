@@ -8,7 +8,7 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-export const ZONES = ['America/Sao_Paulo', 'Pacific/Kiritimati'];
+export const ZONES = ['America/Sao_Paulo', 'Pacific/Kiritimati', 'UTC'];
 
 const [config, ...extra] = process.argv.slice(2);
 if (!config) {
