@@ -58,7 +58,7 @@ Hoje `.gitignore` ignora toda `.specs/`. T1 planeja exceções seletivas para o 
 | 1 | f039f21, sujeito a reconciliação na retomada | Ainda não criado | Não executado | Not started |
 | 2 | A obter após etapa 1 | Ainda não criado | Não executado | Not started |
 | 3 | da928ff (etapa 2 validada) | bfb5702 | Gate B da etapa verificado pelos comandos da raiz | Done |
-| 4 | A obter após etapa 3 | Ainda não criado | Não executado | Not started |
+| 4 | bfb5702 (etapa 3 validada) | 7048fb4 | Gate B da etapa pelos comandos da raiz | Done |
 | 5 | A obter após etapa 4 | Ainda não criado | Não executado | Not started |
 | 6 | A obter após etapa 5 | Ainda não criado | Não executado | Not started |
 | 7 | A obter após etapa 6 | Ainda não criado | Não executado | Not started |

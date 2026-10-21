@@ -1,6 +1,152 @@
 {
   "components": {
     "schemas": {
+      "CreateOrderRequest": {
+        "additionalProperties": false,
+        "example": {
+          "customer": {
+            "document": "123.456.789-00",
+            "name": "Ana Silva"
+          },
+          "deliveryAddress": {
+            "city": "São Paulo",
+            "complement": "Apto 12",
+            "neighborhood": "Centro",
+            "number": "101",
+            "postalCode": "01001000",
+            "state": "SP",
+            "street": "Rua das Flores"
+          },
+          "expectedDeliveryDate": "2026-11-03",
+          "items": [
+            {
+              "description": "Café especial",
+              "priceCents": 4990
+            },
+            {
+              "description": "Caneca",
+              "priceCents": 0
+            }
+          ],
+          "orderNumber": "NP-2026-0001"
+        },
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/DeliveryAddress"
+          },
+          "expectedDeliveryDate": {
+            "example": "2026-11-03",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderItemInput"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array"
+          },
+          "orderNumber": {
+            "example": "NP-2026-0001",
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "description": "Defaults to PENDING.",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderNumber",
+          "expectedDeliveryDate",
+          "customer",
+          "deliveryAddress",
+          "items"
+        ],
+        "type": "object"
+      },
+      "Customer": {
+        "additionalProperties": false,
+        "properties": {
+          "document": {
+            "description": "Free-form document; no CPF/CNPJ algorithm.",
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "example": "Ana Silva",
+            "maxLength": 160,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "document"
+        ],
+        "type": "object"
+      },
+      "DeliveryAddress": {
+        "additionalProperties": false,
+        "properties": {
+          "city": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "complement": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "neighborhood": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "number": {
+            "maxLength": 20,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postalCode": {
+            "example": "01001000",
+            "pattern": "^\\d{8}$",
+            "type": "string"
+          },
+          "state": {
+            "example": "SP",
+            "pattern": "^[A-Z]{2}$",
+            "type": "string"
+          },
+          "street": {
+            "maxLength": 160,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "street",
+          "number",
+          "neighborhood",
+          "city",
+          "state",
+          "postalCode"
+        ],
+        "type": "object"
+      },
       "FieldError": {
         "properties": {
           "field": {
@@ -17,6 +163,54 @@
         "required": [
           "field",
           "message"
+        ],
+        "type": "object"
+      },
+      "ListOrdersResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/OrderSummaryResponse"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "additionalProperties": false,
+            "properties": {
+              "page": {
+                "maximum": 9007199254740991,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "pageSize": {
+                "maximum": 100,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "total": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "totalPages": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "page",
+              "pageSize",
+              "total",
+              "totalPages"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
         ],
         "type": "object"
       },
@@ -76,6 +270,200 @@
         ],
         "type": "object"
       },
+      "OrderItem": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          },
+          "priceCents": {
+            "maximum": 2000000000,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "priceCents"
+        ],
+        "type": "object"
+      },
+      "OrderItemInput": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "example": "Café especial",
+            "maxLength": 240,
+            "minLength": 1,
+            "type": "string"
+          },
+          "priceCents": {
+            "description": "Price in BRL cents.",
+            "example": 4990,
+            "maximum": 2000000000,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "description",
+          "priceCents"
+        ],
+        "type": "object"
+      },
+      "OrderResponse": {
+        "additionalProperties": false,
+        "example": {
+          "createdAt": "2026-10-21T12:30:45.123Z",
+          "customer": {
+            "document": "123.456.789-00",
+            "name": "Ana Silva"
+          },
+          "deliveryAddress": {
+            "city": "São Paulo",
+            "complement": "Apto 12",
+            "neighborhood": "Centro",
+            "number": "101",
+            "postalCode": "01001000",
+            "state": "SP",
+            "street": "Rua das Flores"
+          },
+          "expectedDeliveryDate": "2026-11-03",
+          "id": "6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+          "items": [
+            {
+              "description": "Café especial",
+              "id": "1b4e28ba-2fa1-4d3b-a3fd-27d4f4b9d0a1",
+              "priceCents": 4990
+            },
+            {
+              "description": "Caneca",
+              "id": "2c5f39cb-3fb2-4e4c-b4ae-38e5a5c0e1b2",
+              "priceCents": 0
+            }
+          ],
+          "orderNumber": "NP-2026-0001",
+          "status": "PENDING",
+          "totalCents": 4990,
+          "updatedAt": "2026-10-21T12:30:45.123Z"
+        },
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "type": "string"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/DeliveryAddress"
+          },
+          "expectedDeliveryDate": {
+            "example": "2026-11-03",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            },
+            "type": "array"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELED"
+            ],
+            "type": "string"
+          },
+          "totalCents": {
+            "description": "Sum of item prices in BRL cents; calculated, not stored.",
+            "maximum": 9007199254740991,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "expectedDeliveryDate",
+          "customer",
+          "deliveryAddress",
+          "items",
+          "totalCents",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "OrderSummaryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "type": "string"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "expectedDeliveryDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "expectedDeliveryDate",
+          "customer",
+          "createdAt"
+        ],
+        "type": "object"
+      },
       "ProblemDetails": {
         "properties": {
           "code": {
@@ -122,6 +510,57 @@
           "code",
           "requestId"
         ],
+        "type": "object"
+      },
+      "UpdateOrderRequest": {
+        "additionalProperties": false,
+        "example": {
+          "status": "SHIPPED"
+        },
+        "properties": {
+          "customer": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Customer"
+              }
+            ]
+          },
+          "deliveryAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeliveryAddress"
+              }
+            ]
+          },
+          "expectedDeliveryDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderItemInput"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array"
+          },
+          "orderNumber": {
+            "example": "NP-2026-0001",
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELED"
+            ],
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "ValidationProblemDetails": {
@@ -350,6 +789,672 @@
         },
         "tags": [
           "health"
+        ]
+      }
+    },
+    "/api/v1/orders": {
+      "get": {
+        "operationId": "OrdersController_list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "orderNumber",
+            "required": false,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "PENDING",
+                "PROCESSING",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELED"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdFrom",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdTo",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Page number, starting at 1. Defaults to 1.",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "description": "Page number, starting at 1. Defaults to 1.",
+              "example": "1",
+              "pattern": "^\\d+$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Items per page, 1 to 100. Defaults to 20.",
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "description": "Items per page, 1 to 100. Defaults to 20.",
+              "example": "20",
+              "pattern": "^\\d+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOrdersResponse"
+                }
+              }
+            },
+            "description": "Active orders matching every filter (AND), newest first. Pages past the end return an empty list."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "pageSize",
+                      "message": "Too big: expected number to be <=100"
+                    }
+                  ],
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Invalid or unknown query parameters, or createdFrom after createdTo."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      },
+      "post": {
+        "operationId": "OrdersController_create",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "Order created.",
+            "headers": {
+              "Location": {
+                "description": "Relative URL of the created order.",
+                "schema": {
+                  "example": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "expectedDeliveryDate",
+                      "message": "Expected a real calendar date"
+                    }
+                  ],
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Invalid or unknown body properties."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "ORDER_NUMBER_ALREADY_EXISTS",
+                  "detail": "An order with this order number already exists.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 409,
+                  "title": "Conflict",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The order number is already reserved, including by a deleted order."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "delete": {
+        "operationId": "OrdersController_remove",
+        "parameters": [
+          {
+            "description": "Order UUID.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Order UUID.",
+              "example": "6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Order soft deleted; the response has no body. The order number stays reserved."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "id",
+                      "message": "Invalid UUID"
+                    }
+                  ],
+                  "instance": "/api/v1/orders/123",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "The id is not a UUID."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "ORDER_NOT_FOUND",
+                  "detail": "Order not found.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 404,
+                  "title": "Not Found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The order does not exist or was already deleted."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      },
+      "get": {
+        "operationId": "OrdersController_detail",
+        "parameters": [
+          {
+            "description": "Order UUID.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Order UUID.",
+              "example": "6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "The active order with its items and calculated total."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "id",
+                      "message": "Invalid UUID"
+                    }
+                  ],
+                  "instance": "/api/v1/orders/123",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "The id is not a UUID."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "ORDER_NOT_FOUND",
+                  "detail": "Order not found.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 404,
+                  "title": "Not Found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The order does not exist or was deleted."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      },
+      "patch": {
+        "operationId": "OrdersController_patch",
+        "parameters": [
+          {
+            "description": "Order UUID.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "Order UUID.",
+              "example": "6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "The updated order. Omitted fields are kept; customer, deliveryAddress, and items replace the stored value entirely."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "body",
+                      "message": "At least one field is required"
+                    }
+                  ],
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Empty body, partial customer or address, empty items, or unknown properties."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "ORDER_NOT_FOUND",
+                  "detail": "Order not found.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 404,
+                  "title": "Not Found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The order does not exist or was deleted."
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "ORDER_NUMBER_ALREADY_EXISTS",
+                  "detail": "An order with this order number already exists.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 409,
+                  "title": "Conflict",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The new order number is already reserved, including by a deleted order."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
         ]
       }
     }

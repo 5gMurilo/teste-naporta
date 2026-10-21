@@ -1,8 +1,8 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T18 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T25 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
-**Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
+**Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
 ## Execution Protocol
 
@@ -334,7 +334,7 @@ T47 -> T48
 **Depends on**: T18
 **Reuses**: Standard Schema, configuração de errors e enums persistidos sem expor Prisma no web.
 **Requirement**: VAL-01, VAL-02, VAL-03, VAL-04, VAL-05, VAL-06, LIST-01, LIST-03, LIST-07.
-**Done when**: [ ] Todos os limites/tipos/datas/defaults da spec e semântica de objetos/itens cobertos; números de query vazios/fracionários/arrays rejeitados; datas reais antes de construir UTC.
+**Done when**: [x] Todos os limites/tipos/datas/defaults da spec e semântica de objetos/itens cobertos; números de query vazios/fracionários/arrays rejeitados; datas reais antes de construir UTC.
 **Tests**: Unit U08–U13, >=20 casos parametrizados incluindo cada limite de string/item/preço/query/PATCH; schemas transformados em OpenAPI não perdem entrada escalar da query.
 **Gate**: Q e test:contract de schema.
 **Commit**: `feat(orders): define strict order input schemas`
@@ -345,7 +345,7 @@ T47 -> T48
 **Depends on**: T19
 **Reuses**: Tipos de projeção derivados de select e conversões explícitas.
 **Requirement**: ORDER-03, ORDER-04, ORDER-14, ORDER-15, LIST-05, LIST-06, DOC-02.
-**Done when**: [ ] DATE estável em dois fusos, instantes UTC, soma 4990 e 100000000000; campos exatos; totalPages zero/vazio; sem cacheRevision/deletedAt/hash.
+**Done when**: [x] DATE estável em dois fusos, instantes UTC, soma 4990 e 100000000000; campos exatos; totalPages zero/vazio; sem cacheRevision/deletedAt/hash.
 **Tests**: Unit/contrato U19/U20, >=7 casos de total, timezone, projeção e paginação.
 **Gate**: Q e test:contract de saída.
 **Commit**: `feat(orders): present explicit public order responses`
@@ -356,7 +356,7 @@ T47 -> T48
 **Depends on**: T20
 **Reuses**: Guard, schemas, presenter, Prisma e mapper.
 **Requirement**: ORDER-01, ORDER-02, ORDER-11, ORDER-12, VAL-01, VAL-02, VAL-03, VAL-05, ERR-03, DOC-03, DOC-04.
-**Done when**: [ ] 201/Location e persistência exatos; default PENDING; rollback e disputa de número comprovados; sem Bearer 401; inválido 400; conflito 409 e responses OpenAPI da rota.
+**Done when**: [x] 201/Location e persistência exatos; default PENDING; rollback e disputa de número comprovados; sem Bearer 401; inválido 400; conflito 409 e responses OpenAPI da rota.
 **Tests**: Unit + HTTP/PG + contrato U14/I07/I11/I14/I19/I20, >=8 cenários, incluindo falha de itens e mesmo número soft-deleted.
 **Gate**: F.
 **Commit**: `feat(orders): create orders and items atomically`
@@ -367,7 +367,7 @@ T47 -> T48
 **Depends on**: T21
 **Reuses**: Repository/service/presenter/guard; select restrito, leitura RepeatableRead para snapshot completo.
 **Requirement**: ORDER-03, ORDER-04, ORDER-10, ORDER-14, ORDER-15, AUTH-07, DOC-03, DOC-04.
-**Done when**: [ ] 200 shape exato, 404 inexistente/excluído, path inválido 400, sem token 401; dois usuários acessam; itens/revisão do mesmo snapshot; docs da rota presentes.
+**Done when**: [x] 200 shape exato, 404 inexistente/excluído, path inválido 400, sem token 401; dois usuários acessam; itens/revisão do mesmo snapshot; docs da rota presentes.
 **Tests**: Unit + HTTP/PG + contrato U15/I08/I06 parcial/I19, >=7 casos, incluindo total máximo/DATE e projeção sem campos privados.
 **Gate**: F.
 **Commit**: `feat(orders): read active order details by uuid`
@@ -378,7 +378,7 @@ T47 -> T48
 **Depends on**: T22
 **Reuses**: Schemas query, presenter de resumo e repository concreto.
 **Requirement**: LIST-01, LIST-02, LIST-03, LIST-04, LIST-05, LIST-06, LIST-07, DOC-03, DOC-04.
-**Done when**: [ ] Filtros AND, trim/exato/case-sensitive, limites UTC, sort com empate, defaults/meta/vazio; sem itens ou paginação em memória; docs/query/security/erros presentes.
+**Done when**: [x] Filtros AND, trim/exato/case-sensitive, limites UTC, sort com empate, defaults/meta/vazio; sem itens ou paginação em memória; docs/query/security/erros presentes.
 **Tests**: Unit + HTTP/PG + contrato U18/I16/I17/I18/I19, >=9 cenários incluindo limites exatos e count/filter iguais.
 **Gate**: F.
 **Commit**: `feat(orders): list active orders with exact filters`
@@ -389,7 +389,7 @@ T47 -> T48
 **Depends on**: T23
 **Reuses**: Schemas/presenter e protocolo de update pai antes de itens do design.
 **Requirement**: ORDER-05, ORDER-06, ORDER-07, ORDER-08, ORDER-10, ORDER-11, ORDER-12, ORDER-13, VAL-04, ERR-03, DOC-04.
-**Done when**: [ ] Items omitido preserva IDs; presente substitui todos; objetos substituídos inteiros; count 0 impede write; rollback preserva revisão/dados; qualquer enum permitido e unicidade não mascarada.
+**Done when**: [x] Items omitido preserva IDs; presente substitui todos; objetos substituídos inteiros; count 0 impede write; rollback preserva revisão/dados; qualquer enum permitido e unicidade não mascarada.
 **Tests**: Unit + HTTP/PG + contrato U16/I09/I10/I12/I14/I15 parcial, >=10 casos incluindo PATCHes concorrentes e pedido tornado inativo por transação de prova.
 **Gate**: F.
 **Commit**: `feat(orders): patch active orders with atomic item replacement`
@@ -400,7 +400,7 @@ T47 -> T48
 **Depends on**: T24
 **Reuses**: Repository, guard, mapper e revisão atômica.
 **Requirement**: ORDER-09, ORDER-10, ORDER-11, ORDER-13, LIST-02, DOC-01, DOC-02, DOC-03, DOC-04.
-**Done when**: [ ] 204 zero bytes; segunda exclusão/leitura/PATCH 404; lista omite; número reservado; corrida PATCH/DELETE não ressuscita; OpenAPI tem sete operações completas com schemas/erros esperados.
+**Done when**: [x] 204 zero bytes; segunda exclusão/leitura/PATCH 404; lista omite; número reservado; corrida PATCH/DELETE não ressuscita; OpenAPI tem sete operações completas com schemas/erros esperados.
 **Tests**: Unit + HTTP/PG + contrato U17/I13/I14/I15/I31, >=7 casos incluindo linhas preservadas, concorrência e corpo 204 vazio.
 **Gate**: F e B da etapa.
 **Commit**: `feat(orders): soft delete orders without releasing numbers`
