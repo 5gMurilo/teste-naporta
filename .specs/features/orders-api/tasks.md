@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T36 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T37 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -536,7 +536,7 @@ T47 -> T48
 **Depends on**: T36
 **Reuses**: HTTP client, SessionProvider, router, shadcn e harness browser já disponível.
 **Requirement**: WEB-02, WEB-03, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] Credenciais corretas abrem /orders (shell até T38); erro seguro preserva controle do usuário; pending bloqueia duplicação; labels/teclado; sessão expirada diferenciada de senha incorreta; logout/reload exigem login sem storage.
+**Done when**: [x] Credenciais corretas abrem /orders (shell até T38); erro seguro preserva controle do usuário; pending bloqueia duplicação; labels/teclado; sessão expirada diferenciada de senha incorreta; logout/reload exigem login sem storage.
 **Tests**: Componentes U30/U33/U34/U35 + browser E02/E04, >=8 casos de sucesso/401/rede/validação/duplo clique/foco/logout/reload, incluindo duas larguras.
 **Gate**: H e fechamento da etapa com build/regressão dos apps.
 **Commit**: `feat(web): authenticate through an accessible login page`

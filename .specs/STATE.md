@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T36 concluídas, 36/53 tarefas concluídas.
-- **Completed**: T31–T35 commitadas (até `25d6cc4`). T36: harness Playwright 1.64.1 (Chromium) em apps/web/test/e2e: startStack sobe PostgreSQL e Redis descartáveis (helpers do Testcontainers da API), aplica migrations, semeia o usuário demo com senha aleatória, inicia a API compilada e o SPA buildado via vite preview com proxy /api em portas livres exclusivas, espera health e raiz, e libera tudo em ordem inversa também em falha parcial (testado sem Docker em stack.test.ts). resetData por teste limpa pedidos e namespace do Redis mantendo o usuário. 6 testes reais: assets da SPA sem erro, health direto e pelo proxy, login real (200 e 401), PG e Redis acessíveis, contextos isolados, dados limpos entre testes. Comando `pnpm test:e2e:web` sem cache, depende do build de API e web. Também: prisma:generate/validate usam uma DATABASE_URL de marcação quando ausente, então `pnpm build` funciona em checkout limpo sem env (nada conecta). Requer `pnpm exec playwright install chromium` uma vez. Gate H verde: 62 testes web, 6 e2e web, regressão completa da API.
+- **Phase / Task**: T1–T37 concluídas, 37/53 tarefas concluídas.
+- **Completed**: T31–T36 commitadas (até `e5e6eec`). T37: LoginPage (shadcn Card/Input/Label/Button) com labels associados, validação cliente sem chamada à API, erro de credencial calmo em pt-BR (foco na senha, e-mail preservado), 400 mapeado nos campos sem repetir texto da API, falha de rede com nova tentativa, envio único durante a requisição (botão desabilitado, aria-busy, guarda contra Enter), aviso de sessão expirada diferente de senha incorreta, redirecionamento pós-login seguro (safeRedirect só aceita caminhos internos), nada de senha ou token em DOM, URL ou storage. Browser real: 7 cenários em 390 px e 1280 px (login, logout, reload exige novo login, senha errada, teclado sem rolagem horizontal, clique repetido gera uma só chamada). Gate H e fechamento da etapa 6 verdes: 84 testes web (99,4% linhas, 91,1% branches), 13 e2e web, regressão completa da API e comandos da raiz.
 - **In-progress**: Nada.
-- **Next step**: T37 (tela de login; fecha a etapa 6).
+- **Next step**: T38 (Phase 7, branch feat/naporta-web-forms: lista e filtros na web).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-platform.

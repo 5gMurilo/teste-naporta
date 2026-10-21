@@ -1,13 +1,21 @@
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
+import { LoginPage } from './login-page';
 import { useSession } from './session-provider';
 
-/** Temporary login route: sends authenticated users on; the real form replaces the body later. */
+/** Only in-app absolute paths are honoured, so a crafted state can never redirect off-site. */
+export function safeRedirect(target: unknown): string {
+  return typeof target === 'string' && /^\/(?![/\\])/.test(target) && !target.startsWith('/login')
+    ? target
+    : '/orders';
+}
+
 export function LoginRoute() {
   const { state } = useSession();
-  if (state.status === 'authenticated') return <Navigate to="/orders" replace />;
-  return (
-    <main className="mx-auto max-w-sm px-4 py-12">
-      <h1 className="text-2xl font-semibold">Entrar</h1>
-    </main>
-  );
+  const location = useLocation();
+  if (state.status === 'authenticated') {
+    return (
+      <Navigate to={safeRedirect((location.state as { from?: unknown } | null)?.from)} replace />
+    );
+  }
+  return <LoginPage />;
 }
