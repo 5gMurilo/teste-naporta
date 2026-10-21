@@ -84,6 +84,7 @@ docker run -d --rm --name naporta-redis -p 127.0.0.1:6379:6379 redis:7-alpine --
   para a API (`DEV_PROXY_TARGET`, padrão `http://localhost:3000`).
 - Subir a API compilada sem watch: `pnpm start`. Produção da API sem containers: `pnpm build && pnpm start:prod`.
 - Sem Redis a API funciona normalmente; só não há cache (o `REDIS_URL` do `.env.example` aponta para `localhost:6379`).
+- Limite de login: `LOGIN_RATE_LIMIT` (padrão 5) tentativas por `LOGIN_RATE_TTL_SECONDS` (padrão 60) por endereço de cliente, contadas em memória do processo. `TRUST_PROXY_HOPS` (padrão 0; o Compose usa 1) diz quantos proxies reversos estão na frente da API, para contar o cliente real em vez do proxy.
 - Variáveis em [.env.example](.env.example). `JWT_SECRET` precisa de 32 caracteres ou mais; configuração
   inválida impede a API de subir e a mensagem lista apenas os nomes das variáveis, nunca os valores.
 
@@ -164,6 +165,7 @@ Sempre `application/problem+json` com `type`, `title`, `status`, `detail`, `inst
 | Pedido inexistente ou excluído | 404 | `ORDER_NOT_FOUND` |
 | Número de pedido já usado, inclusive por pedido excluído | 409 | `ORDER_NUMBER_ALREADY_EXISTS` |
 | Banco indisponível no health | 503 | `SERVICE_UNAVAILABLE` |
+| Excesso de tentativas de login do mesmo cliente (padrão: 5 por 60 s), com `Retry-After` | 429 | `HTTP_ERROR` |
 | Falha inesperada | 500 | `INTERNAL_SERVER_ERROR` |
 
 ## Frontend
