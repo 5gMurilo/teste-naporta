@@ -15,6 +15,7 @@ const configKeys = [
   'REDIS_URL',
   'CACHE_TTL_SECONDS',
   'CACHE_TIMEOUT_MS',
+  'LOGIN_RATE_LIMIT',
 ] as const;
 
 type PostgresContainer = Pick<StartedPostgreSqlContainer, 'getConnectionUri' | 'stop'>;
@@ -90,6 +91,8 @@ export async function createPostgresTestContext(
     environment.REDIS_URL = 'redis://127.0.0.1:1';
     delete environment.CACHE_TTL_SECONDS;
     delete environment.CACHE_TIMEOUT_MS;
+    // Suites log in repeatedly from one address; the limit itself is proven by its own suite.
+    environment.LOGIN_RATE_LIMIT = '1000';
 
     (options.migrate ?? ((_databaseUrl, env) => applyMigrations(env)))(databaseUrl, environment);
 

@@ -53,6 +53,14 @@ export async function createApplication(
       logger: false,
     });
     applyHttpSecurity(app, config);
+    // Behind a reverse proxy the socket address is the proxy's; trust exactly this many hops of
+    // X-Forwarded-For so the login limit counts the real client (never `true`: it is spoofable).
+    if (config.TRUST_PROXY_HOPS > 0) {
+      (app.getHttpAdapter().getInstance() as { set(name: string, value: number): void }).set(
+        'trust proxy',
+        config.TRUST_PROXY_HOPS,
+      );
+    }
     configureApplication(app);
     if (mode === 'http') setupDocs(app);
     if (mode === 'http') await app.init();

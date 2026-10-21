@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../common/decorators/public.decorator.js';
 import {
@@ -13,6 +13,7 @@ import {
   loginResponseSchema,
 } from './auth.schemas.js';
 import { AuthService } from './auth.service.js';
+import { LoginRateLimitGuard } from './login-rate-limit.guard.js';
 
 const problem = (status: number, title: string, code: string, detail: string) =>
   problemJsonContent({
@@ -32,6 +33,7 @@ export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
   @Post('login')
+  @UseGuards(LoginRateLimitGuard)
   @HttpCode(200)
   @ApiResponse({
     status: 200,
