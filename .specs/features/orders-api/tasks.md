@@ -740,6 +740,14 @@ O relatório do Verifier fresco (`validation.md`, nesta pasta) deu 87 PASS, 7 PA
 | Lacuna do relatório | Requisito | Commit |
 | --- | --- | --- |
 | Em clone limpo, `typecheck`, `test:unit` e `test:contract` falhavam: o client Prisma só era gerado pelo `build` | OPS-05 | `fix(workspace): generate the prisma client before anything that imports it` |
+| Provas de fuso horário não trocavam o fuso dentro do Jest; mutação de DATE em meia-noite local sobrevivia | ORDER-14 | `test(api): run the time zone proofs in one process per zone` e `fix(api): run the time zone suites through a node runner that accepts extra arguments` |
+| Opções de verificação do JWT (algoritmo, issuer) sem teste na configuração de produção | AUTH-04 | `test(auth): pin the production jwt algorithm and issuer checks` |
+| Corpo grande virava 500 em vez de 413; logs coloridos e sem classe do erro | ERR-08, ERR-06 | `fix(errors): keep client error statuses from the body parser and log as plain json` |
+| Limites máximos sem teste de aceitação; OpenAPI divergente do runtime | VAL-01, DOC-03 | `fix(api): align the published openapi with the accepted input and test maximum lengths` |
+| Filtro de número só com espaços gerava 400 | WEB-04 | `fix(web): treat a blank order number filter as no filter` |
+| Logger padrão sem teste e execução por fuso verde sem teste marcado | ERR-06, ORDER-14 | `test(api): cover the json logger and fail zone runs that executed nothing` |
+
+Resultado: [revalidation.md](revalidation.md) fecha as nove lacunas; `pnpm check` saiu com exit 0 em clone limpo.
 
 ## Fechamento independente após T53
 
