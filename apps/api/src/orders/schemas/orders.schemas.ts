@@ -122,7 +122,10 @@ export const updateOrderRequestSchema = z
     items: itemsSchema.optional(),
   })
   .refine((body) => Object.keys(body).length > 0, 'At least one field is required')
-  .meta({ id: 'UpdateOrderRequest' });
+  .meta({
+    id: 'UpdateOrderRequest',
+    example: { status: 'SHIPPED' },
+  });
 
 export const orderParamsSchema = z.strictObject({
   id: z

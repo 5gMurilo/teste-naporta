@@ -7,7 +7,11 @@ import type {
   OrderSummaryModel,
 } from './orders.projections.js';
 import { OrdersRepository } from './orders.repository.js';
-import type { CreateOrderRequest, ListOrdersQuery } from './schemas/orders.schemas.js';
+import type {
+  CreateOrderRequest,
+  ListOrdersQuery,
+  UpdateOrderRequest,
+} from './schemas/orders.schemas.js';
 
 @Injectable()
 export class OrdersService {
@@ -29,5 +33,13 @@ export class OrdersService {
 
   list(query: ListOrdersQuery): Promise<{ orders: OrderSummaryModel[]; total: number }> {
     return this.repository.list(query);
+  }
+
+  async patch(id: string, changes: UpdateOrderRequest): Promise<OrderDetailModel> {
+    try {
+      return await this.repository.patchActive(id, changes);
+    } catch (error) {
+      throw mapPrismaError(error);
+    }
   }
 }

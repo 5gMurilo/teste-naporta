@@ -19,6 +19,7 @@ const OPERATIONS = [
   'GET /api/v1/health',
   'GET /api/v1/orders',
   'GET /api/v1/orders/{id}',
+  'PATCH /api/v1/orders/{id}',
   'POST /api/v1/auth/login',
   'POST /api/v1/orders',
 ];

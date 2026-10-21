@@ -1,5 +1,5 @@
 import type { ServerResponse } from 'node:http';
-import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { z } from 'zod';
 import {
@@ -22,6 +22,8 @@ import {
   type ListOrdersQuery,
   listOrdersQuerySchema,
   orderParamsSchema,
+  type UpdateOrderRequest,
+  updateOrderRequestSchema,
 } from './schemas/orders.schemas.js';
 
 const problem = (
@@ -226,5 +228,88 @@ export class OrdersController {
     @Param({ schema: orderParamsSchema }) params: z.output<typeof orderParamsSchema>,
   ): Promise<OrderResponse> {
     return OrderPresenter.detail(await this.orders.getActiveSnapshot(params.id));
+  }
+
+  @Patch(':id')
+  @ApiResponse({
+    status: 200,
+    description:
+      'The updated order. Omitted fields are kept; customer, deliveryAddress, and items replace the stored value entirely.',
+    standardSchema: orderResponseSchema,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Empty body, partial customer or address, empty items, or unknown properties.',
+    content: problemJsonContent(
+      problem(
+        400,
+        'Bad Request',
+        'VALIDATION_ERROR',
+        'The request is invalid.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+        {
+          errors: [{ field: 'body', message: 'At least one field is required' }],
+        },
+      ),
+      'ValidationProblemDetails',
+    ),
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Missing, invalid, or expired bearer token.',
+    content: problemJsonContent(
+      problem(
+        401,
+        'Unauthorized',
+        'UNAUTHORIZED',
+        'Authentication is required or the token is invalid.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'The order does not exist or was deleted.',
+    content: problemJsonContent(
+      problem(
+        404,
+        'Not Found',
+        'ORDER_NOT_FOUND',
+        'Order not found.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'The new order number is already reserved, including by a deleted order.',
+    content: problemJsonContent(
+      problem(
+        409,
+        'Conflict',
+        'ORDER_NUMBER_ALREADY_EXISTS',
+        'An order with this order number already exists.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Unexpected failure.',
+    content: problemJsonContent(
+      problem(
+        500,
+        'Internal Server Error',
+        'INTERNAL_SERVER_ERROR',
+        'An unexpected error occurred.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  async patch(
+    @Param({ schema: orderParamsSchema }) params: z.output<typeof orderParamsSchema>,
+    @Body({ schema: updateOrderRequestSchema }) body: UpdateOrderRequest,
+  ): Promise<OrderResponse> {
+    return OrderPresenter.detail(await this.orders.patch(params.id, body));
   }
 }

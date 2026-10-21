@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T23 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T24 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -389,7 +389,7 @@ T47 -> T48
 **Depends on**: T23
 **Reuses**: Schemas/presenter e protocolo de update pai antes de itens do design.
 **Requirement**: ORDER-05, ORDER-06, ORDER-07, ORDER-08, ORDER-10, ORDER-11, ORDER-12, ORDER-13, VAL-04, ERR-03, DOC-04.
-**Done when**: [ ] Items omitido preserva IDs; presente substitui todos; objetos substituídos inteiros; count 0 impede write; rollback preserva revisão/dados; qualquer enum permitido e unicidade não mascarada.
+**Done when**: [x] Items omitido preserva IDs; presente substitui todos; objetos substituídos inteiros; count 0 impede write; rollback preserva revisão/dados; qualquer enum permitido e unicidade não mascarada.
 **Tests**: Unit + HTTP/PG + contrato U16/I09/I10/I12/I14/I15 parcial, >=10 casos incluindo PATCHes concorrentes e pedido tornado inativo por transação de prova.
 **Gate**: F.
 **Commit**: `feat(orders): patch active orders with atomic item replacement`

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { OrderNotFoundError } from '../common/errors/domain-errors.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import {
@@ -13,6 +14,7 @@ import {
   type CreateOrderRequest,
   type ListOrdersQuery,
   startOfDayUtc,
+  type UpdateOrderRequest,
 } from './schemas/orders.schemas.js';
 
 export type NewOrder = CreateOrderRequest & { status: NonNullable<CreateOrderRequest['status']> };
@@ -74,5 +76,47 @@ export class OrdersRepository {
       this.prisma.order.count({ where }),
     ]);
     return { orders, total };
+  }
+
+  /**
+   * Parent row first: the conditional update takes the row lock, so a concurrent PATCH or DELETE
+   * waits and then re-evaluates `deletedAt IS NULL` (ReadCommitted). Items are only touched after
+   * the lock is held, so collection replacements never interleave.
+   */
+  patchActive(id: string, changes: UpdateOrderRequest): Promise<OrderDetailModel> {
+    return this.prisma.$transaction(
+      async (tx) => {
+        const { count } = await tx.order.updateMany({
+          where: { id, deletedAt: null },
+          data: {
+            ...(changes.orderNumber !== undefined && { orderNumber: changes.orderNumber }),
+            ...(changes.status !== undefined && { status: changes.status }),
+            ...(changes.expectedDeliveryDate !== undefined && {
+              expectedDeliveryDate: startOfDayUtc(changes.expectedDeliveryDate),
+            }),
+            ...(changes.customer && {
+              customerName: changes.customer.name,
+              customerDocument: changes.customer.document,
+            }),
+            ...(changes.deliveryAddress && { deliveryAddress: changes.deliveryAddress }),
+            cacheRevision: { increment: 1 },
+          },
+        });
+        if (count === 0) throw new OrderNotFoundError();
+
+        if (changes.items) {
+          await tx.orderItem.deleteMany({ where: { orderId: id } });
+          await tx.orderItem.createMany({
+            data: changes.items.map(({ description, priceCents }) => ({
+              orderId: id,
+              description,
+              priceCents,
+            })),
+          });
+        }
+        return tx.order.findUniqueOrThrow({ where: { id }, select: orderDetailSelect });
+      },
+      { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted },
+    );
   }
 }
