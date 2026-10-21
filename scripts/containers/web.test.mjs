@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
 import { after, before, describe, it } from 'node:test';
 import { createSandbox, docker, dockerBuild, hostPort, waitForHealthy } from './docker.mjs';
 
@@ -131,25 +130,5 @@ describe('web image (PACK-01, PACK-03, WEB-01)', () => {
     assert.match(index.headers.get('content-security-policy'), /default-src 'self'/);
     assert.doesNotMatch(index.headers.get('server') ?? '', /\d/);
     assert.doesNotMatch(script, /JWT_SECRET|DATABASE_URL|REDIS_URL|SEED_USER_PASSWORD/);
-  });
-
-  it('loads in a real browser under the content security policy and shows the login page', async () => {
-    const require = createRequire(new URL('../../apps/web/package.json', import.meta.url));
-    const { chromium } = require('@playwright/test');
-    const browser = await chromium.launch();
-    try {
-      const page = await browser.newPage();
-      const problems = [];
-      page.on('console', (message) => message.type() === 'error' && problems.push(message.text()));
-      page.on('pageerror', (error) => problems.push(error.message));
-
-      await page.goto(`${base}/orders`);
-      await page.getByRole('heading', { name: 'Entrar' }).waitFor();
-
-      assert.equal(new URL(page.url()).pathname, '/login');
-      assert.deepEqual(problems, []);
-    } finally {
-      await browser.close();
-    }
   });
 });

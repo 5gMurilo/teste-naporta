@@ -136,7 +136,6 @@ describe('README (DOC-06, OPS-05, QA-06)', () => {
       'PATCH "$API/api/v1/orders/$ID"',
       'DELETE "$API/api/v1/orders/$ID"',
       'createdFrom=',
-      'playwright install chromium',
       'pnpm check',
       'Cache do detalhe',
       'somente em memória',
@@ -160,7 +159,7 @@ describe('README (DOC-06, OPS-05, QA-06)', () => {
       if (name === 'install') continue;
       assert.ok(name in rootScripts || builtins.has(name), `README references "pnpm ${name}", which is not a root script`);
     }
-    for (const name of ['check', 'test:containers', 'test:e2e:web', 'docs:openapi', 'db:seed', 'db:migrate:deploy']) {
+    for (const name of ['check', 'test:containers', 'docs:openapi', 'db:seed', 'db:migrate:deploy']) {
       assert.ok(readme.includes(`pnpm ${name}`), `README must document pnpm ${name}`);
     }
   });

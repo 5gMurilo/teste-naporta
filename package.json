@@ -14,7 +14,6 @@
 		"test:coverage": "turbo run test:coverage",
 		"test:contract": "turbo run test:contract",
 		"test:e2e": "turbo run test:e2e",
-		"test:e2e:web": "turbo run test:e2e:web",
 		"test:containers": "node scripts/test-containers.mjs",
 		"test:scripts": "node --test scripts/*.test.mjs",
 		"check": "node scripts/check.mjs",

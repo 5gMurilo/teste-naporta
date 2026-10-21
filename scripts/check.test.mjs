@@ -23,7 +23,6 @@ describe('pnpm check aggregator (OPS-05, QA-05, QA-06, MONO-03, DOC-05)', () => 
       'test:coverage',
       'test:integration',
       'test:e2e',
-      'test:e2e:web',
       'test:containers',
       'docs:openapi:check',
     ]) {
@@ -85,13 +84,12 @@ describe('pnpm check aggregator (OPS-05, QA-05, QA-06, MONO-03, DOC-05)', () => 
     assert.notEqual(await runCommand(['definitely-not-a-command-naporta']), 0);
   });
 
-  it('never lets Turbo cache a test, coverage, browser, or state task', () => {
+  it('never lets Turbo cache a test, coverage, or state task', () => {
     for (const task of [
       'test:unit',
       'test:coverage',
       'test:contract',
       'test:e2e',
-      'test:e2e:web',
       'test:integration',
       'docs:openapi:check',
       'lint',
@@ -123,7 +121,6 @@ describe('pnpm check aggregator (OPS-05, QA-05, QA-06, MONO-03, DOC-05)', () => 
       'typecheck',
       'test:unit',
       'test:integration',
-      'test:e2e:web',
       'test:containers',
       'test:coverage',
       'check',

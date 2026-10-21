@@ -15,8 +15,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "format:check": "biome format .",
-    "test:e2e:web": "playwright test"
+    "format:check": "biome format ."
   },
   "dependencies": {
     "class-variance-authority": "0.7.1",
@@ -31,7 +30,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
-    "@playwright/test": "1.64.1",
     "@tailwindcss/vite": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",

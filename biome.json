@@ -10,7 +10,6 @@
 			"!**/.turbo/**",
 			"!**/.omc/**",
 			"!**/test-results/**",
-			"!**/playwright-report/**",
 			"!**/components/ui/**"
 		]
 	},

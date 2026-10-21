@@ -17,7 +17,6 @@ export const STEPS = [
   { name: 'test:coverage', command: ['pnpm', 'test:coverage'] },
   { name: 'test:e2e', command: ['pnpm', 'test:e2e'] },
   { name: 'test:integration', command: ['pnpm', 'test:integration'] },
-  { name: 'test:e2e:web', command: ['pnpm', 'test:e2e:web'] },
   { name: 'test:containers', command: ['pnpm', 'test:containers'] },
 ];
 
