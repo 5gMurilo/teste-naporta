@@ -4,6 +4,7 @@ import {
   type IntegrationApp,
   validOrderBody,
 } from '../helpers/integration-app.js';
+import { assertRequestedZoneApplied } from '../helpers/process-zone.js';
 
 describe('GET /api/v1/orders/:id with PostgreSQL', () => {
   let env: IntegrationApp;
@@ -55,30 +56,21 @@ describe('GET /api/v1/orders/:id with PostgreSQL', () => {
     expect(response.body.createdAt).toMatch(/Z$/);
   });
 
-  it.each(['UTC', 'America/Sao_Paulo', 'Pacific/Kiritimati'])(
-    'keeps the date 2026-11-03 and the 100000000000 maximum total under TZ=%s',
-    async (zone) => {
-      const previous = process.env.TZ;
-      process.env.TZ = zone;
-      try {
-        const created = await create({
-          orderNumber: `NP-MAX-${zone}`,
-          items: Array.from({ length: 50 }, (_, index) => ({
-            description: `item ${index}`,
-            priceCents: 2_000_000_000,
-          })),
-        });
+  it('keeps the date 2026-11-03 and the 100000000000 maximum total in the process time zone [tz]', async () => {
+    assertRequestedZoneApplied();
+    const created = await create({
+      orderNumber: 'NP-MAX',
+      items: Array.from({ length: 50 }, (_, index) => ({
+        description: `item ${index}`,
+        priceCents: 2_000_000_000,
+      })),
+    });
 
-        const response = await get(created.id).expect(200);
+    const response = await get(created.id).expect(200);
 
-        expect(response.body.expectedDeliveryDate).toBe('2026-11-03');
-        expect(response.body.totalCents).toBe(100_000_000_000);
-      } finally {
-        if (previous === undefined) delete process.env.TZ;
-        else process.env.TZ = previous;
-      }
-    },
-  );
+    expect(response.body.expectedDeliveryDate).toBe('2026-11-03');
+    expect(response.body.totalCents).toBe(100_000_000_000);
+  });
 
   it('answers 404 ORDER_NOT_FOUND for unknown and soft-deleted orders', async () => {
     const created = await create({ orderNumber: 'NP-DELETED' });

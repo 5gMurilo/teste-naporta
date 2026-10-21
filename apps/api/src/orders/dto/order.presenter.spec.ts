@@ -1,3 +1,4 @@
+import { assertRequestedZoneApplied } from '../../../test/helpers/process-zone.js';
 import type { OrderDetailModel, OrderSummaryModel } from '../orders.projections.js';
 import { OrderPresenter } from './order.presenter.js';
 import {
@@ -88,23 +89,15 @@ describe('OrderPresenter.detail (U19, U20)', () => {
     expect(OrderPresenter.detail(detailModel({ items })).totalCents).toBe(100_000_000_000);
   });
 
-  it.each(['UTC', 'America/Sao_Paulo', 'Pacific/Kiritimati', 'Pacific/Pago_Pago'])(
-    'keeps the civil delivery date 2026-11-03 under TZ=%s and emits UTC instants',
-    (zone) => {
-      const previous = process.env.TZ;
-      process.env.TZ = zone;
-      try {
-        const response = OrderPresenter.detail(detailModel());
+  it('keeps the civil delivery date 2026-11-03 and emits UTC instants in the process time zone [tz]', () => {
+    assertRequestedZoneApplied();
 
-        expect(response.expectedDeliveryDate).toBe('2026-11-03');
-        expect(response.createdAt).toBe('2026-10-21T12:30:45.123Z');
-        expect(response.updatedAt).toBe('2026-10-22T01:02:03.004Z');
-      } finally {
-        if (previous === undefined) delete process.env.TZ;
-        else process.env.TZ = previous;
-      }
-    },
-  );
+    const response = OrderPresenter.detail(detailModel());
+
+    expect(response.expectedDeliveryDate).toBe('2026-11-03');
+    expect(response.createdAt).toBe('2026-10-21T12:30:45.123Z');
+    expect(response.updatedAt).toBe('2026-10-22T01:02:03.004Z');
+  });
 
   it('omits complement when absent and keeps it when stored', () => {
     expect(OrderPresenter.detail(detailModel()).deliveryAddress).not.toHaveProperty('complement');
