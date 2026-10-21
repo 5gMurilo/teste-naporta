@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T39 concluídas, 39/53 tarefas concluídas.
-- **Completed**: T38 `ab43ed6`. T39: order-form-model com funções puras: valores do formulário como texto, fromOrder (sem ids de item), validateForm só estrutural (obrigatório, preço em centavos inteiros, ao menos um item; limites de negócio ficam com a API), toCreatePayload (texto aparado, complemento omitido se vazio, centavos inteiros, sem ids nem chaves locais) e toPatchPayload (só o que mudou; customer, endereço e itens sempre inteiros; sem alteração devolve undefined, nunca PATCH vazio; data civil como texto em três fusos). Tipos públicos de pedido em api-types. Gate W verde: 126 testes web.
+- **Phase / Task**: T1–T40 concluídas, 40/53 tarefas concluídas.
+- **Completed**: T38 `ab43ed6`, T39 `b6aa3bd`. T40: ItemsEditor com 1 a 50 itens, labels por posição, preço em centavos como texto (zero permitido, ajuda 'Ex.: 4990 = R$ 49,90'), chave local estável por linha (digitar e adicionar outras linhas não remonta o input), foco no novo item ao adicionar e no item que ocupou o lugar ao remover, remover desabilitado no último item, adicionar desabilitado em 50 com explicação, erros associados por aria-describedby/aria-invalid e alerta da coleção, operação só por teclado. Gate W verde: 136 testes web.
 - **In-progress**: Nada.
-- **Next step**: T40 (editor de itens acessível).
+- **Next step**: T41 (campos de cliente).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-forms.
