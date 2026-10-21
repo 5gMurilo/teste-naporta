@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T41 concluídas, 41/53 tarefas concluídas.
-- **Completed**: T38–T40 commitadas (até `021de3e`). T41: CustomerFields (nome e documento do cliente) sobre o novo FormField compartilhado (label, erro e dica associados por aria): documento é texto livre sem máscara nem algoritmo CPF/CNPJ, nada é registrado em log, fieldset desabilita junto. Gate W verde: 141 testes web.
+- **Phase / Task**: T1–T42 concluídas, 42/53 tarefas concluídas.
+- **Completed**: T38–T41 commitadas (até `22354bd`). T42: AddressFields completo (rua, número, complemento opcional removível, bairro, cidade, UF em maiúsculas limitada a duas letras, CEP como texto numérico que preserva zero à esquerda), labels e erros associados, ordem de tabulação igual à visual. Gate W verde: 147 testes web.
 - **In-progress**: Nada.
-- **Next step**: T42 (campos de endereço).
+- **Next step**: T43 (formulário de pedido reutilizável; fecha a etapa 7).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-forms.

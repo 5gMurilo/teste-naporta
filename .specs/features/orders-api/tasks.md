@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T41 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T42 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -593,7 +593,7 @@ T47 -> T48
 **Depends on**: T41
 **Reuses**: Form model e primitives shadcn.
 **Requirement**: WEB-05, WEB-07, WEB-10, VAL-03.
-**Done when**: [ ] Todos os campos da spec, complement pode ser removido sem merge invisível, UF uppercase e postalCode texto de oito dígitos; labels/erros e foco corretos.
+**Done when**: [x] Todos os campos da spec, complement pode ser removido sem merge invisível, UF uppercase e postalCode texto de oito dígitos; labels/erros e foco corretos.
 **Tests**: Componentes U32/U35, >=4 casos de edição completa, complement ausente, UF/CEP e mensagens acessíveis.
 **Gate**: W.
 **Commit**: `feat(web): collect complete delivery addresses`
