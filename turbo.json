@@ -13,10 +13,13 @@
 		"test:unit": { "cache": false },
 		"test:coverage": { "cache": false },
 		"test:workspace": { "cache": false },
+		"test:contract": { "cache": false },
 		"test:e2e": { "cache": false },
 		"test:integration": { "cache": false },
 		"prisma:generate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
 		"prisma:validate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
+		"docs:openapi": { "cache": false },
+		"docs:openapi:check": { "cache": false },
 		"format": { "cache": false },
 		"format:check": { "cache": false },
 		"dev": { "cache": false, "persistent": true }

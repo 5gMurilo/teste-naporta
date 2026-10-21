@@ -1,0 +1,48 @@
+import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
+import { ApiExtraModels, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../common/decorators/public.decorator.js';
+import { ProblemDetailsDto, problemJsonContent } from '../common/errors/problem-details.dto.js';
+import { PrismaService } from '../prisma/prisma.service.js';
+
+@Public()
+@ApiTags('health')
+@ApiExtraModels(ProblemDetailsDto)
+@Controller('api/v1/health')
+export class HealthController {
+  constructor(private readonly prisma: PrismaService) {}
+
+  @Get()
+  @ApiOkResponse({
+    description: 'The API is running and PostgreSQL answered a real query.',
+    schema: {
+      type: 'object',
+      required: ['status', 'database'],
+      additionalProperties: false,
+      properties: {
+        status: { type: 'string', enum: ['ok'] },
+        database: { type: 'string', enum: ['up'] },
+      },
+    },
+    example: { status: 'ok', database: 'up' },
+  })
+  @ApiResponse({
+    status: 503,
+    description: 'PostgreSQL is unavailable.',
+    content: problemJsonContent({
+      type: 'about:blank',
+      title: 'Service Unavailable',
+      status: 503,
+      detail: 'The service is temporarily unavailable.',
+      instance: '/api/v1/health',
+      code: 'SERVICE_UNAVAILABLE',
+    }),
+  })
+  async check() {
+    try {
+      await this.prisma.$queryRaw`SELECT 1`;
+    } catch {
+      throw new ServiceUnavailableException();
+    }
+    return { status: 'ok', database: 'up' } as const;
+  }
+}

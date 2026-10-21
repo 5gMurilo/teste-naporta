@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 2 — Persistência encerrada; T1–T10 concluídas, 10/53 tarefas concluídas.
-- **Completed**: T7–T9 commitadas (`da9a2a9`, `3f8110d`, `a64ffcc`). T10 adiciona `db:seed` (argon2id, usuário por email normalizado, 12 pedidos `SEED-NP-0001..0012` criados só se ausentes, sem tocar em pedidos externos ou soft-deleted). Gate F e B da etapa: lint, format:check, typecheck, build (com `DATABASE_URL` sentinela, exigida pelo `prisma generate`), 59 testes unitários + 10 workspace, e2e (1), integração PostgreSQL (7, seed executado via CLI contra o container) e cobertura 97,22% linhas / 76,92% branches. Saída do seed não contém senha nem hash.
-- **In-progress**: Nada; T10 commitada em `da928ff`.
-- **Next step**: T11 (Phase 3, branch `feat/naporta-security`) — fora da autorização atual; aguardar autorização explícita antes de criar a branch.
+- **Phase / Task**: T1–T18 concluídas, 18/53 tarefas concluídas.
+- **Completed**: T11–T17 commitadas (até `d4ef683`). T18: Swagger UI em `/docs` e JSON em `/docs-json` (públicos, fora dos controllers), esquema `bearerAuth`, GET / excluído do contrato, schemas ProblemDetails/ValidationProblemDetails/FieldError nomeados, documento com chaves ordenadas e export offline em `docs/openapi.json` (`pnpm docs:openapi` e `docs:openapi:check`, via build compilado com DATABASE_URL sintética). `test:contract` real (`test/contract/*.contract-spec.ts`). O loader ts-node/esm não resolve `@nestjs/swagger` (gera `.js.js`), então `dev` passou a compilar com tsc --watch e rodar `node --watch dist/main.js`. Gate F e B da etapa 3 verdes pelos comandos da raiz: lint, format:check, typecheck, build, test:unit (116), test:contract (7), e2e (1), integração (22), cobertura, docs:openapi:check.
+- **In-progress**: Nada.
+- **Next step**: T19 (Phase 4, branch feat/naporta-orders a partir de feat/naporta-security) — exige nova autorização; Phase 3 encerrada.
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-persistence.
+- **Branch**: feat/naporta-security.

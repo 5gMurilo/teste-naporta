@@ -1,8 +1,8 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T10 de 53 tarefas concluída; Phase 2 encerrada.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T18 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
-**Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
+**Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
 ## Execution Protocol
 
@@ -244,7 +244,7 @@ T47 -> T48
 **Depends on**: T10
 **Reuses**: Factory, Node crypto e contexto HTTP.
 **Requirement**: ERR-07.
-**Done when**: [ ] Toda resposta recebe X-Request-Id UUID novo e contexto interno correspondente, sem ecoar headers sensíveis.
+**Done when**: [x] Toda resposta recebe X-Request-Id UUID novo e contexto interno correspondente, sem ecoar headers sensíveis.
 **Tests**: Unit + HTTP, U22 parcial/I21 parcial, >=3 casos de UUID/header/contexto e ID hostil de entrada.
 **Gate**: F.
 **Commit**: `feat(http): correlate responses with generated request ids`
@@ -255,7 +255,7 @@ T47 -> T48
 **Depends on**: T11
 **Reuses**: Nome da constraint da migration, erros do Prisma 7.
 **Requirement**: ERR-03, ERR-04.
-**Done when**: [ ] P2002 orderNumber vira erro de domínio; unique de email e outras falhas permanecem distintas/internas; sem mensagem SQL no erro público.
+**Done when**: [x] P2002 orderNumber vira erro de domínio; unique de email e outras falhas permanecem distintas/internas; sem mensagem SQL no erro público.
 **Tests**: Unit U21 + conflito real com PostgreSQL, >=4 casos de constraint correta, outra unique, outro código e objeto desconhecido.
 **Gate**: F.
 **Commit**: `feat(errors): map only known order number conflicts`
@@ -266,7 +266,7 @@ T47 -> T48
 **Depends on**: T12
 **Reuses**: Mapper, requestId, exceptions Nest e factory.
 **Requirement**: ERR-01, ERR-02, ERR-05, ERR-06, ERR-07, ERR-08.
-**Done when**: [ ] Content-type/envelope/status/code corretos, errors por campo e 500 genérico; native status preservado; logger allowlist não expõe exceção crua/PII.
+**Done when**: [x] Content-type/envelope/status/code corretos, errors por campo e 500 genérico; native status preservado; logger allowlist não expõe exceção crua/PII.
 **Tests**: Unit + HTTP/PostgreSQL, U22/U23/I21, >=8 casos para validação, JSON, native, 500, sentinelas, instance, requestId e 503 em controller de prova do filtro.
 **Gate**: F.
 **Commit**: `feat(errors): standardize safe problem details responses`
@@ -277,7 +277,7 @@ T47 -> T48
 **Depends on**: T13
 **Reuses**: Factory, PrismaService, requestId e filtro global já entregues; metadata pública será aplicada antes de instalar guard global.
 **Requirement**: BOOT-05, BOOT-06, DOC-04.
-**Done when**: [ ] Banco acessível responde 200 exato; indisponível após startup responde 503 SERVICE_UNAVAILABLE em ProblemDetails com content-type e requestId; schemas/status/exemplos da unidade documentados.
+**Done when**: [x] Banco acessível responde 200 exato; indisponível após startup responde 503 SERVICE_UNAVAILABLE em ProblemDetails com content-type e requestId; schemas/status/exemplos da unidade documentados.
 **Tests**: Unit + HTTP/PostgreSQL real I22, >=4 casos de disponibilidade, consulta real, envelope 503 e falha sem detalhes do driver.
 **Gate**: F.
 **Commit**: `feat(health): report postgres availability over http`
@@ -288,7 +288,7 @@ T47 -> T48
 **Depends on**: T14
 **Reuses**: User seed/hash, config, PrismaService e filtro; @nestjs/jwt compatível.
 **Requirement**: AUTH-01, AUTH-02, AUTH-03, AUTH-08, VAL-01, VAL-02, DOC-02, DOC-04.
-**Done when**: [ ] 200 TTL/tokenType exatos e claims mínimos HS256; email trim/lowercase, senha sem trim; credenciais erradas indistinguíveis; entrada estrita e OpenAPI com exemplos.
+**Done when**: [x] 200 TTL/tokenType exatos e claims mínimos HS256; email trim/lowercase, senha sem trim; credenciais erradas indistinguíveis; entrada estrita e OpenAPI com exemplos.
 **Tests**: Unit + HTTP/PG + contrato U03/U04/I04, >=6 casos de login, inexistente, senha errada, email normalizado, schema e claims/TTL.
 **Gate**: F.
 **Commit**: `feat(auth): issue bearer tokens from demo credentials`
@@ -299,7 +299,7 @@ T47 -> T48
 **Depends on**: T15
 **Reuses**: SetMetadata/Reflector; duas exceções definidas na spec.
 **Requirement**: AUTH-05, AUTH-06.
-**Done when**: [ ] Metadata testada em método/classe, login/health públicos e controller legado sem metadata; não criar @CurrentUser sem consumidor.
+**Done when**: [x] Metadata testada em método/classe, login/health públicos e controller legado sem metadata; não criar @CurrentUser sem consumidor.
 **Tests**: Unit/metadata U06, >=3 casos de método, classe e ausência; bypass real entra junto do guard em T17.
 **Gate**: Q.
 **Commit**: `feat(auth): mark explicit public http operations`
@@ -310,7 +310,7 @@ T47 -> T48
 **Depends on**: T16
 **Reuses**: JWT config, decorator, filtro e AppModule real.
 **Requirement**: AUTH-04, AUTH-05, AUTH-06, AUTH-07.
-**Done when**: [ ] Assinatura/algoritmo/exp/iss/aud validados; GET / protegido; login/health sem token; fixtures existentes preservadas e testes AppModule acrescentados; U07 N/A registrado sem decorator cosmético.
+**Done when**: [x] Assinatura/algoritmo/exp/iss/aud validados; GET / protegido; login/health sem token; fixtures existentes preservadas e testes AppModule acrescentados; U07 N/A registrado sem decorator cosmético.
 **Tests**: Unit + HTTP real, U05/U06/I05/I06, >=8 casos de tokens, metadata e rota privada fixture; endpoints futuros levam teste sem Bearer no seu commit.
 **Gate**: F.
 **Commit**: `feat(auth): protect routes with a global jwt guard`
@@ -321,7 +321,7 @@ T47 -> T48
 **Depends on**: T17
 **Reuses**: Factory sem init, metadata/schema dos endpoints existentes e filtro.
 **Requirement**: DOC-01, DOC-02, DOC-03, DOC-04, DOC-05, OPS-05.
-**Done when**: [ ] /docs e /docs-json públicos, bearerAuth; duas exportações idênticas sem DB/Redis; test:contract/docs:openapi reais; representação Standard Schema provada, fallback fino somente com falha documentada.
+**Done when**: [x] /docs e /docs-json públicos, bearerAuth; duas exportações idênticas sem DB/Redis; test:contract/docs:openapi reais; representação Standard Schema provada, fallback fino somente com falha documentada.
 **Tests**: Unit/contrato/HTTP U29/I31 parciais, >=5 casos de schemas, security, export offline/determinístico, exemplo e erro; endpoints de pedidos completam sete operações em T25.
 **Gate**: F e B da etapa.
 **Commit**: `feat(openapi): expose and export deterministic api contracts`
