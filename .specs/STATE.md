@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T27 concluídas, 27/53 tarefas concluídas.
-- **Completed**: T26 `17a9b69`. T27: OrdersDetailCache (módulo renomeado para CacheModule) com chave `naporta:v1:orders:{id}:detail`, envelope estrito {revision, data} validado pelo schema público de saída e pelo id, TTL de CACHE_TTL_SECONDS, get(id, revisão) que só devolve a revisão exata, falhas e payload inválido absorvidos como miss, contadores hits/misses/errors sem payload ou id. Provado também contra Redis real (TTL, expiração, entrada corrompida, namespace). Gate F verde: 272 unitários, e2e 1, integração 104, contrato 22, cobertura e build.
+- **Phase / Task**: T1–T28 concluídas, 28/53 tarefas concluídas.
+- **Completed**: T26–T27 commitadas (até `281153f`). T28: OrdersDetailReader aplicado ao GET de detalhe: consulta barata de existência ativa e revisão no PostgreSQL (404 sem tocar o cache), hit só da revisão exata sem carregar itens, miss carrega o snapshot e grava sob a revisão desse snapshot; Redis fora do ar, payload corrompido e entrada antiga viram leitura pelo banco. Provado com PostgreSQL e Redis reais: miss/hit idênticos e uma só leitura de itens, TTL, entrada de revisão antiga ignorada, escrita tardia de um GET antigo após PATCH não serve dado velho, exclusão não é ressuscitada, 404/lista/login não criam chaves, contadores, Redis indisponível. Gate F verde: 277 unitários, e2e 1, integração 112, contrato 22, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T28 (cache-aside no GET de detalhe).
+- **Next step**: T29 (invalidação após PATCH commitado).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-cache.

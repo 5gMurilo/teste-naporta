@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T27 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T28 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -435,7 +435,7 @@ T47 -> T48
 **Depends on**: T27
 **Reuses**: Service/repository/presenter existentes e cache; projeção de revisão ativa.
 **Requirement**: CACHE-01, CACHE-02, CACHE-04, CACHE-05, CACHE-06, CACHE-07, CACHE-08, ORDER-10, QA-08.
-**Done when**: [ ] Miss preenche, hit da revisão atual não lê itens; entrada antiga/excluída/erro não serve dado não autorizado; banco fora não autoriza cache cego; lista/login/404 não geram entrada.
+**Done when**: [x] Miss preenche, hit da revisão atual não lê itens; entrada antiga/excluída/erro não serve dado não autorizado; banco fora não autoriza cache cego; lista/login/404 não geram entrada.
 **Tests**: Unit + HTTP/PG/Redis U24/U25/U27/I23/I24/I27/I29/I30, >=9 cenários, snapshot/repopulação antiga com barreiras e respostas miss/hit equivalentes.
 **Gate**: F.
 **Commit**: `feat(cache): serve revision-checked order detail cache hits`

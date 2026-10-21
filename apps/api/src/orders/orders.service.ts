@@ -46,4 +46,11 @@ export class OrdersService {
   async delete(id: string): Promise<void> {
     if (!(await this.repository.softDeleteActive(id))) throw new OrderNotFoundError();
   }
+
+  /** Active existence and revision; the answer that decides whether a cached detail may be served. */
+  async getActiveRevision(id: string): Promise<number> {
+    const revision = await this.repository.findActiveRevision(id);
+    if (revision === null) throw new OrderNotFoundError();
+    return revision;
+  }
 }
