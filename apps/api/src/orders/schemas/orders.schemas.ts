@@ -33,14 +33,14 @@ const text = (max: number) => z.string().trim().min(1).max(max);
 
 const orderStatus = z.enum(Object.values(OrderStatus) as [OrderStatus, ...OrderStatus[]]);
 
-const customerSchema = z
+export const customerSchema = z
   .strictObject({
     name: text(160).meta({ example: 'Ana Silva' }),
     document: text(32).meta({ description: 'Free-form document; no CPF/CNPJ algorithm.' }),
   })
   .meta({ id: 'Customer' });
 
-const deliveryAddressSchema = z
+export const deliveryAddressSchema = z
   .strictObject({
     street: text(160),
     number: text(20),

@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T18 concluídas, 18/53 tarefas concluídas.
-- **Completed**: T11–T17 commitadas (até `d4ef683`). T18: Swagger UI em `/docs` e JSON em `/docs-json` (públicos, fora dos controllers), esquema `bearerAuth`, GET / excluído do contrato, schemas ProblemDetails/ValidationProblemDetails/FieldError nomeados, documento com chaves ordenadas e export offline em `docs/openapi.json` (`pnpm docs:openapi` e `docs:openapi:check`, via build compilado com DATABASE_URL sintética). `test:contract` real (`test/contract/*.contract-spec.ts`). O loader ts-node/esm não resolve `@nestjs/swagger` (gera `.js.js`), então `dev` passou a compilar com tsc --watch e rodar `node --watch dist/main.js`. Gate F e B da etapa 3 verdes pelos comandos da raiz: lint, format:check, typecheck, build, test:unit (116), test:contract (7), e2e (1), integração (22), cobertura, docs:openapi:check.
+- **Phase / Task**: T1–T20 concluídas, 20/53 tarefas concluídas.
+- **Completed**: Phase 3 encerrada em `bfb5702` (branch feat/naporta-security). Branch feat/naporta-orders criada dela. T19 `1c576ab`: schemas Zod estritos de pedidos (create, PATCH, query, id) com testes U08–U13 e contrato de entrada. T20: schemas de saída (OrderResponse, OrderSummaryResponse, ListOrdersResponse), projeções Prisma por select e `OrderPresenter` (DATE por partes UTC, soma, totalPages) com testes U19/U20 em quatro fusos e contrato de saída. Gate F verde: 222 unitários, e2e 1, integração 22, contrato 12, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T19 (Phase 4, branch feat/naporta-orders a partir de feat/naporta-security) — exige nova autorização; Phase 3 encerrada.
+- **Next step**: T21 (POST /api/v1/orders, repository, service, controller).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-security.
+- **Branch**: feat/naporta-orders.
