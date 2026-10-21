@@ -16,6 +16,8 @@
 		"test:e2e": "turbo run test:e2e",
 		"test:e2e:web": "turbo run test:e2e:web",
 		"test:containers": "node scripts/test-containers.mjs",
+		"test:scripts": "node --test scripts/*.test.mjs",
+		"check": "node scripts/check.mjs",
 		"test:integration": "turbo run test:integration",
 		"prisma:generate": "turbo run prisma:generate",
 		"prisma:validate": "turbo run prisma:validate",

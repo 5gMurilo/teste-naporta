@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T50 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T51 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -696,7 +696,7 @@ T47 -> T48
 **Depends on**: T50
 **Reuses**: Todos os scripts/provas já implementados; nada de concentrar testes funcionais ausentes aqui.
 **Requirement**: OPS-05, QA-05, QA-06, MONO-03, DOC-05.
-**Done when**: [ ] check encadeia todas as provas exigidas e propaga falha de cada etapa; cobertura real 80/70 por app; OpenAPI versionado sem drift; testes infra sempre executados; registrar comandos/exit codes, não promessa de sucesso.
+**Done when**: [x] check encadeia todas as provas exigidas e propaga falha de cada etapa; cobertura real 80/70 por app; OpenAPI versionado sem drift; testes infra sempre executados; registrar comandos/exit codes, não promessa de sucesso.
 **Tests**: Estruturais/agregador + gate real completo, >=3 provas de falha propagada/sem cache/coverage gate e todas as suites preservadas.
 **Gate**: A; se Docker/browser indisponível, tarefa fica aberta.
 **Commit**: `build(quality): enforce complete delivery verification gates`

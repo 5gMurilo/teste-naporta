@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T50 concluídas, 50/53 tarefas concluídas.
-- **Completed**: T48 `cc5d430`, T49 `0f46dd5`. T50: docker-compose.yml com postgres (mesmo nome de volume postgres_data, healthcheck, porta em 127.0.0.1 configurável), redis (sem porta publicada e sem persistência), migrate (job único, o API só inicia após service_completed_successfully), api e web (health antes do tráfego, portas só em loopback) e o perfil tools com seed explícito (target seed do Dockerfile da API; nada de seed automático). JWT_SECRET vazio faz o API parar com 'API startup failed: Invalid environment fields: JWT_SECRET' (novo ConfigError só com nomes de variável), sem segredo padrão. 10 testes de Compose com projeto, volumes e portas exclusivos, que nunca tocam o projeto da pessoa: config inválida, migrate antes da API, só loopback e Redis sem exposição/persistência, zero dados no start, seed explícito e login/criação pelo proxy, rota profunda e erros JSON, docs e health, Redis reiniciado/parado/de volta (cache perdido sem afetar dados nem travar), down/up conservando o volume e o pedido, e Chromium entrando pela stack real. Gates C e H verdes: container tests api (7) e stack (10), regressão completa.
+- **Phase / Task**: T1–T51 concluídas, 51/53 tarefas concluídas.
+- **Completed**: T48 `cc5d430`, T49 `0f46dd5`, T50 `f739c32`. T51: `pnpm check` (scripts/check.mjs + scripts/lib/run-steps.mjs) encadeia lint, format:check, typecheck, test:scripts, build, test:unit, test:contract, docs:openapi:check, test:coverage, test:e2e, test:integration, test:e2e:web e test:containers, para na primeira falha (ou segue com --keep-going) e sempre termina com código diferente de zero se qualquer etapa falhar ou for pulada, listando cada etapa com seu exit code; um comando que nem inicia conta como falha. Os test:* e lint não têm cache no Turbo. 7 testes do agregador (cobertura dos gates exigidos, parada na primeira falha, --keep-going, sucesso só com todos zero, comando inexistente, turbo sem cache, thresholds 80/70). Gate A real: pnpm check completo em exit 0 (lint, format, typecheck, scripts, build, unit, contrato, drift do OpenAPI, cobertura, e2e, integração, e2e web, containers).
 - **In-progress**: Nada.
-- **Next step**: T51 (agregador de qualidade pnpm check).
+- **Next step**: T52 (docs/decisions.md).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-delivery.
