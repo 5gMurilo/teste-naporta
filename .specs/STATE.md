@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T28 concluídas, 28/53 tarefas concluídas.
-- **Completed**: T26–T27 commitadas (até `281153f`). T28: OrdersDetailReader aplicado ao GET de detalhe: consulta barata de existência ativa e revisão no PostgreSQL (404 sem tocar o cache), hit só da revisão exata sem carregar itens, miss carrega o snapshot e grava sob a revisão desse snapshot; Redis fora do ar, payload corrompido e entrada antiga viram leitura pelo banco. Provado com PostgreSQL e Redis reais: miss/hit idênticos e uma só leitura de itens, TTL, entrada de revisão antiga ignorada, escrita tardia de um GET antigo após PATCH não serve dado velho, exclusão não é ressuscitada, 404/lista/login não criam chaves, contadores, Redis indisponível. Gate F verde: 277 unitários, e2e 1, integração 112, contrato 22, cobertura e build.
+- **Phase / Task**: T1–T29 concluídas, 29/53 tarefas concluídas.
+- **Completed**: T26–T28 commitadas (até `6228857`); `63c753a` ignora .omc no biome e git. T29: OrdersService.patch tenta DEL do detalhe somente depois do commit da transação (nunca dentro dela), sem invalidar em rollback, 404, 400 ou 409; falha de DEL é absorvida e não muda o 200. Provado com PostgreSQL e Redis reais: entrada removida e próximo GET traz dados e revisão novos, rollback por trigger mantém a entrada válida, DEL que falha não permite servir dado velho (revisão incompatível). Também: sonda de porta no host nos contextos de teste (Postgres e Redis), porque o runtime de containers às vezes reporta pronto antes de a porta publicada aceitar conexões (causava falha intermitente do beforeAll). Gate F verde: 281 unitários, e2e 1, integração 116, contrato 22, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T29 (invalidação após PATCH commitado).
+- **Next step**: T30 (invalidação após DELETE; fecha a etapa 5 com gate B).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-cache.

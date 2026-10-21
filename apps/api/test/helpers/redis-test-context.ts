@@ -1,5 +1,6 @@
 import { RedisContainer, type StartedRedisContainer } from '@testcontainers/redis';
 import { createClient } from 'redis';
+import { waitForPort } from './wait-for-port.js';
 
 export const CACHE_NAMESPACE = 'naporta:';
 
@@ -53,6 +54,7 @@ export async function createRedisTestContext(
       options.startContainer ?? (() => new RedisContainer('redis:7-alpine').start())
     )();
     const redisUrl = container.getConnectionUrl();
+    if (!options.startContainer) await waitForPort(redisUrl);
     environment.REDIS_URL = redisUrl;
     return {
       redisUrl,

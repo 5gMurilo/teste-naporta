@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T28 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T29 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -446,7 +446,7 @@ T47 -> T48
 **Depends on**: T28
 **Reuses**: OrdersDetailCache.invalidate e revisão atômica existente.
 **Requirement**: CACHE-03, CACHE-04, CACHE-05, ORDER-12, QA-08.
-**Done when**: [ ] Sucesso tenta DEL após commit; rollback não o faz; DEL falho não muda sucesso do banco; próximo GET vê dado novo mesmo com entrada antiga recuperada.
+**Done when**: [x] Sucesso tenta DEL após commit; rollback não o faz; DEL falho não muda sucesso do banco; próximo GET vê dado novo mesmo com entrada antiga recuperada.
 **Tests**: Unit + HTTP/PG/Redis U26/I25/I28/I29, >=5 cenários incluindo falha de DEL e GET antigo gravando após invalidação.
 **Gate**: F.
 **Commit**: `feat(cache): invalidate order details after committed patches`

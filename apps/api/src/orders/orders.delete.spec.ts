@@ -1,8 +1,13 @@
 import { jest } from '@jest/globals';
+import type { OrdersDetailCache } from '../cache/orders-detail.cache.js';
 import { OrderNotFoundError } from '../common/errors/domain-errors.js';
 import type { PrismaService } from '../prisma/prisma.service.js';
 import { OrdersRepository } from './orders.repository.js';
 import { OrdersService } from './orders.service.js';
+
+const noCache = {
+  invalidate: jest.fn(async (_id: string) => undefined),
+} as unknown as OrdersDetailCache;
 
 describe('soft delete (U17)', () => {
   function repositoryWith(count: number) {
@@ -28,12 +33,18 @@ describe('soft delete (U17)', () => {
   });
 
   it('resolves silently for count 1 and raises ORDER_NOT_FOUND for count 0', async () => {
-    const ok = new OrdersService({
-      softDeleteActive: jest.fn(async () => true),
-    } as unknown as OrdersRepository);
-    const none = new OrdersService({
-      softDeleteActive: jest.fn(async () => false),
-    } as unknown as OrdersRepository);
+    const ok = new OrdersService(
+      {
+        softDeleteActive: jest.fn(async () => true),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
+    const none = new OrdersService(
+      {
+        softDeleteActive: jest.fn(async () => false),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
 
     await expect(ok.delete('id')).resolves.toBeUndefined();
     await expect(none.delete('id')).rejects.toBeInstanceOf(OrderNotFoundError);

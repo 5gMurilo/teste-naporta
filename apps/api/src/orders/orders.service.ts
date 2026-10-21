@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { OrdersDetailCache } from '../cache/orders-detail.cache.js';
 import { OrderNotFoundError } from '../common/errors/domain-errors.js';
 import { mapPrismaError } from '../common/errors/prisma-error.mapper.js';
 import type {
@@ -15,7 +16,10 @@ import type {
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly repository: OrdersRepository) {}
+  constructor(
+    private readonly repository: OrdersRepository,
+    private readonly cache: OrdersDetailCache,
+  ) {}
 
   async create(request: CreateOrderRequest): Promise<OrderDetailModel> {
     try {
@@ -36,11 +40,16 @@ export class OrdersService {
   }
 
   async patch(id: string, changes: UpdateOrderRequest): Promise<OrderDetailModel> {
+    let order: OrderDetailModel;
     try {
-      return await this.repository.patchActive(id, changes);
+      order = await this.repository.patchActive(id, changes);
     } catch (error) {
       throw mapPrismaError(error);
     }
+    // Only after the transaction committed, and never inside it: the entry is already stale at
+    // this point (its revision is behind), so a failed DEL costs hit rate, not correctness.
+    await this.cache.invalidate(id);
+    return order;
   }
 
   async delete(id: string): Promise<void> {

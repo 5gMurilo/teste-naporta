@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Client } from 'pg';
+import { waitForPort } from './wait-for-port.js';
 
 const configKeys = [
   'NODE_ENV',
@@ -79,6 +80,7 @@ export async function createPostgresTestContext(
     )();
 
     const databaseUrl = container.getConnectionUri();
+    if (!options.startContainer) await waitForPort(databaseUrl);
     environment.DATABASE_URL = databaseUrl;
     environment.NODE_ENV = 'test';
     environment.JWT_SECRET = 'integration-test-secret-with-32-chars';
