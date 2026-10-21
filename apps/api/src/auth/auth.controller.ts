@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../common/decorators/public.decorator.js';
 import { ProblemDetailsDto, problemJsonContent } from '../common/errors/problem-details.dto.js';
 import {
   type LoginRequest,
@@ -20,6 +21,7 @@ const problem = (status: number, title: string, code: string, detail: string) =>
     requestId: '5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10',
   });
 
+@Public()
 @ApiTags('auth')
 @ApiExtraModels(ProblemDetailsDto)
 @Controller('api/v1/auth')

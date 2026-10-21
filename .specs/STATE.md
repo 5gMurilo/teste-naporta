@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T15 concluídas, 15/53 tarefas concluídas.
-- **Completed**: T11–T14 commitadas (até `5214dd8`). T15: `POST /api/v1/auth/login` (AuthModule/Controller/Service) com schema Zod estrito (`@Body({schema})` + `StandardSchemaValidationPipe` global), argon2 verify com hash descartável para email desconhecido, JWT HS256 (sub, email, iat, exp, iss, aud) via `@nestjs/jwt` 12.0.3, `InvalidCredentialsError` 401. Contrato OpenAPI do login gerado com `SwaggerModule.createDocument` e verificado em `login.contract.spec.ts`. Gate F verde: 90 unitários, e2e 1, integração 20, cobertura e build.
+- **Phase / Task**: T1–T16 concluídas, 16/53 tarefas concluídas.
+- **Completed**: T11–T15 commitadas (até `bf701da`). T16: `@Public()` (`IS_PUBLIC_KEY`, SetMetadata) aplicado nas classes AuthController e HealthController; testes de metadata em método, classe e ausência no AppController. Gate F verde: 93 unitários, e2e 1, integração 20, cobertura e build. O bypass real entra com o guard em T17.
 - **In-progress**: Nada.
-- **Next step**: T16 (@Public).
+- **Next step**: T17 (JwtAuthGuard global).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.

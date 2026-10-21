@@ -1,8 +1,10 @@
 import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../common/decorators/public.decorator.js';
 import { ProblemDetailsDto, problemJsonContent } from '../common/errors/problem-details.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 
+@Public()
 @ApiTags('health')
 @ApiExtraModels(ProblemDetailsDto)
 @Controller('api/v1/health')

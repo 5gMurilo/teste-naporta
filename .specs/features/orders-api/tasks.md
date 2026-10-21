@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T15 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T16 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -299,7 +299,7 @@ T47 -> T48
 **Depends on**: T15
 **Reuses**: SetMetadata/Reflector; duas exceções definidas na spec.
 **Requirement**: AUTH-05, AUTH-06.
-**Done when**: [ ] Metadata testada em método/classe, login/health públicos e controller legado sem metadata; não criar @CurrentUser sem consumidor.
+**Done when**: [x] Metadata testada em método/classe, login/health públicos e controller legado sem metadata; não criar @CurrentUser sem consumidor.
 **Tests**: Unit/metadata U06, >=3 casos de método, classe e ausência; bypass real entra junto do guard em T17.
 **Gate**: Q.
 **Commit**: `feat(auth): mark explicit public http operations`
