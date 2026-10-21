@@ -105,4 +105,32 @@ describe('pnpm check aggregator (OPS-05, QA-05, QA-06, MONO-03, DOC-05)', () => 
     assert.match(read('apps/web/vite.config.ts'), /thresholds: \{ lines: 80, branches: 70 \}/);
     assert.match(read('apps/api/package.json'), /"docs:openapi:check"/);
   });
+
+  it('exposes every script named in the delivery specification at the repository root', () => {
+    for (const script of [
+      'dev',
+      'build',
+      'start:prod',
+      'db:generate',
+      'db:migrate:dev',
+      'db:migrate:deploy',
+      'db:seed',
+      'docs:openapi',
+      'lint',
+      'format',
+      'format:check',
+      'typecheck',
+      'test:unit',
+      'test:integration',
+      'test:e2e:web',
+      'test:containers',
+      'test:coverage',
+      'check',
+    ]) {
+      assert.equal(typeof rootPackage.scripts[script], 'string', `root script ${script} is missing`);
+    }
+    for (const task of ['db:generate', 'db:migrate:deploy', 'start:prod']) {
+      assert.equal(turbo.tasks[task]?.cache, false, `${task} must not be cached`);
+    }
+  });
 });
