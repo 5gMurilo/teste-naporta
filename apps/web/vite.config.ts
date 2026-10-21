@@ -26,6 +26,7 @@ export default defineConfig({
       exclude: [
         'src/**/*.test.{ts,tsx}',
         'src/main.tsx',
+        'src/test-utils/**',
         'src/vite-env.d.ts',
         // Vendored shadcn/ui primitives: generated code, exercised through the app's own components.
         'src/components/ui/**',

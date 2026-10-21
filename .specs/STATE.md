@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T33 concluídas, 33/53 tarefas concluídas.
-- **Completed**: T31 `726b3ae`, T32 `c7f396a`. T33: SessionProvider/useSession com token só em ref (sem storage, cookie ou URL), login que descarta o resultado se a sessão mudou no meio, logout e 401 abortam toda requisição pendente via sinal de sessão (resposta tardia não repovoa a UI), 401 marca sessão expirada, credencial errada não, novo mount sempre anônimo. Gate W verde: 39 testes web, 100% linhas / 88,7% branches.
+- **Phase / Task**: T1–T34 concluídas, 34/53 tarefas concluídas.
+- **Completed**: T31–T33 commitadas (até `d5ef3da`). T34: rotas declarativas com React Router 8.5.0 (BrowserRouter no App, MemoryRouter nos testes): ProtectedRoute redireciona visitante ao /login, / redireciona conforme a sessão, /login redireciona autenticado para /orders, AppLayout com link de pular conteúdo, banner, navegação rotulada, e-mail, botão Sair (shadcn Button; import utils corrigido) e main focável que recebe o foco a cada navegação, página 404 dentro do layout. /login é um placeholder honesto até T37 e /orders um shell até T38; nenhuma página CRUD falsa. test-utils/render-app com API fake reutilizável. Gate W verde: 45 testes web.
 - **In-progress**: Nada.
-- **Next step**: T34 (rotas protegidas e layout).
+- **Next step**: T35 (estados assíncronos visuais).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-platform.
