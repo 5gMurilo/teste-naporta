@@ -92,6 +92,46 @@ describe('loadApiConfig', () => {
     );
   });
 
+  it('defaults the login rate variables to 5, 60 and 0', () => {
+    expect(loadApiConfig(validApiEnv())).toMatchObject({
+      LOGIN_RATE_LIMIT: 5,
+      LOGIN_RATE_TTL_SECONDS: 60,
+      TRUST_PROXY_HOPS: 0,
+    });
+  });
+
+  it.each([
+    ['LOGIN_RATE_LIMIT', '0'],
+    ['LOGIN_RATE_LIMIT', '-1'],
+    ['LOGIN_RATE_LIMIT', '1.5'],
+    ['LOGIN_RATE_LIMIT', ''],
+    ['LOGIN_RATE_LIMIT', 'abc'],
+    ['LOGIN_RATE_TTL_SECONDS', '0'],
+    ['LOGIN_RATE_TTL_SECONDS', '-1'],
+    ['LOGIN_RATE_TTL_SECONDS', '1.5'],
+    ['LOGIN_RATE_TTL_SECONDS', ''],
+    ['LOGIN_RATE_TTL_SECONDS', 'abc'],
+    ['TRUST_PROXY_HOPS', '-1'],
+    ['TRUST_PROXY_HOPS', '1.5'],
+    ['TRUST_PROXY_HOPS', 'abc'],
+  ])('rejects invalid login rate variables naming only the variable: %s=%j', (name, value) => {
+    const attempt = () => loadApiConfig({ ...validApiEnv(), [name]: value });
+
+    expect(attempt).toThrow(`Invalid environment fields: ${name}`);
+    if (value) expect(attempt).not.toThrow(new RegExp(value.replace('.', '\\.')));
+  });
+
+  it('accepts zero hops and positive login limits', () => {
+    expect(
+      loadApiConfig({
+        ...validApiEnv(),
+        TRUST_PROXY_HOPS: '0',
+        LOGIN_RATE_LIMIT: '1000',
+        LOGIN_RATE_TTL_SECONDS: '1',
+      }),
+    ).toMatchObject({ TRUST_PROXY_HOPS: 0, LOGIN_RATE_LIMIT: 1000, LOGIN_RATE_TTL_SECONDS: 1 });
+  });
+
   it('does not include invalid secret values in errors', () => {
     const sentinel = 'sentinel-secret-value';
     let message = '';
