@@ -131,4 +131,13 @@ export class OrdersRepository {
     });
     return count === 1;
   }
+
+  /** Cheapest possible existence and version check: one indexed row, no items, no payload. */
+  async findActiveRevision(id: string): Promise<number | null> {
+    const order = await this.prisma.order.findFirst({
+      where: { id, deletedAt: null },
+      select: { cacheRevision: true },
+    });
+    return order?.cacheRevision ?? null;
+  }
 }

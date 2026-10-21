@@ -21,7 +21,7 @@ describe('POST /api/v1/auth/login OpenAPI contract', () => {
             JWT_ISSUER: 'naporta',
             JWT_AUDIENCE: 'naporta-web',
             JWT_EXPIRES_IN: '3600',
-            REDIS_URL: 'redis://localhost:6379',
+            REDIS_URL: 'redis://127.0.0.1:1',
           }),
         ),
       ],

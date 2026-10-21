@@ -27,6 +27,7 @@ import {
   orderResponseSchema,
 } from './dto/order.responses.js';
 import { OrdersService } from './orders.service.js';
+import { OrdersDetailReader } from './orders-detail.reader.js';
 import {
   type CreateOrderRequest,
   createOrderRequestSchema,
@@ -51,7 +52,10 @@ const problem = (
 @ApiExtraModels(ProblemDetailsDto, ValidationProblemDetailsDto)
 @Controller('api/v1/orders')
 export class OrdersController {
-  constructor(private readonly orders: OrdersService) {}
+  constructor(
+    private readonly orders: OrdersService,
+    private readonly detailReader: OrdersDetailReader,
+  ) {}
 
   @Post()
   @ApiResponse({
@@ -238,7 +242,7 @@ export class OrdersController {
   async detail(
     @Param({ schema: orderParamsSchema }) params: z.output<typeof orderParamsSchema>,
   ): Promise<OrderResponse> {
-    return OrderPresenter.detail(await this.orders.getActiveSnapshot(params.id));
+    return this.detailReader.read(params.id);
   }
 
   @Patch(':id')

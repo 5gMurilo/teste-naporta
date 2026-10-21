@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { Client } from 'pg';
+import { waitForPort } from './wait-for-port.js';
 
 const configKeys = [
   'NODE_ENV',
@@ -79,13 +80,14 @@ export async function createPostgresTestContext(
     )();
 
     const databaseUrl = container.getConnectionUri();
+    if (!options.startContainer) await waitForPort(databaseUrl);
     environment.DATABASE_URL = databaseUrl;
     environment.NODE_ENV = 'test';
     environment.JWT_SECRET = 'integration-test-secret-with-32-chars';
     environment.JWT_ISSUER = 'naporta-test';
     environment.JWT_AUDIENCE = 'naporta-test-client';
     environment.JWT_EXPIRES_IN = '3600';
-    environment.REDIS_URL = 'redis://localhost:6379';
+    environment.REDIS_URL = 'redis://127.0.0.1:1';
     delete environment.CACHE_TTL_SECONDS;
     delete environment.CACHE_TIMEOUT_MS;
 

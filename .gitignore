@@ -3,6 +3,7 @@ dist/
 apps/*/dist/
 coverage/
 .turbo/
+.omc/
 .env
 src/generated/prisma/
 apps/api/src/generated/prisma/

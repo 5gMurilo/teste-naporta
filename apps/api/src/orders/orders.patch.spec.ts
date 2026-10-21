@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import type { OrdersDetailCache } from '../cache/orders-detail.cache.js';
 import { OrderNotFoundError } from '../common/errors/domain-errors.js';
 import { Prisma } from '../generated/prisma/client.js';
 import type { PrismaService } from '../prisma/prisma.service.js';
@@ -6,6 +7,10 @@ import type { OrderDetailModel } from './orders.projections.js';
 import { OrdersRepository } from './orders.repository.js';
 import { OrdersService } from './orders.service.js';
 import { updateOrderRequestSchema } from './schemas/orders.schemas.js';
+
+const noCache = {
+  invalidate: jest.fn(async (_id: string) => undefined),
+} as unknown as OrdersDetailCache;
 
 const address = {
   street: 's',
@@ -134,9 +139,12 @@ describe('OrdersService.patch', () => {
         },
       },
     });
-    const service = new OrdersService({
-      patchActive: jest.fn(async () => Promise.reject(violation)),
-    } as unknown as OrdersRepository);
+    const service = new OrdersService(
+      {
+        patchActive: jest.fn(async () => Promise.reject(violation)),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
 
     await expect(service.patch('id', { status: 'SHIPPED' })).rejects.toMatchObject({
       code: 'ORDER_NUMBER_ALREADY_EXISTS',
@@ -145,12 +153,18 @@ describe('OrdersService.patch', () => {
 
   it('returns the repository result and lets other domain errors through', async () => {
     const found = { id: 'x' } as OrderDetailModel;
-    const ok = new OrdersService({
-      patchActive: jest.fn(async () => found),
-    } as unknown as OrdersRepository);
-    const missing = new OrdersService({
-      patchActive: jest.fn(async () => Promise.reject(new OrderNotFoundError())),
-    } as unknown as OrdersRepository);
+    const ok = new OrdersService(
+      {
+        patchActive: jest.fn(async () => found),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
+    const missing = new OrdersService(
+      {
+        patchActive: jest.fn(async () => Promise.reject(new OrderNotFoundError())),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
 
     await expect(ok.patch('id', { status: 'SHIPPED' })).resolves.toBe(found);
     await expect(missing.patch('id', { status: 'SHIPPED' })).rejects.toBeInstanceOf(

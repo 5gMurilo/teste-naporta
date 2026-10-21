@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T25 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T30 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -413,7 +413,7 @@ T47 -> T48
 **Depends on**: T25
 **Reuses**: Config, lifecycle/harness PostgreSQL; cliente node-redis compatível com Node escolhido.
 **Requirement**: CACHE-04, CACHE-08, QA-02, QA-03, QA-08.
-**Done when**: [ ] Startup fail-open, ready/offline queue explícitos, deadline de conexão/comando, error handler seguro e close; helper isola/limpa namespace exclusivo por teste, encerra Redis e restaura env até em falha parcial.
+**Done when**: [x] Startup fail-open, ready/offline queue explícitos, deadline de conexão/comando, error handler seguro e close; helper isola/limpa namespace exclusivo por teste, encerra Redis e restaura env até em falha parcial.
 **Tests**: Unit + Redis real, U02/U25/I27/I32, >=6 casos de conexão, timeout, indisponibilidade, cleanup e env; nenhuma fila tardia sem controle.
 **Gate**: F.
 **Commit**: `feat(cache): manage bounded redis operations safely`
@@ -424,7 +424,7 @@ T47 -> T48
 **Depends on**: T26
 **Reuses**: RedisService, schema público de saída; envelope interno revision/data.
 **Requirement**: CACHE-01, CACHE-04, CACHE-06, CACHE-07, CACHE-08.
-**Done when**: [ ] GET/SET/DEL finitos, TTL padrão 60, id/revisão/shape validados; payload inválido vira miss; erro não escapa para API; logs/keys sem PII.
+**Done when**: [x] GET/SET/DEL finitos, TTL padrão 60, id/revisão/shape validados; payload inválido vira miss; erro não escapa para API; logs/keys sem PII.
 **Tests**: Unit + Redis real U24/U25/U28/I24/I30, >=7 casos de roundtrip, TTL, codec inválido/id errado, erro e contadores.
 **Gate**: F.
 **Commit**: `feat(cache): encode versioned expiring order detail entries`
@@ -435,7 +435,7 @@ T47 -> T48
 **Depends on**: T27
 **Reuses**: Service/repository/presenter existentes e cache; projeção de revisão ativa.
 **Requirement**: CACHE-01, CACHE-02, CACHE-04, CACHE-05, CACHE-06, CACHE-07, CACHE-08, ORDER-10, QA-08.
-**Done when**: [ ] Miss preenche, hit da revisão atual não lê itens; entrada antiga/excluída/erro não serve dado não autorizado; banco fora não autoriza cache cego; lista/login/404 não geram entrada.
+**Done when**: [x] Miss preenche, hit da revisão atual não lê itens; entrada antiga/excluída/erro não serve dado não autorizado; banco fora não autoriza cache cego; lista/login/404 não geram entrada.
 **Tests**: Unit + HTTP/PG/Redis U24/U25/U27/I23/I24/I27/I29/I30, >=9 cenários, snapshot/repopulação antiga com barreiras e respostas miss/hit equivalentes.
 **Gate**: F.
 **Commit**: `feat(cache): serve revision-checked order detail cache hits`
@@ -446,7 +446,7 @@ T47 -> T48
 **Depends on**: T28
 **Reuses**: OrdersDetailCache.invalidate e revisão atômica existente.
 **Requirement**: CACHE-03, CACHE-04, CACHE-05, ORDER-12, QA-08.
-**Done when**: [ ] Sucesso tenta DEL após commit; rollback não o faz; DEL falho não muda sucesso do banco; próximo GET vê dado novo mesmo com entrada antiga recuperada.
+**Done when**: [x] Sucesso tenta DEL após commit; rollback não o faz; DEL falho não muda sucesso do banco; próximo GET vê dado novo mesmo com entrada antiga recuperada.
 **Tests**: Unit + HTTP/PG/Redis U26/I25/I28/I29, >=5 cenários incluindo falha de DEL e GET antigo gravando após invalidação.
 **Gate**: F.
 **Commit**: `feat(cache): invalidate order details after committed patches`
@@ -457,7 +457,7 @@ T47 -> T48
 **Depends on**: T29
 **Reuses**: Mesma operação concreta de invalidação, guard de atividade/revisão no reader.
 **Requirement**: CACHE-03, CACHE-04, CACHE-05, CACHE-06, ORDER-09, ORDER-10, QA-08.
-**Done when**: [ ] Após DELETE, GET novo 404 mesmo se DEL falhar/GET antigo repopular; não cachear ausência; contadores e cleanup seguros; nenhuma mudança de semântica pública.
+**Done when**: [x] Após DELETE, GET novo 404 mesmo se DEL falhar/GET antigo repopular; não cachear ausência; contadores e cleanup seguros; nenhuma mudança de semântica pública.
 **Tests**: Unit + HTTP/PG/Redis U26/U27/I26/I28/I29/I30, >=5 cenários de exclusão, cache antigo e falha de Redis.
 **Gate**: F e B da etapa.
 **Commit**: `feat(cache): invalidate deleted orders without stale resurrection`

@@ -59,7 +59,7 @@ Hoje `.gitignore` ignora toda `.specs/`. T1 planeja exceções seletivas para o 
 | 2 | A obter após etapa 1 | Ainda não criado | Não executado | Not started |
 | 3 | da928ff (etapa 2 validada) | bfb5702 | Gate B da etapa verificado pelos comandos da raiz | Done |
 | 4 | bfb5702 (etapa 3 validada) | 7048fb4 | Gate B da etapa pelos comandos da raiz | Done |
-| 5 | A obter após etapa 4 | Ainda não criado | Não executado | Not started |
+| 5 | 7048fb4 (etapa 4 validada; ad7868e registra) | 3cd9798 | Gate B da etapa pelos comandos da raiz | Done |
 | 6 | A obter após etapa 5 | Ainda não criado | Não executado | Not started |
 | 7 | A obter após etapa 6 | Ainda não criado | Não executado | Not started |
 | 8 | A obter após etapa 7 | Ainda não criado | Não executado | Not started |

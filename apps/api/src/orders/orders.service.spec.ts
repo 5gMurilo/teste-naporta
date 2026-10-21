@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import type { OrdersDetailCache } from '../cache/orders-detail.cache.js';
 import {
   OrderNotFoundError,
   OrderNumberAlreadyExistsError,
@@ -8,6 +9,10 @@ import type { OrderDetailModel } from './orders.projections.js';
 import type { NewOrder, OrdersRepository } from './orders.repository.js';
 import { OrdersService } from './orders.service.js';
 import { createOrderRequestSchema } from './schemas/orders.schemas.js';
+
+const noCache = {
+  invalidate: jest.fn(async (_id: string) => undefined),
+} as unknown as OrdersDetailCache;
 
 const request = createOrderRequestSchema.parse({
   orderNumber: 'NP-1',
@@ -25,7 +30,7 @@ const request = createOrderRequestSchema.parse({
 });
 
 function service(create: jest.Mock<(order: NewOrder) => Promise<OrderDetailModel>>) {
-  return new OrdersService({ create } as unknown as OrdersRepository);
+  return new OrdersService({ create } as unknown as OrdersRepository, noCache);
 }
 
 describe('OrdersService.create (U14)', () => {
@@ -77,9 +82,12 @@ describe('OrdersService.create (U14)', () => {
 
 describe('OrdersService.getActiveSnapshot (U15)', () => {
   const repo = (found: unknown) =>
-    new OrdersService({
-      findActiveSnapshot: jest.fn(async () => found),
-    } as unknown as OrdersRepository);
+    new OrdersService(
+      {
+        findActiveSnapshot: jest.fn(async () => found),
+      } as unknown as OrdersRepository,
+      noCache,
+    );
 
   it('returns the active projection', async () => {
     const snapshot = { id: 'a', cacheRevision: 3 };
