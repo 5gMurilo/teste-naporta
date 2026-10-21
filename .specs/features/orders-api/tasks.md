@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T34 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T35 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -514,7 +514,7 @@ T47 -> T48
 **Depends on**: T34
 **Reuses**: Primitives shadcn e mensagens seguras do HTTP client.
 **Requirement**: WEB-09, WEB-10.
-**Done when**: [ ] Estados mutuamente corretos, retry acionável por teclado, sem exibir payload sensível ou anunciar sucesso em erro; login mantém comportamento específico de formulário.
+**Done when**: [x] Estados mutuamente corretos, retry acionável por teclado, sem exibir payload sensível ou anunciar sucesso em erro; login mantém comportamento específico de formulário.
 **Tests**: Componentes U33/U35, >=4 casos de loading/vazio/erro/retry com nomes acessíveis.
 **Gate**: W.
 **Commit**: `feat(web): expose accessible asynchronous view states`
