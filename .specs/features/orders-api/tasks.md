@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **3 de 53 tarefas concluídas (T1–T3).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **4 de 53 tarefas concluídas (T1–T4).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
 
@@ -163,7 +163,7 @@ T47 -> T48
 **Depends on**: T3
 **Reuses**: Config Biome atual, suporte a parameter decorators e cuidado com DI/import-type.
 **Requirement**: BOOT-01, OPS-05, QA-06.
-**Done when**: [ ] LF, aspas simples TS, dois espaços e largura 100; src/testes não ignorados; apenas gerados/build/deps/coverage excluídos; nenhum unsafe autofix funcional indiscriminado.
+**Done when**: [x] LF, aspas simples TS, dois espaços e largura 100; src/testes não ignorados; apenas gerados/build/deps/coverage excluídos; nenhum unsafe autofix funcional indiscriminado.
 **Tests**: Regressão + >=3 verificações de configuração/formatação/escopo; suites preservadas após reformat.
 **Gate**: B.
 **Commit**: `style(tooling): enforce reviewed biome conventions`

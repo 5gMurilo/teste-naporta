@@ -1,7 +1,25 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
-	"files": { "includes": ["**", "!**/dist/**", "!**/generated/prisma/**"] },
-	"javascript": { "parser": { "unsafeParameterDecoratorsEnabled": true } },
+	"files": {
+		"includes": [
+			"**",
+			"!**/node_modules/**",
+			"!**/dist/**",
+			"!**/generated/**",
+			"!**/coverage/**",
+			"!**/.turbo/**"
+		]
+	},
+	"formatter": {
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 100
+	},
+	"javascript": {
+		"formatter": { "quoteStyle": "single" },
+		"parser": { "unsafeParameterDecoratorsEnabled": true }
+	},
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
 		"rules": {

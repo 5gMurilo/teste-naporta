@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 1 — Fundação; T1–T3 concluídas, T4 pendente; 3/53 tarefas concluídas.
-- **Completed**: T1 habilitou o tracking seletivo de `.specs/STATE.md` e `.specs/features/orders-api/**`; validadores estritos e verificações documentais passaram. T2 moveu a API para `apps/api`; instalação, Prisma, build, 15 testes de regressão e smoke Node compilado passaram. T3 adicionou Turbo, aliases/workspace checks e thresholds; cobertura atual 100% lines/branches, regressão e PostgreSQL real passaram.
+- **Phase / Task**: Phase 1 — Fundação; T1–T4 concluídas, T5 pendente; 4/53 tarefas concluídas.
+- **Completed**: T1 habilitou o tracking seletivo de `.specs/STATE.md` e `.specs/features/orders-api/**`; validadores estritos e verificações documentais passaram. T2 moveu a API para `apps/api`; instalação, Prisma, build, 15 testes de regressão e smoke Node compilado passaram. T3 adicionou Turbo, aliases/workspace checks e thresholds; cobertura atual 100% lines/branches, regressão e PostgreSQL real passaram. T4 fixou a política Biome e reformatou API/testes; gates de estilo, build e regressão passaram.
 - **In-progress**: Nenhuma tarefa em andamento entre commits.
-- **Next step**: Executar T4 (política Biome), gate B e commit atômico.
+- **Next step**: Executar T5 (configuração privada), gate Q e smoke de startup inválido.
 - **Blockers**: Nenhum conhecido. Prisma CLI exige `DATABASE_URL`; os gates usaram URL sintética sem segredos. pnpm em modo não interativo requer `CI=true` para reinstalar módulos após mudança de configuração.
 - **Uncommitted files**: Alterações da T2 em workspace, API relocada, lockfile, documentação e política de lint para os novos caminhos. Planos históricos permanecem ignorados.
 - **Branch**: feat/postgres-testcontainers, HEAD f039f21 na reconciliação. O snapshot anterior sobre main/ausência de Testcontainers estava desatualizado em relação ao git.

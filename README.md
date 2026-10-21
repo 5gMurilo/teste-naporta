@@ -43,7 +43,7 @@ Se a porta 5432 já estiver ocupada, libere-a ou ajuste explicitamente o mapeame
 ## Lint
 
 - `pnpm lint` - verifica sem alterar arquivos
-- `pnpm lint:fix` - aplica correções Biome, incluindo `--unsafe`; revise o diff antes de aceitar as alterações.
+- `pnpm lint:fix` - aplica correções seguras do Biome; revise o diff antes de aceitar as alterações.
 
 ## Prisma
 
