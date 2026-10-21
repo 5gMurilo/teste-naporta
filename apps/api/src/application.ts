@@ -17,6 +17,7 @@ import {
 import { requestIdMiddleware } from './common/http/request-id.middleware.js';
 import type { ApiConfig } from './config/env.js';
 import { setupDocs } from './docs/openapi.js';
+import { applyHttpSecurity } from './http-security.js';
 
 export type ApplicationMode = 'http' | 'docs';
 
@@ -47,6 +48,7 @@ export async function createApplication(
       abortOnError: false,
       logger: false,
     });
+    applyHttpSecurity(app, config);
     configureApplication(app);
     if (mode === 'http') setupDocs(app);
     if (mode === 'http') await app.init();

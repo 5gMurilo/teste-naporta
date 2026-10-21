@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = new URL('../../../../', import.meta.url);
 const rootPackage = JSON.parse(await readFile(new URL('package.json', root), 'utf8'));
 const apiPackage = JSON.parse(await readFile(new URL('apps/api/package.json', root), 'utf8'));
+const webPackage = JSON.parse(await readFile(new URL('apps/web/package.json', root), 'utf8'));
 const turbo = JSON.parse(await readFile(new URL('turbo.json', root), 'utf8'));
 const jestConfig = await readFile(new URL('apps/api/jest.config.cjs', root), 'utf8');
 
@@ -32,18 +33,51 @@ test('API build and typecheck expose workspace tasks with build outputs', () => 
   assert.deepEqual(turbo.tasks.typecheck.dependsOn, ['^typecheck']);
 });
 
-test('Turbo resolves the root build command to the API package', () => {
+test('Turbo resolves the root build command to both application packages', () => {
   const result = spawnSync('pnpm', ['exec', 'turbo', 'run', 'build', '--dry=json'], {
     cwd: fileURLToPath(root),
     encoding: 'utf8',
   });
   assert.equal(result.status, 0, result.stderr);
   const plan = JSON.parse(result.stdout.slice(result.stdout.indexOf('{')));
-  assert.deepEqual(plan.packages, ['@naporta/api']);
+  assert.deepEqual([...plan.packages].sort(), ['@naporta/api', '@naporta/web']);
   assert.equal(
     plan.tasks.find((task) => task.taskId === '@naporta/api#build').command,
     apiPackage.scripts.build,
   );
+  assert.equal(
+    plan.tasks.find((task) => task.taskId === '@naporta/web#build').command,
+    webPackage.scripts.build,
+  );
+});
+
+test('root quality commands reach the web app through Turbo', () => {
+  for (const script of [
+    'lint',
+    'lint:fix',
+    'format',
+    'format:check',
+    'typecheck',
+    'test:unit',
+    'test:coverage',
+  ]) {
+    assert.equal(
+      rootPackage.scripts[script],
+      `turbo run ${script}`,
+      `${script} must run through Turbo`,
+    );
+    assert.equal(typeof webPackage.scripts[script], 'string', `web must define ${script}`);
+  }
+  assert.equal(webPackage.name, '@naporta/web');
+  assert.equal(turbo.tasks.lint.cache, false);
+});
+
+test('the web workspace uses the single lockfile and declares only public configuration', async () => {
+  const lockfile = await readFile(new URL('pnpm-lock.yaml', root), 'utf8');
+  assert.match(lockfile, /^ {2}apps\/web:$/m);
+  assert.match(lockfile, /^ {2}apps\/api:$/m);
+  const workspace = await readFile(new URL('pnpm-workspace.yaml', root), 'utf8');
+  assert.match(workspace, /apps\/\*/);
 });
 
 test('development is persistent and cannot be cached', () => {

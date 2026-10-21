@@ -8,7 +8,10 @@
 			"!**/generated/**",
 			"!**/coverage/**",
 			"!**/.turbo/**",
-			"!**/.omc/**"
+			"!**/.omc/**",
+			"!**/test-results/**",
+			"!**/playwright-report/**",
+			"!**/components/ui/**"
 		]
 	},
 	"formatter": {
@@ -17,6 +20,7 @@
 		"lineEnding": "lf",
 		"lineWidth": 100
 	},
+	"css": { "parser": { "tailwindDirectives": true } },
 	"javascript": {
 		"formatter": { "quoteStyle": "single" },
 		"parser": { "unsafeParameterDecoratorsEnabled": true }

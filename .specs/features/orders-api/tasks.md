@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T30 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T37 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -470,7 +470,7 @@ T47 -> T48
 **Depends on**: T30
 **Reuses**: pnpm/Turbo/estilo da raiz; configurar somente componentes necessários.
 **Requirement**: WEB-01, MONO-01, MONO-02, MONO-03, QA-05.
-**Done when**: [ ] App renderiza shell, build estático e testes DOM funcionam; scripts reais e coverage 80/70 da lógica própria; proxy Vite /api e env público restrito; Node/versões compatíveis registrados.
+**Done when**: [x] App renderiza shell, build estático e testes DOM funcionam; scripts reais e coverage 80/70 da lógica própria; proxy Vite /api e env público restrito; Node/versões compatíveis registrados.
 **Tests**: Componentes/estrutural, >=4 casos de renderização, build/proxy/env e workspace; E05 ampliado, sem teste vazio para passar runner.
 **Gate**: W e regressão B com ambos os apps.
 **Commit**: `feat(web): bootstrap a typed vite spa with shadcn ui`
@@ -481,7 +481,7 @@ T47 -> T48
 **Depends on**: T31
 **Reuses**: Contrato OpenAPI exportado; tipos locais públicos sem import do Prisma/segredos.
 **Requirement**: WEB-02, WEB-03, WEB-09, DOC-03.
-**Done when**: [ ] 204 não tenta parse JSON; 400 conserva fields, 409 code, 401 protegido notifica sessão; abort não vira falso erro; sem retry automático POST/PATCH/DELETE e sem token em URL.
+**Done when**: [x] 204 não tenta parse JSON; 400 conserva fields, 409 code, 401 protegido notifica sessão; abort não vira falso erro; sem retry automático POST/PATCH/DELETE e sem token em URL.
 **Tests**: Unit U30/U33, >=8 casos de status, rede, cancelamento e headers; payloads confrontados com contrato real exportado.
 **Gate**: W.
 **Commit**: `feat(web): handle typed api requests and problem details`
@@ -492,7 +492,7 @@ T47 -> T48
 **Depends on**: T32
 **Reuses**: React Context e callback 401 do HTTP client.
 **Requirement**: WEB-02, WEB-03.
-**Done when**: [ ] Token não vai a storage/cookie/URL; logout/reload/401 limpa sessão e dados; erro de credenciais não gera loop de expiração; pending requests não repovoam estado após logout.
+**Done when**: [x] Token não vai a storage/cookie/URL; logout/reload/401 limpa sessão e dados; erro de credenciais não gera loop de expiração; pending requests não repovoam estado após logout.
 **Tests**: Componentes U30, >=5 casos de login, logout, novo mount, 401 e request antigo.
 **Gate**: W.
 **Commit**: `feat(web): keep bearer sessions in memory only`
@@ -503,7 +503,7 @@ T47 -> T48
 **Depends on**: T33
 **Reuses**: SessionProvider, React Router declarativo e primitives shadcn.
 **Requirement**: WEB-01, WEB-03, WEB-10.
-**Done when**: [ ] Visitante volta ao login, autenticado alcança shell protegido e logout; / redireciona conforme sessão; não registrar páginas CRUD falsas para aparentar fluxo pronto.
+**Done when**: [x] Visitante volta ao login, autenticado alcança shell protegido e logout; / redireciona conforme sessão; não registrar páginas CRUD falsas para aparentar fluxo pronto.
 **Tests**: Componentes/MemoryRouter U30/U35, >=5 casos de acesso, redirecionamento, logout, navegação/foco e rota desconhecida.
 **Gate**: W.
 **Commit**: `feat(web): add protected navigation and application layout`
@@ -514,7 +514,7 @@ T47 -> T48
 **Depends on**: T34
 **Reuses**: Primitives shadcn e mensagens seguras do HTTP client.
 **Requirement**: WEB-09, WEB-10.
-**Done when**: [ ] Estados mutuamente corretos, retry acionável por teclado, sem exibir payload sensível ou anunciar sucesso em erro; login mantém comportamento específico de formulário.
+**Done when**: [x] Estados mutuamente corretos, retry acionável por teclado, sem exibir payload sensível ou anunciar sucesso em erro; login mantém comportamento específico de formulário.
 **Tests**: Componentes U33/U35, >=4 casos de loading/vazio/erro/retry com nomes acessíveis.
 **Gate**: W.
 **Commit**: `feat(web): expose accessible asynchronous view states`
@@ -525,7 +525,7 @@ T47 -> T48
 **Depends on**: T35
 **Reuses**: Helper Testcontainers já migrado/Redis, seed, API compilada e Vite proxy.
 **Requirement**: QA-02, QA-03, QA-04, QA-09, WEB-01.
-**Done when**: [ ] Chromium real, context por teste, env/portas exclusivos, sem reutilizar serviço da pessoa; carrega shell SPA e consulta health/login HTTP reais de prova; limpar DB/cache/processos ao falhar; comando real test:e2e:web sem cache. Ainda não alegar login visual ou CRUD prontos.
+**Done when**: [x] Chromium real, context por teste, env/portas exclusivos, sem reutilizar serviço da pessoa; carrega shell SPA e consulta health/login HTTP reais de prova; limpar DB/cache/processos ao falhar; comando real test:e2e:web sem cache. Ainda não alegar login visual ou CRUD prontos.
 **Tests**: Browser/infra, >=5 casos de assets, API/PG/Redis acessíveis, isolamento de contextos/dados e falha parcial; testes visuais de login são co-localizados com T37 e CRUD com suas páginas.
 **Gate**: H.
 **Commit**: `test(web): provision isolated browser flows against real services`
@@ -536,7 +536,7 @@ T47 -> T48
 **Depends on**: T36
 **Reuses**: HTTP client, SessionProvider, router, shadcn e harness browser já disponível.
 **Requirement**: WEB-02, WEB-03, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] Credenciais corretas abrem /orders (shell até T38); erro seguro preserva controle do usuário; pending bloqueia duplicação; labels/teclado; sessão expirada diferenciada de senha incorreta; logout/reload exigem login sem storage.
+**Done when**: [x] Credenciais corretas abrem /orders (shell até T38); erro seguro preserva controle do usuário; pending bloqueia duplicação; labels/teclado; sessão expirada diferenciada de senha incorreta; logout/reload exigem login sem storage.
 **Tests**: Componentes U30/U33/U34/U35 + browser E02/E04, >=8 casos de sucesso/401/rede/validação/duplo clique/foco/logout/reload, incluindo duas larguras.
 **Gate**: H e fechamento da etapa com build/regressão dos apps.
 **Commit**: `feat(web): authenticate through an accessible login page`
@@ -722,6 +722,14 @@ T47 -> T48
 **Tests**: Documental + smoke de roteiro real E05–E08 e fluxo E01, >=5 checks de instalação/env/migration-seed/login-CRUD/web/comandos e gate completo; sem executar no banco da pessoa.
 **Gate**: A e validadores de spec/tarefas; após commit começa fechamento independente, não aprovação por autoavaliação.
 **Commit**: `docs(readme): document and prove the evaluator workflow`
+
+## Correções do plano
+
+Itens exigidos pela spec que nenhuma tarefa numerada cobria, entregues como commits atômicos extras:
+
+| Item | Requisito | Commit |
+| --- | --- | --- |
+| CORS configurável (uma origem explícita, nada sem `CORS_ORIGIN`) e helmet, com CSP desligado só nas páginas `/docs` | Spec, seção Configuração; CORS na tabela de decisões | `feat(http): apply configurable cors and security headers` na branch `feat/naporta-web-platform` |
 
 ## Fechamento independente após T53
 

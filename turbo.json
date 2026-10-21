@@ -6,6 +6,8 @@
 			"passThroughEnv": ["DATABASE_URL"],
 			"outputs": ["dist/**"]
 		},
+		"lint": { "cache": false },
+		"lint:fix": { "cache": false },
 		"typecheck": {
 			"dependsOn": ["^typecheck"],
 			"outputs": []
@@ -15,6 +17,7 @@
 		"test:workspace": { "cache": false },
 		"test:contract": { "cache": false },
 		"test:e2e": { "cache": false },
+		"test:e2e:web": { "cache": false, "dependsOn": ["build", "@naporta/api#build"] },
 		"test:integration": { "cache": false },
 		"prisma:generate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
 		"prisma:validate": { "cache": false, "passThroughEnv": ["DATABASE_URL"] },
