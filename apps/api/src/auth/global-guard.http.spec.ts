@@ -76,6 +76,38 @@ describe('global JWT guard in the real AppModule', () => {
     }
   });
 
+  it('rejects tokens that differ from the production options only in algorithm or issuer', async () => {
+    const forge = (
+      claims: Record<string, unknown>,
+      algorithm: 'HS256' | 'HS384' | 'HS512' = 'HS256',
+    ) =>
+      new JwtService({ secret: config.JWT_SECRET }).sign(
+        { sub: 'user-1', email: 'a@b.co', aud: 'naporta-web', iss: 'naporta', ...claims },
+        { algorithm, expiresIn: 60 },
+      );
+    const unsigned = `${Buffer.from('{"alg":"none","typ":"JWT"}').toString('base64url')}.${Buffer.from(
+      JSON.stringify({ sub: 'user-1', email: 'a@b.co', aud: 'naporta-web', iss: 'naporta' }),
+    ).toString('base64url')}.`;
+    const tokens = {
+      'another issuer': forge({ iss: 'evil' }),
+      'no issuer': forge({ iss: undefined }),
+      HS384: forge({}, 'HS384'),
+      HS512: forge({}, 'HS512'),
+      'alg none': unsigned,
+    };
+
+    for (const [name, token] of Object.entries(tokens)) {
+      const response = await request(app.getHttpServer())
+        .get('/')
+        .set('Authorization', `Bearer ${token}`);
+      expect({ name, status: response.status }).toEqual({ name, status: 401 });
+    }
+    await request(app.getHttpServer())
+      .get('/')
+      .set('Authorization', `Bearer ${forge({})}`)
+      .expect(200);
+  });
+
   it('lets login and health run without a token because of @Public metadata', async () => {
     const login = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
