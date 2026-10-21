@@ -62,6 +62,18 @@ export class AuthController {
     content: problem(401, 'Unauthorized', 'INVALID_CREDENTIALS', 'Invalid email or password.'),
   })
   @ApiResponse({
+    status: 429,
+    description:
+      'Too many login attempts from this client address in the current window (default 5 per 60 seconds).',
+    headers: {
+      'Retry-After': {
+        description: 'Seconds until the client may try again.',
+        schema: { type: 'integer', minimum: 1, example: 42 },
+      },
+    },
+    content: problem(429, 'Too Many Requests', 'HTTP_ERROR', 'Too many login attempts.'),
+  })
+  @ApiResponse({
     status: 500,
     description: 'Unexpected failure.',
     content: problem(
