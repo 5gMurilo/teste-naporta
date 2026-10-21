@@ -7,7 +7,8 @@
 			"!**/dist/**",
 			"!**/generated/**",
 			"!**/coverage/**",
-			"!**/.turbo/**"
+			"!**/.turbo/**",
+			"!**/.omc/**"
 		]
 	},
 	"formatter": {
