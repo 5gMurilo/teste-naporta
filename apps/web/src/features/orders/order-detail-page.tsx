@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { AsyncState } from '@/components/async-state';
-import { useSession } from '@/features/auth/session-provider';
+import { Button } from '@/components/ui/button';
 import type { OrderDetail } from '@/lib/api-types';
 import { errorMessage } from '@/lib/error-message';
 import { formatBRL, formatCivilDate, formatInstant, STATUS_LABELS } from '@/lib/format';
-import { ApiError, isAbortError } from '@/lib/http-client';
+import { ApiError } from '@/lib/http-client';
+import { useOrder } from './use-order';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -18,33 +18,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function OrderDetailPage() {
   const { id = '' } = useParams();
-  const { http } = useSession();
-  const [order, setOrder] = useState<OrderDetail>();
-  const [error, setError] = useState<unknown>();
-  const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(0);
-  useEffect(() => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError(undefined);
-    setOrder(undefined);
-    http
-      .request<OrderDetail>(`/api/v1/orders/${encodeURIComponent(id)}`, {
-        signal: controller.signal,
-      })
-      .then((response) => {
-        if (controller.signal.aborted) return;
-        setOrder(response);
-        setLoading(false);
-      })
-      .catch((failure) => {
-        if (controller.signal.aborted || isAbortError(failure)) return;
-        setError(failure);
-        setLoading(false);
-      });
-    return () => controller.abort();
-  }, [http, id, reload]);
-
+  const { order, error, loading, reload } = useOrder(id);
   const notFound = error instanceof ApiError && error.status === 404;
 
   return (
@@ -53,14 +27,21 @@ export function OrderDetailPage() {
         <Link to="/orders" className="text-sm underline underline-offset-4">
           Voltar para a lista
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold">Detalhe do pedido</h1>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+          <h1 className="text-2xl font-semibold">Detalhe do pedido</h1>
+          {order && (
+            <Button asChild variant="outline">
+              <Link to={`/orders/${order.id}/edit`}>Editar</Link>
+            </Button>
+          )}
+        </div>
       </div>
       {notFound ? (
         <p role="alert" className="text-destructive font-medium">
           {errorMessage(error)}
         </p>
       ) : (
-        <AsyncState loading={loading} error={error} onRetry={() => setReload((count) => count + 1)}>
+        <AsyncState loading={loading} error={error} onRetry={reload}>
           {order && <OrderDetails order={order} />}
         </AsyncState>
       )}

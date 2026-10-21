@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T45 concluídas, 45/53 tarefas concluídas.
-- **Completed**: T44 `00b239c`. T45: rota /orders/new com CreateOrderPage ligando o OrderForm a um único POST; 201 abre o detalhe, 400 e 409 aparecem nos campos certos mantendo o que foi digitado, falha de rede não é repetida (só o usuário reenvia), clique duplo não duplica, cancelar volta à lista; ação 'Novo pedido' na lista. Browser real: criação com dois itens em 390 e 1280 px conferida pela API, número duplicado, CEP inválido vindo da API, rede com um POST e sucesso no reenvio, clique duplo gera um pedido. Gate H verde: 191 testes web, 29 e2e web.
+- **Phase / Task**: T1–T46 concluídas, 46/53 tarefas concluídas.
+- **Completed**: T44 `00b239c`, T45 `5b41047`. T46: rota /orders/:id/edit com EditOrderPage: carrega o pedido (hook useOrder compartilhado com o detalhe, que ganhou a ação Editar), mostra o OrderForm em modo edição e envia um único PATCH só com o que mudou (nada alterado não envia; status isolado omite itens; item alterado manda a lista inteira sem ids; complemento limpo manda o endereço inteiro sem ele); após 200 abre o detalhe, que lê o pedido confirmado; 400, 409 e 404 aparecem sem simular sucesso, falha de rede preserva as edições. Browser real: PATCH com corpo {status}, itens substituídos e cache nunca servindo a lista antiga, sem alteração sem requisição, número tomado, pedido excluído durante a edição. Gate H verde: 202 testes web, 34 e2e web.
 - **In-progress**: Nada.
-- **Next step**: T46 (editar pedido).
+- **Next step**: T47 (exclusão com confirmação; fecha a etapa 8).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-orders.
