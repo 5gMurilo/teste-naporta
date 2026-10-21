@@ -16,6 +16,7 @@ type Doc = {
 
 // Every operation of the public contract; extend as endpoints are delivered.
 const OPERATIONS = [
+  'DELETE /api/v1/orders/{id}',
   'GET /api/v1/health',
   'GET /api/v1/orders',
   'GET /api/v1/orders/{id}',

@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T24 concluídas, 24/53 tarefas concluídas.
-- **Completed**: T19–T23 commitadas (até `825c2c6`). T24: `PATCH /api/v1/orders/:id` em transação ReadCommitted: updateMany condicional (id, deletedAt null) trava a linha pai e incrementa cacheRevision, count 0 vira ORDER_NOT_FOUND antes de tocar itens, itens só substituídos (deleteMany+createMany) quando enviados, customer/endereço substituídos por inteiro, 409 por unique. Provas em PostgreSQL real: rollback por trigger verificado em nova conexão, corrida de número com um vencedor, substituições concorrentes sem mistura, PATCH bloqueado por lock que depois exclui o pedido retorna 404 sem alterar dados (barreira via pg_stat_activity, sem sleeps). Gate F verde: 241 unitários, e2e 1, integração 88, contrato 20, cobertura e build.
+- **Phase / Task**: T1–T25 concluídas, 25/53 tarefas concluídas.
+- **Completed**: T19–T24 commitadas (até `a8a05f6`). T25: `DELETE /api/v1/orders/:id` (204 sem corpo) com updateMany condicional em id e deletedAt null, incremento de cacheRevision, linhas e itens preservados, número continua reservado, segunda exclusão/leitura/PATCH retornam 404 e a lista omite; corrida PATCH/DELETE e DELETE bloqueado por lock de exclusão concorrente provadas em PostgreSQL real. OpenAPI com as sete operações completas. Gate F e B da etapa 4 verdes pelos comandos da raiz: 244 unitários, e2e 1, integração 94, contrato 22, cobertura, build e docs:openapi:check.
 - **In-progress**: Nada.
-- **Next step**: T25 (DELETE lógico; fecha a etapa 4 com gate B).
+- **Next step**: T26 (Phase 5, branch feat/naporta-cache: cliente Redis com deadline).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-orders.

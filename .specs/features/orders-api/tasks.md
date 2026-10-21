@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T24 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T25 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -400,7 +400,7 @@ T47 -> T48
 **Depends on**: T24
 **Reuses**: Repository, guard, mapper e revisão atômica.
 **Requirement**: ORDER-09, ORDER-10, ORDER-11, ORDER-13, LIST-02, DOC-01, DOC-02, DOC-03, DOC-04.
-**Done when**: [ ] 204 zero bytes; segunda exclusão/leitura/PATCH 404; lista omite; número reservado; corrida PATCH/DELETE não ressuscita; OpenAPI tem sete operações completas com schemas/erros esperados.
+**Done when**: [x] 204 zero bytes; segunda exclusão/leitura/PATCH 404; lista omite; número reservado; corrida PATCH/DELETE não ressuscita; OpenAPI tem sete operações completas com schemas/erros esperados.
 **Tests**: Unit + HTTP/PG + contrato U17/I13/I14/I15/I31, >=7 casos incluindo linhas preservadas, concorrência e corpo 204 vazio.
 **Gate**: F e B da etapa.
 **Commit**: `feat(orders): soft delete orders without releasing numbers`

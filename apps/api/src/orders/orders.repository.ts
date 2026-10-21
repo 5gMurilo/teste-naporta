@@ -119,4 +119,16 @@ export class OrdersRepository {
       { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted },
     );
   }
+
+  /**
+   * Conditional on the order still being active, so a concurrent DELETE or PATCH that wins the row
+   * lock makes this a no-op instead of resurrecting or re-deleting the record. Rows are never removed.
+   */
+  async softDeleteActive(id: string): Promise<boolean> {
+    const { count } = await this.prisma.order.updateMany({
+      where: { id, deletedAt: null },
+      data: { deletedAt: new Date(), cacheRevision: { increment: 1 } },
+    });
+    return count === 1;
+  }
 }

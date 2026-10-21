@@ -42,4 +42,8 @@ export class OrdersService {
       throw mapPrismaError(error);
     }
   }
+
+  async delete(id: string): Promise<void> {
+    if (!(await this.repository.softDeleteActive(id))) throw new OrderNotFoundError();
+  }
 }

@@ -1,5 +1,16 @@
 import type { ServerResponse } from 'node:http';
-import { Body, Controller, Get, Param, Patch, Post, Query, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { z } from 'zod';
 import {
@@ -311,5 +322,73 @@ export class OrdersController {
     @Body({ schema: updateOrderRequestSchema }) body: UpdateOrderRequest,
   ): Promise<OrderResponse> {
     return OrderPresenter.detail(await this.orders.patch(params.id, body));
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  @ApiResponse({
+    status: 204,
+    description: 'Order soft deleted; the response has no body. The order number stays reserved.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'The id is not a UUID.',
+    content: problemJsonContent(
+      problem(
+        400,
+        'Bad Request',
+        'VALIDATION_ERROR',
+        'The request is invalid.',
+        '/api/v1/orders/123',
+        {
+          errors: [{ field: 'id', message: 'Invalid UUID' }],
+        },
+      ),
+      'ValidationProblemDetails',
+    ),
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Missing, invalid, or expired bearer token.',
+    content: problemJsonContent(
+      problem(
+        401,
+        'Unauthorized',
+        'UNAUTHORIZED',
+        'Authentication is required or the token is invalid.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'The order does not exist or was already deleted.',
+    content: problemJsonContent(
+      problem(
+        404,
+        'Not Found',
+        'ORDER_NOT_FOUND',
+        'Order not found.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Unexpected failure.',
+    content: problemJsonContent(
+      problem(
+        500,
+        'Internal Server Error',
+        'INTERNAL_SERVER_ERROR',
+        'An unexpected error occurred.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  async remove(
+    @Param({ schema: orderParamsSchema }) params: z.output<typeof orderParamsSchema>,
+  ): Promise<void> {
+    await this.orders.delete(params.id);
   }
 }
