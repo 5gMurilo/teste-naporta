@@ -723,6 +723,14 @@ T47 -> T48
 **Gate**: A e validadores de spec/tarefas; após commit começa fechamento independente, não aprovação por autoavaliação.
 **Commit**: `docs(readme): document and prove the evaluator workflow`
 
+## Correções do plano
+
+Itens exigidos pela spec que nenhuma tarefa numerada cobria, entregues como commits atômicos extras:
+
+| Item | Requisito | Commit |
+| --- | --- | --- |
+| CORS configurável (uma origem explícita, nada sem `CORS_ORIGIN`) e helmet, com CSP desligado só nas páginas `/docs` | Spec, seção Configuração; CORS na tabela de decisões | `feat(http): apply configurable cors and security headers` na branch `feat/naporta-web-platform` |
+
 ## Fechamento independente após T53
 
 V1 não é tarefa de implementação do autor. Após o commit de T53, um Verifier fresco, sem herdar conclusões do autor, rederiva cada AC, confronta asserts com resultados definidos na spec, executa mutações comportamentais em scratch isolado, verifica porcelain real antes/depois e escreve validation.md com PASS/FAIL, file:line, comandos e diff range. QA-07 só pode ser Verified depois desse relatório e validate_state.py PASS.
