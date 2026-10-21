@@ -137,6 +137,12 @@ describe('README (DOC-06, OPS-05, QA-06)', () => {
     }
   });
 
+  it('README explains dev, start and start:prod', () => {
+    assert.match(readme, /\| `pnpm dev` \|[^|]*watch/);
+    assert.match(readme, /\| `pnpm start` \|[^|]*compila[^|]*uma vez, sem watch/i);
+    assert.match(readme, /\| `pnpm start:prod` \|[^|]*já compilada/);
+  });
+
   it('only references root scripts that exist', () => {
     const referenced = new Set([...readme.matchAll(/`pnpm ([a-z0-9:]+)(?:[ `\\[]|$)/g)].map((match) => match[1]));
     const builtins = new Set(['install', 'dev', 'build']);

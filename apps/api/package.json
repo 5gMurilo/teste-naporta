@@ -10,6 +10,7 @@
     "build": "pnpm prisma:generate && tsc -p tsconfig.build.json",
     "dev": "tsc -p tsconfig.build.json && (tsc -p tsconfig.build.json --watch --preserveWatchOutput & node --watch dist/main.js)",
     "start:dev": "pnpm dev",
+    "start": "pnpm build && node dist/main.js",
     "start:prod": "node dist/main.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs",
     "test:unit": "pnpm test --runInBand && pnpm test:timezones && pnpm test:workspace",

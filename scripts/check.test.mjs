@@ -110,6 +110,7 @@ describe('pnpm check aggregator (OPS-05, QA-05, QA-06, MONO-03, DOC-05)', () => 
     for (const script of [
       'dev',
       'build',
+      'start',
       'start:prod',
       'db:generate',
       'db:migrate:dev',
