@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T11 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T12 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -255,7 +255,7 @@ T47 -> T48
 **Depends on**: T11
 **Reuses**: Nome da constraint da migration, erros do Prisma 7.
 **Requirement**: ERR-03, ERR-04.
-**Done when**: [ ] P2002 orderNumber vira erro de domínio; unique de email e outras falhas permanecem distintas/internas; sem mensagem SQL no erro público.
+**Done when**: [x] P2002 orderNumber vira erro de domínio; unique de email e outras falhas permanecem distintas/internas; sem mensagem SQL no erro público.
 **Tests**: Unit U21 + conflito real com PostgreSQL, >=4 casos de constraint correta, outra unique, outro código e objeto desconhecido.
 **Gate**: F.
 **Commit**: `feat(errors): map only known order number conflicts`

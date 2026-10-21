@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T11 concluídas, 11/53 tarefas concluídas.
-- **Completed**: Phase 2 commitada até T10 (`da928ff`). T11: middleware `requestIdMiddleware` (UUID novo por requisição, header `X-Request-Id`, contexto em `request.requestId`, ID de entrada ignorado) registrado antes dos parsers. Gate F verde: 63 unitários, e2e 1, integração 7, cobertura e build.
+- **Phase / Task**: T1–T12 concluídas, 12/53 tarefas concluídas.
+- **Completed**: Phase 2 até T10 (`da928ff`); T11 `8c5b8be`. T12: `mapPrismaError` converte só P2002 com `driverAdapterError.cause.constraint.index === Order_orderNumber_key` em `OrderNumberAlreadyExistsError` (formato confirmado empiricamente contra PostgreSQL real); unique de email e demais erros passam intactos. Gate F verde: 68 unitários, e2e 1, integração 9, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T12 (mapper de conflito Prisma orderNumber).
+- **Next step**: T13 (filtro global Problem Details).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.
