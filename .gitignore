@@ -2,6 +2,7 @@ node_modules/
 dist/
 apps/*/dist/
 coverage/
+.turbo/
 .env
 src/generated/prisma/
 apps/api/src/generated/prisma/

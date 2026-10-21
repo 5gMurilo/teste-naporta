@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **2 de 53 tarefas concluídas (T1–T2).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **3 de 53 tarefas concluídas (T1–T3).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
 
@@ -152,7 +152,7 @@ T47 -> T48
 **Depends on**: T2
 **Reuses**: Scripts atuais da API; pnpm 10.33.0 e lockfile único.
 **Requirement**: MONO-01, MONO-02, MONO-03, OPS-05, QA-05, QA-06.
-**Done when**: [ ] Build/typecheck/test:unit/dev delegam à API; dev persistente; unit/coverage/estado/infra sem cache de testes; incluir arquivos elegíveis e thresholds 80/70 já nas áreas atuais; aliases e preservação da integração comprovados por E05.
+**Done when**: [x] Build/typecheck/test:unit/dev delegam à API; dev persistente; unit/coverage/estado/infra sem cache de testes; incluir arquivos elegíveis e thresholds 80/70 já nas áreas atuais; aliases e preservação da integração comprovados por E05.
 **Tests**: Estruturais/workspace + regressão, >=4 casos de grafo/propagação/cache e cobertura atual, E05 parcial.
 **Gate**: B; contrato separado só é introduzido em T18.
 **Commit**: `build(workspace): orchestrate api tasks with turborepo`

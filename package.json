@@ -3,7 +3,21 @@
 	"private": true,
 	"packageManager": "pnpm@10.33.0",
 	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
 		"lint": "pnpm --filter @naporta/api lint",
-		"lint:fix": "pnpm --filter @naporta/api lint:fix"
+		"lint:fix": "pnpm --filter @naporta/api lint:fix",
+		"format": "turbo run format",
+		"format:check": "turbo run format:check",
+		"typecheck": "turbo run typecheck",
+		"test:unit": "turbo run test:unit",
+		"test:coverage": "turbo run test:coverage",
+		"test:e2e": "turbo run test:e2e",
+		"test:integration": "turbo run test:integration",
+		"prisma:generate": "turbo run prisma:generate",
+		"prisma:validate": "turbo run prisma:validate"
+	},
+	"devDependencies": {
+		"turbo": "2.9.0"
 	}
 }
