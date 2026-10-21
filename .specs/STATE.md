@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T51 concluídas, 51/53 tarefas concluídas.
-- **Completed**: T48 `cc5d430`, T49 `0f46dd5`, T50 `f739c32`. T51: `pnpm check` (scripts/check.mjs + scripts/lib/run-steps.mjs) encadeia lint, format:check, typecheck, test:scripts, build, test:unit, test:contract, docs:openapi:check, test:coverage, test:e2e, test:integration, test:e2e:web e test:containers, para na primeira falha (ou segue com --keep-going) e sempre termina com código diferente de zero se qualquer etapa falhar ou for pulada, listando cada etapa com seu exit code; um comando que nem inicia conta como falha. Os test:* e lint não têm cache no Turbo. 7 testes do agregador (cobertura dos gates exigidos, parada na primeira falha, --keep-going, sucesso só com todos zero, comando inexistente, turbo sem cache, thresholds 80/70). Gate A real: pnpm check completo em exit 0 (lint, format, typecheck, scripts, build, unit, contrato, drift do OpenAPI, cobertura, e2e, integração, e2e web, containers).
+- **Phase / Task**: T1–T52 concluídas, 52/53 tarefas concluídas.
+- **Completed**: T48–T51 commitadas (até `16a0da4`) e correções `d592045`/`e10e4a0`. T52: docs/decisions.md com o que foi realmente implementado (estrutura, persistência e ESM, modelo de dados, validação, erros, autenticação, concorrência, cache-aside pedido pelo usuário com revisão persistida, invalidação pós-commit, fail-open, hit ainda consulta o banco e nenhum ganho alegado, OpenAPI, segurança HTTP, frontend com token em memória, testes, containers), tabela de desvios do plano com motivo e limitações verificadas; docs/INDEX.md. 7 testes documentais (scripts/docs.test.mjs): datas, cobertura dos temas exigidos, afirmações sobre o hit e o ganho, desvios com motivo, links existentes, coerência com o código (chave, TTL, timeout, índices, fila, isolamento) e ausência de emojis.
 - **In-progress**: Nada.
-- **Next step**: T52 (docs/decisions.md).
+- **Next step**: T53 (README e roteiro do avaliador).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-delivery.

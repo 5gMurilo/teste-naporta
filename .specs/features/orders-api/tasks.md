@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T51 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T52 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -707,7 +707,7 @@ T47 -> T48
 **Depends on**: T51
 **Reuses**: Spec/design, commits e resultados reais das etapas.
 **Requirement**: DOC-06, CACHE-05, WEB-01, MONO-01.
-**Done when**: [ ] Todas as decisões exigidas na spec cobertas, inclusive cache solicitado sem alegação de ganho medido, consulta de revisão, JWT em memória, JSONB/centavos/DATE/queries, ESM/versões e limites de auth; nenhum bônus fingido.
+**Done when**: [x] Todas as decisões exigidas na spec cobertas, inclusive cache solicitado sem alegação de ganho medido, consulta de revisão, JWT em memória, JSONB/centavos/DATE/queries, ESM/versões e limites de auth; nenhum bônus fingido.
 **Tests**: Revisão documental vinculada a código/contrato e gate completo, >=4 checks de cobertura de decisões, links, desvio/justificativa e coerência com runtime.
 **Gate**: A e validação documental.
 **Commit**: `docs(architecture): record implemented decisions and trade-offs`
