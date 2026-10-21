@@ -3,14 +3,6 @@ import { loadApiConfig } from '../../src/config/env.js';
 import { PrismaService } from '../../src/prisma/prisma.service.js';
 
 describe('PostgreSQL integration', () => {
-  beforeAll(() => {
-    execFileSync('pnpm', ['exec', 'prisma', 'migrate', 'deploy'], {
-      cwd: process.cwd(),
-      env: process.env,
-      stdio: 'inherit',
-    });
-  });
-
   it('executes SELECT 1 against PostgreSQL', async () => {
     const prisma = new PrismaService(loadApiConfig());
     await prisma.$connect();
@@ -102,6 +94,32 @@ describe('PostgreSQL integration', () => {
           'Order_deletedAt_createdAt_id_idx',
         ]),
       );
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  it('clears database rows between integration cases', async () => {
+    const prisma = new PrismaService(loadApiConfig());
+    await prisma.$connect();
+    try {
+      await prisma.$executeRaw`
+        INSERT INTO "User" (id, email, "passwordHash", "updatedAt")
+        VALUES (gen_random_uuid(), 'isolation@example.test', 'test-hash', CURRENT_TIMESTAMP)
+      `;
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  it('starts with no rows written by the previous integration case', async () => {
+    const prisma = new PrismaService(loadApiConfig());
+    await prisma.$connect();
+    try {
+      const users = await prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT count(*) AS count FROM "User"
+      `;
+      expect(Number(users[0].count)).toBe(0);
     } finally {
       await prisma.$disconnect();
     }

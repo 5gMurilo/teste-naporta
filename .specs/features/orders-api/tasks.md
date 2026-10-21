@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T8 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T9 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
 
@@ -220,7 +220,7 @@ T47 -> T48
 **Depends on**: T8
 **Reuses**: setup Testcontainers atual, inclusive porta dinâmica e restauração de URL.
 **Requirement**: QA-01, QA-02, QA-03, QA-04.
-**Done when**: [ ] Migrations reais antes de tests, dados resetados por caso, nenhuma URL externa de fallback; falha parcial libera recursos; Docker ausente falha; não criar container por teste.
+**Done when**: [x] Migrations reais antes de tests, dados resetados por caso, nenhuma URL externa de fallback; falha parcial libera recursos; Docker ausente falha; não criar container por teste.
 **Tests**: Unit de lifecycle + integração do próprio helper, I32 parcial, >=5 casos: sem URL, sentinela externa, isolamento, falha parcial, Docker ausente.
 **Gate**: F; testes reais de conexão não substituídos por doubles de lifecycle.
 **Commit**: `test(harness): migrate and isolate disposable postgres suites`

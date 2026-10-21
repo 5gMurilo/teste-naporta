@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 2 — Persistência; T1–T8 concluídas, 8/53 tarefas concluídas.
-- **Completed**: Phase 1 T1–T6 está commitada até `019b1f0`; T7 foi commitada em `da9a2a9`. T8 alinhou o generator Prisma com ESM e adicionou prova de propagação da falha de conexão. Gate F passou: validate, lint, format, typecheck, build, 49 testes unitários + 10 workspace, e2e (1) e integração PostgreSQL (3), incluindo SELECT 1/current_database pelo client compilado executado diretamente em Node ESM.
-- **In-progress**: Commit atômico de T8.
-- **Next step**: T9, centralizar lifecycle/cleanup e reset isolado do harness PostgreSQL sem fallback de URL.
+- **Phase / Task**: Phase 2 — Persistência; T1–T9 concluídas, 9/53 tarefas concluídas.
+- **Completed**: Phase 1 T1–T6 está commitada até `019b1f0`; T7/T8 estão commitadas em `da9a2a9` e `3f8110d`. T9 centralizou container, migration deploy, configuração temporária, reset PostgreSQL por caso e teardown. Gate F passou: lint, format, typecheck, build, 54 testes unitários + 10 workspace, e2e (1) e integração PostgreSQL (5). A integração foi iniciada com `DATABASE_URL` sentinela externa, mas migration e conexão real usaram o container; reset foi comprovado entre dois casos. Testes unitários cobrem URL ausente, URL sentinela, reset, falha parcial e runtime Docker ausente.
+- **In-progress**: Commit atômico de T9.
+- **Next step**: T10, seed explícito/idempotente do usuário demonstrativo e dos 12 pedidos reservados com fixtures determinísticas.
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack.
-- **Uncommitted files**: Ajuste do generator para ESM, testes lifecycle/runtime e atualização do estado da feature.
+- **Uncommitted files**: Helper/testes do harness PostgreSQL, setup de integração e atualização do estado da feature.
 - **Branch**: feat/naporta-persistence.
