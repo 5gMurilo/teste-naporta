@@ -33,8 +33,30 @@ const INTERNAL: Problem = {
   detail: 'An unexpected error occurred.',
 };
 
+function errorNameOf(exception: unknown): string | undefined {
+  return exception instanceof Error ? exception.constructor.name : typeof exception;
+}
+
+function errorCodeOf(exception: unknown): string | undefined {
+  const { code } = (exception ?? {}) as { code?: unknown };
+  return typeof code === 'string' && /^[A-Z0-9_]{1,40}$/.test(code) ? code : undefined;
+}
+
 function pathOf(request: HttpRequest): string {
   return (request.originalUrl ?? request.url ?? '/').split('?')[0] || '/';
+}
+
+/**
+ * Status of an HTTP-shaped client error: Nest exceptions, and the `http-errors` raised by the body
+ * parser before any route runs (413 payload too large, 415 unsupported charset, ...). Those carry a
+ * numeric `status` and `expose: true`; nothing else is trusted to choose a status.
+ */
+function clientErrorStatus(error: unknown): number | undefined {
+  if (error instanceof HttpException) return error.getStatus();
+  const { status, expose } = (error ?? {}) as { status?: unknown; expose?: unknown };
+  return expose === true && typeof status === 'number' && status >= 400 && status < 500
+    ? status
+    : undefined;
 }
 
 function toProblem(exception: unknown): Problem {
@@ -42,8 +64,8 @@ function toProblem(exception: unknown): Problem {
   if (error instanceof DomainError) {
     return { status: error.status, code: error.code, detail: error.detail };
   }
-  if (error instanceof HttpException) {
-    const status = error.getStatus();
+  const status = clientErrorStatus(error);
+  if (status !== undefined) {
     if (status === 500) return INTERNAL;
     const known = NATIVE_CODES[status];
     const problem: Problem = known
@@ -84,6 +106,10 @@ export class ProblemDetailsFilter implements ExceptionFilter {
           method: request.method,
           route: path,
           status: problem.status,
+          // Class and driver code only (for example PrismaClientKnownRequestError, P2003): enough
+          // to diagnose a 500, never the message, which can carry SQL or values.
+          errorName: errorNameOf(exception),
+          errorCode: errorCodeOf(exception),
         }),
       );
     }
