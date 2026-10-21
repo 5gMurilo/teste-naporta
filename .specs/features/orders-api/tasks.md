@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **1 de 53 tarefas concluídas (T1).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). **2 de 53 tarefas concluídas (T1–T2).** Execução da Phase 1 autorizada no chat; demais tarefas seguem pendentes.
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou no chat a implementação da Phase 1 (T1–T6), uma tarefa por vez. A aprovação no Plannotator por si só não autorizava execução. Não executar além de T6 nesta fase.
 
@@ -141,7 +141,7 @@ T47 -> T48
 **Depends on**: T1
 **Reuses**: Toda a API/testes atuais e lockfile; nome do app @naporta/api.
 **Requirement**: BOOT-01, MONO-01, OPS-05.
-**Done when**: [ ] Instalação resolve novo path com manifest raiz privado e pnpm-workspace mínimo para apps/*, lockfile com importer da API, geração/build/runtime e todas as suites antigas passam; registrar engines/peers/Node utilizado; sem domínio/auth novo. Corrigir somente incompatibilidade comprovada indispensável à relocation. O workspace mínimo integra esta refatoração para não deixar um commit sem dependências resolvíveis; Turbo vem em T3.
+**Done when**: [x] Instalação resolve novo path com manifest raiz privado e pnpm-workspace mínimo para apps/*, lockfile com importer da API, geração/build/runtime e todas as suites antigas passam; registrar engines/peers/Node utilizado; sem domínio/auth novo. Corrigir somente incompatibilidade comprovada indispensável à relocation. O workspace mínimo integra esta refatoração para não deixar um commit sem dependências resolvíveis; Turbo vem em T3.
 **Tests**: Regressão das suites existentes + >=2 provas estruturais de imports/execução compilada; baseline medido, sem reduzir casos.
 **Gate**: B0.
 **Commit**: `refactor(api): move existing bootstrap into apps workspace`

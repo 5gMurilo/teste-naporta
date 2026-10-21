@@ -1,8 +1,10 @@
 node_modules/
 dist/
+apps/*/dist/
 coverage/
 .env
 src/generated/prisma/
+apps/api/src/generated/prisma/
 .specs/*
 !.specs/STATE.md
 !.specs/features/

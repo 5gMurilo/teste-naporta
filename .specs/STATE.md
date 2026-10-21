@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 1 — Fundação; T1 concluída, T2 pendente; 1/53 tarefas concluídas.
-- **Completed**: T1 habilitou o tracking seletivo de `.specs/STATE.md` e `.specs/features/orders-api/**`; validadores estritos e verificações documentais passaram.
+- **Phase / Task**: Phase 1 — Fundação; T1–T2 concluídas, T3 pendente; 2/53 tarefas concluídas.
+- **Completed**: T1 habilitou o tracking seletivo de `.specs/STATE.md` e `.specs/features/orders-api/**`; validadores estritos e verificações documentais passaram. T2 moveu a API para `apps/api`; instalação, Prisma, build, 15 testes de regressão e smoke Node compilado passaram.
 - **In-progress**: Nenhuma tarefa em andamento entre commits.
-- **Next step**: Executar T2 (relocação mecânica da API), gate B0 e commit atômico.
-- **Blockers**: Nenhum conhecido. Gates de runtime/build/integration ainda dependem das verificações de T2.
-- **Uncommitted files**: `.gitignore`, `.specs/STATE.md`, `.specs/features/orders-api/{spec,design,tasks,branches,tasks}.md`. Planos históricos permanecem ignorados.
+- **Next step**: Executar T3 (aliases e orquestração Turborepo), gate B e commit atômico.
+- **Blockers**: Nenhum conhecido. Prisma CLI exige `DATABASE_URL`; os gates usaram URL sintética sem segredos. pnpm em modo não interativo requer `CI=true` para reinstalar módulos após mudança de configuração.
+- **Uncommitted files**: Alterações da T2 em workspace, API relocada, lockfile, documentação e política de lint para os novos caminhos. Planos históricos permanecem ignorados.
 - **Branch**: feat/postgres-testcontainers, HEAD f039f21 na reconciliação. O snapshot anterior sobre main/ausência de Testcontainers estava desatualizado em relação ao git.

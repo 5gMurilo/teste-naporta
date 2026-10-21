@@ -22,17 +22,17 @@ Execute, nesta ordem:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm prisma:generate
-pnpm build
-pnpm start:dev
-pnpm start:prod
+pnpm --dir apps/api prisma:generate
+pnpm --dir apps/api build
+pnpm --dir apps/api start:dev
+pnpm --dir apps/api start:prod
 ```
 
 ## Testes
 
-- `pnpm test` - testes unitários
-- `pnpm test:e2e` - testes HTTP sem PostgreSQL real
-- `pnpm test:integration` - integração com PostgreSQL efêmero via Testcontainers; exige Docker acessível, usa uma porta dinâmica e não usa `DATABASE_URL` do ambiente. Execute `pnpm prisma:generate` antes em um checkout limpo.
+- `pnpm --dir apps/api test --runInBand` - testes unitários
+- `pnpm --dir apps/api test:e2e --runInBand` - testes HTTP sem PostgreSQL real
+- `pnpm --dir apps/api test:integration --runInBand` - integração com PostgreSQL efêmero via Testcontainers; exige Docker acessível, usa uma porta dinâmica e não usa `DATABASE_URL` do ambiente. Execute `pnpm --dir apps/api prisma:generate` antes em um checkout limpo.
 
 As suites unitária e e2e não iniciam containers. A suite de integração falha com diagnóstico se Docker estiver indisponível, sem recorrer a um banco externo.
 
@@ -47,8 +47,8 @@ Se a porta 5432 já estiver ocupada, libere-a ou ajuste explicitamente o mapeame
 
 ## Prisma
 
-- `pnpm prisma:generate` - gera o client
-- `pnpm prisma:validate` - valida o schema
-- `pnpm prisma:migrate:dev` - aplica migrations de desenvolvimento
+- `pnpm --dir apps/api prisma:generate` - gera o client
+- `pnpm --dir apps/api prisma:validate` - valida o schema
+- `pnpm --dir apps/api prisma:migrate:dev` - aplica migrations de desenvolvimento
 
 A rota pública `GET /` retorna `Hello World!`.
