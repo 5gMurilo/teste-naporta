@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { LoginRoute } from '@/features/auth/login-route';
 import { useSession } from '@/features/auth/session-provider';
+import { CreateOrderPage } from '@/features/orders/create-order-page';
 import { OrderDetailPage } from '@/features/orders/order-detail-page';
 import { OrdersListPage } from '@/features/orders/orders-list-page';
 import { AppLayout } from './app-layout';
@@ -21,6 +22,7 @@ export function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/orders" element={<OrdersListPage />} />
+          <Route path="/orders/new" element={<CreateOrderPage />} />
           <Route path="/orders/:id" element={<OrderDetailPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>

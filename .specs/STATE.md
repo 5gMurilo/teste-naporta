@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T44 concluídas, 44/53 tarefas concluídas.
-- **Completed**: Etapa 7 encerrada em `2e62e32` (registro `0de6c17`); branch feat/naporta-web-orders. T44: rota /orders/:id com OrderDetailPage: campos públicos, endereço, itens e total em BRL por aritmética inteira (formatBRL; máximo R$ 1.000.000.000,00), data civil sem deslocamento de fuso, campos internos nunca renderizados, 404 com mensagem e link de volta sem retry, erro com retry, resposta antiga ignorada ao trocar de pedido; número do pedido na lista agora é link real. errorMessage passou a escrever pt-BR por código da API (nunca o texto em inglês). Browser real em 390 e 1280 px: lista para detalhe, deep link que volta ao pedido depois do login, pedido inexistente, total máximo. Gate H verde: 184 testes web (cobertura acima de 99% linhas), 23 e2e web.
+- **Phase / Task**: T1–T45 concluídas, 45/53 tarefas concluídas.
+- **Completed**: T44 `00b239c`. T45: rota /orders/new com CreateOrderPage ligando o OrderForm a um único POST; 201 abre o detalhe, 400 e 409 aparecem nos campos certos mantendo o que foi digitado, falha de rede não é repetida (só o usuário reenvia), clique duplo não duplica, cancelar volta à lista; ação 'Novo pedido' na lista. Browser real: criação com dois itens em 390 e 1280 px conferida pela API, número duplicado, CEP inválido vindo da API, rede com um POST e sucesso no reenvio, clique duplo gera um pedido. Gate H verde: 191 testes web, 29 e2e web.
 - **In-progress**: Nada.
-- **Next step**: T45 (criar pedido pela interface).
+- **Next step**: T46 (editar pedido).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-orders.

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { AsyncState } from '@/components/async-state';
 import { Button } from '@/components/ui/button';
 import { useSession } from '@/features/auth/session-provider';
@@ -48,7 +49,12 @@ export function OrdersListPage() {
 
   return (
     <div className="grid gap-6">
-      <h1 className="text-2xl font-semibold">Pedidos</h1>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1 className="text-2xl font-semibold">Pedidos</h1>
+        <Button asChild>
+          <Link to="/orders/new">Novo pedido</Link>
+        </Button>
+      </div>
       <OrdersFilters
         applied={filters}
         onApply={(next) => {

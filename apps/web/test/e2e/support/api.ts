@@ -59,3 +59,35 @@ export async function navigateInApp(page: Page, path: string) {
     window.dispatchEvent(new PopStateEvent('popstate'));
   }, path);
 }
+
+export interface OrderFormInput {
+  orderNumber: string;
+  postalCode?: string;
+  items?: { description: string; priceCents: string }[];
+}
+
+/** Fills the order form the way a person would, by label. */
+export async function fillOrderForm(page: Page, input: OrderFormInput) {
+  await page.getByLabel('Número do pedido').fill(input.orderNumber);
+  await page.getByLabel('Previsão de entrega').fill('2026-11-03');
+  await page.getByLabel('Nome do cliente').fill('Bia Souza');
+  await page.getByLabel('Documento do cliente').fill('DOC-123');
+  await page.getByLabel('Rua').fill('Rua das Palmeiras');
+  await page.getByLabel('Número', { exact: true }).fill('42');
+  await page.getByLabel('Bairro').fill('Centro');
+  await page.getByLabel('Cidade').fill('Santos');
+  await page.getByLabel('UF').fill('sp');
+  await page.getByLabel('CEP').fill(input.postalCode ?? '11010000');
+  const items = input.items ?? [{ description: 'Chá verde', priceCents: '1200' }];
+  for (const [index, item] of items.entries()) {
+    if (index > 0) await page.getByRole('button', { name: 'Adicionar item' }).click();
+    await page.getByLabel(`Descrição do item ${index + 1}`).fill(item.description);
+    await page.getByLabel(`Preço do item ${index + 1} (centavos)`).fill(item.priceCents);
+  }
+}
+
+/** Opens the creation form from the list and waits for it, so no field is filled on the wrong page. */
+export async function openNewOrderForm(page: Page) {
+  await page.getByRole('link', { name: 'Novo pedido' }).click();
+  await page.getByRole('heading', { name: 'Novo pedido', level: 1 }).waitFor();
+}

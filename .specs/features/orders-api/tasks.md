@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T44 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T45 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -628,7 +628,7 @@ T47 -> T48
 **Depends on**: T44
 **Reuses**: Form, HTTP, detalhe/router e lista existentes.
 **Requirement**: WEB-05, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] POST conforme contrato, 201 abre detalhe; 400/409 no campo certo; rede preserva dados e não retry automático; duplo clique não duplica.
+**Done when**: [x] POST conforme contrato, 201 abre detalhe; 400/409 no campo certo; rede preserva dados e não retry automático; duplo clique não duplica.
 **Tests**: Componentes + browser E01 parcial/E03/E04, >=6 casos de sucesso, payload, 400, conflito real, rede e pending.
 **Gate**: H.
 **Commit**: `feat(web): create orders through the real api`
