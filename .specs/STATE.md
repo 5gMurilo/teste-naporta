@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T12 concluídas, 12/53 tarefas concluídas.
-- **Completed**: Phase 2 até T10 (`da928ff`); T11 `8c5b8be`. T12: `mapPrismaError` converte só P2002 com `driverAdapterError.cause.constraint.index === Order_orderNumber_key` em `OrderNumberAlreadyExistsError` (formato confirmado empiricamente contra PostgreSQL real); unique de email e demais erros passam intactos. Gate F verde: 68 unitários, e2e 1, integração 9, cobertura e build.
+- **Phase / Task**: T1–T13 concluídas, 13/53 tarefas concluídas.
+- **Completed**: T11 `8c5b8be`, T12 `185735e`. T13: `ProblemDetailsFilter` global (`configureApplication` em application.ts) com `DomainError` genérico (status/code/detail), mapper Prisma, HttpException nativa preservada (HTTP_ERROR fora da matriz), errors por campo via `RequestValidationException`, 500 genérico e log allowlist (requestId, método, rota, status) para status >= 500. Gate F verde: 75 unitários, e2e 1, integração 11, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T13 (filtro global Problem Details).
+- **Next step**: T14 (health com banco real).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.

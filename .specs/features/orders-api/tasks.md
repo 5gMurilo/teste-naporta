@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T12 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T13 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -266,7 +266,7 @@ T47 -> T48
 **Depends on**: T12
 **Reuses**: Mapper, requestId, exceptions Nest e factory.
 **Requirement**: ERR-01, ERR-02, ERR-05, ERR-06, ERR-07, ERR-08.
-**Done when**: [ ] Content-type/envelope/status/code corretos, errors por campo e 500 genérico; native status preservado; logger allowlist não expõe exceção crua/PII.
+**Done when**: [x] Content-type/envelope/status/code corretos, errors por campo e 500 genérico; native status preservado; logger allowlist não expõe exceção crua/PII.
 **Tests**: Unit + HTTP/PostgreSQL, U22/U23/I21, >=8 casos para validação, JSON, native, 500, sentinelas, instance, requestId e 503 em controller de prova do filtro.
 **Gate**: F.
 **Commit**: `feat(errors): standardize safe problem details responses`
