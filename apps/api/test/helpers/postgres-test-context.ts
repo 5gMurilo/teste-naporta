@@ -85,7 +85,7 @@ export async function createPostgresTestContext(
     environment.JWT_ISSUER = 'naporta-test';
     environment.JWT_AUDIENCE = 'naporta-test-client';
     environment.JWT_EXPIRES_IN = '3600';
-    environment.REDIS_URL = 'redis://localhost:6379';
+    environment.REDIS_URL = 'redis://127.0.0.1:1';
     delete environment.CACHE_TTL_SECONDS;
     delete environment.CACHE_TIMEOUT_MS;
 

@@ -14,7 +14,7 @@ const config = loadApiConfig({
   JWT_ISSUER: 'naporta-test',
   JWT_AUDIENCE: 'naporta-web-test',
   JWT_EXPIRES_IN: '900',
-  REDIS_URL: 'redis://localhost:6379',
+  REDIS_URL: 'redis://127.0.0.1:1',
 });
 
 const jwt = new JwtService({

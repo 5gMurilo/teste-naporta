@@ -43,6 +43,7 @@
     "class-validator": "^0.15.1",
     "dotenv": "^18.0.8",
     "pg": "8.23.1",
+    "redis": "6.3.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "zod": "4.6.7"
@@ -52,6 +53,7 @@
     "@jest/globals": "30.5.2",
     "@nestjs/testing": "^12.2.0",
     "@testcontainers/postgresql": "12.2.1",
+    "@testcontainers/redis": "12.2.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.6.5",
     "@types/pg": "^8.23.1",

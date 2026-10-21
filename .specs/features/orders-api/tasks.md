@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T25 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T26 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -413,7 +413,7 @@ T47 -> T48
 **Depends on**: T25
 **Reuses**: Config, lifecycle/harness PostgreSQL; cliente node-redis compatível com Node escolhido.
 **Requirement**: CACHE-04, CACHE-08, QA-02, QA-03, QA-08.
-**Done when**: [ ] Startup fail-open, ready/offline queue explícitos, deadline de conexão/comando, error handler seguro e close; helper isola/limpa namespace exclusivo por teste, encerra Redis e restaura env até em falha parcial.
+**Done when**: [x] Startup fail-open, ready/offline queue explícitos, deadline de conexão/comando, error handler seguro e close; helper isola/limpa namespace exclusivo por teste, encerra Redis e restaura env até em falha parcial.
 **Tests**: Unit + Redis real, U02/U25/I27/I32, >=6 casos de conexão, timeout, indisponibilidade, cleanup e env; nenhuma fila tardia sem controle.
 **Gate**: F.
 **Commit**: `feat(cache): manage bounded redis operations safely`
