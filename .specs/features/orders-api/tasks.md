@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T22 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T23 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -378,7 +378,7 @@ T47 -> T48
 **Depends on**: T22
 **Reuses**: Schemas query, presenter de resumo e repository concreto.
 **Requirement**: LIST-01, LIST-02, LIST-03, LIST-04, LIST-05, LIST-06, LIST-07, DOC-03, DOC-04.
-**Done when**: [ ] Filtros AND, trim/exato/case-sensitive, limites UTC, sort com empate, defaults/meta/vazio; sem itens ou paginação em memória; docs/query/security/erros presentes.
+**Done when**: [x] Filtros AND, trim/exato/case-sensitive, limites UTC, sort com empate, defaults/meta/vazio; sem itens ou paginação em memória; docs/query/security/erros presentes.
 **Tests**: Unit + HTTP/PG + contrato U18/I16/I17/I18/I19, >=9 cenários incluindo limites exatos e count/filter iguais.
 **Gate**: F.
 **Commit**: `feat(orders): list active orders with exact filters`

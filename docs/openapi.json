@@ -166,6 +166,54 @@
         ],
         "type": "object"
       },
+      "ListOrdersResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/OrderSummaryResponse"
+            },
+            "type": "array"
+          },
+          "meta": {
+            "additionalProperties": false,
+            "properties": {
+              "page": {
+                "maximum": 9007199254740991,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "pageSize": {
+                "maximum": 100,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "total": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "totalPages": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "page",
+              "pageSize",
+              "total",
+              "totalPages"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "type": "object"
+      },
       "LoginRequest": {
         "additionalProperties": false,
         "properties": {
@@ -369,6 +417,50 @@
           "totalCents",
           "createdAt",
           "updatedAt"
+        ],
+        "type": "object"
+      },
+      "OrderSummaryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "type": "string"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "expectedDeliveryDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "expectedDeliveryDate",
+          "customer",
+          "createdAt"
         ],
         "type": "object"
       },
@@ -650,6 +742,161 @@
       }
     },
     "/api/v1/orders": {
+      "get": {
+        "operationId": "OrdersController_list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "orderNumber",
+            "required": false,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "PENDING",
+                "PROCESSING",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELED"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdFrom",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdTo",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Page number, starting at 1. Defaults to 1.",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "description": "Page number, starting at 1. Defaults to 1.",
+              "example": "1",
+              "pattern": "^\\d+$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Items per page, 1 to 100. Defaults to 20.",
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "description": "Items per page, 1 to 100. Defaults to 20.",
+              "example": "20",
+              "pattern": "^\\d+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOrdersResponse"
+                }
+              }
+            },
+            "description": "Active orders matching every filter (AND), newest first. Pages past the end return an empty list."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "VALIDATION_ERROR",
+                  "detail": "The request is invalid.",
+                  "errors": [
+                    {
+                      "field": "pageSize",
+                      "message": "Too big: expected number to be <=100"
+                    }
+                  ],
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 400,
+                  "title": "Bad Request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Invalid or unknown query parameters, or createdFrom after createdTo."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "UNAUTHORIZED",
+                  "detail": "Authentication is required or the token is invalid.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 401,
+                  "title": "Unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Missing, invalid, or expired bearer token."
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "code": "INTERNAL_SERVER_ERROR",
+                  "detail": "An unexpected error occurred.",
+                  "instance": "/api/v1/orders",
+                  "requestId": "5f0d1b0e-3f0e-4a56-8b57-3d9d6f9c2a10",
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unexpected failure."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      },
       "post": {
         "operationId": "OrdersController_create",
         "parameters": [],

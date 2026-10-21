@@ -4,10 +4,16 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import {
   type OrderDetailModel,
   type OrderSnapshotModel,
+  type OrderSummaryModel,
   orderDetailSelect,
   orderSnapshotSelect,
+  orderSummarySelect,
 } from './orders.projections.js';
-import { type CreateOrderRequest, startOfDayUtc } from './schemas/orders.schemas.js';
+import {
+  type CreateOrderRequest,
+  type ListOrdersQuery,
+  startOfDayUtc,
+} from './schemas/orders.schemas.js';
 
 export type NewOrder = CreateOrderRequest & { status: NonNullable<CreateOrderRequest['status']> };
 
@@ -42,5 +48,31 @@ export class OrdersRepository {
       (tx) => tx.order.findFirst({ where: { id, deletedAt: null }, select: orderSnapshotSelect }),
       { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
     );
+  }
+
+  /** One where clause feeds both the page and the count, so `total` always matches the filter. */
+  async list(query: ListOrdersQuery): Promise<{ orders: OrderSummaryModel[]; total: number }> {
+    const where: Prisma.OrderWhereInput = {
+      deletedAt: null,
+      ...(query.orderNumber !== undefined && { orderNumber: query.orderNumber }),
+      ...(query.status !== undefined && { status: query.status }),
+      ...((query.createdAtFrom || query.createdAtBefore) && {
+        createdAt: {
+          ...(query.createdAtFrom && { gte: query.createdAtFrom }),
+          ...(query.createdAtBefore && { lt: query.createdAtBefore }),
+        },
+      }),
+    };
+    const [orders, total] = await Promise.all([
+      this.prisma.order.findMany({
+        where,
+        select: orderSummarySelect,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+        skip: (query.page - 1) * query.pageSize,
+        take: query.pageSize,
+      }),
+      this.prisma.order.count({ where }),
+    ]);
+    return { orders, total };
   }
 }

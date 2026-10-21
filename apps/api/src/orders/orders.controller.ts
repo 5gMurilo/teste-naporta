@@ -1,5 +1,5 @@
 import type { ServerResponse } from 'node:http';
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { z } from 'zod';
 import {
@@ -9,11 +9,18 @@ import {
 } from '../common/errors/problem-details.dto.js';
 import { BEARER_AUTH } from '../docs/openapi.js';
 import { OrderPresenter } from './dto/order.presenter.js';
-import { type OrderResponse, orderResponseSchema } from './dto/order.responses.js';
+import {
+  type ListOrdersResponse,
+  listOrdersResponseSchema,
+  type OrderResponse,
+  orderResponseSchema,
+} from './dto/order.responses.js';
 import { OrdersService } from './orders.service.js';
 import {
   type CreateOrderRequest,
   createOrderRequestSchema,
+  type ListOrdersQuery,
+  listOrdersQuerySchema,
   orderParamsSchema,
 } from './schemas/orders.schemas.js';
 
@@ -101,6 +108,56 @@ export class OrdersController {
     const order = await this.orders.create(body);
     response.setHeader('Location', `/api/v1/orders/${order.id}`);
     return OrderPresenter.detail(order);
+  }
+
+  @Get()
+  @ApiResponse({
+    status: 200,
+    description:
+      'Active orders matching every filter (AND), newest first. Pages past the end return an empty list.',
+    standardSchema: listOrdersResponseSchema,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid or unknown query parameters, or createdFrom after createdTo.',
+    content: problemJsonContent(
+      problem(400, 'Bad Request', 'VALIDATION_ERROR', 'The request is invalid.', '/api/v1/orders', {
+        errors: [{ field: 'pageSize', message: 'Too big: expected number to be <=100' }],
+      }),
+      'ValidationProblemDetails',
+    ),
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Missing, invalid, or expired bearer token.',
+    content: problemJsonContent(
+      problem(
+        401,
+        'Unauthorized',
+        'UNAUTHORIZED',
+        'Authentication is required or the token is invalid.',
+        '/api/v1/orders',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Unexpected failure.',
+    content: problemJsonContent(
+      problem(
+        500,
+        'Internal Server Error',
+        'INTERNAL_SERVER_ERROR',
+        'An unexpected error occurred.',
+        '/api/v1/orders',
+      ),
+    ),
+  })
+  async list(
+    @Query({ schema: listOrdersQuerySchema }) query: ListOrdersQuery,
+  ): Promise<ListOrdersResponse> {
+    const { orders, total } = await this.orders.list(query);
+    return OrderPresenter.list(orders, total, query.page, query.pageSize);
   }
 
   @Get(':id')

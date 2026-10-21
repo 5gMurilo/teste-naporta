@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T22 concluídas, 22/53 tarefas concluídas.
-- **Completed**: T19–T21 commitadas (até `efe45ac`). T22: `GET /api/v1/orders/:id` sem cache, leitura do pedido, itens e cacheRevision num único snapshot RepeatableRead (repository), ORDER_NOT_FOUND para inexistente/excluído, id validado por schema de params (campo `id` no erro), mesma resposta do POST, DATE e total máximo estáveis em três fusos, dois usuários acessam. Gate F verde: 232 unitários, e2e 1, integração 48, contrato 16, cobertura e build.
+- **Phase / Task**: T1–T23 concluídas, 23/53 tarefas concluídas.
+- **Completed**: T19–T22 commitadas (até `049a081`). T23: `GET /api/v1/orders` com filtros AND (número exato com trim, status, período UTC semiaberto), sort createdAt DESC/id DESC, projeção de resumo sem itens, paginação e total pelo mesmo where no banco, página além do fim vazia, totalPages 0 quando vazio; query inválida retorna 400; OpenAPI com cada filtro como query string opcional. Gate F verde: 235 unitários, e2e 1, integração 69, contrato 18, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T23 (GET /api/v1/orders com filtros e paginação).
+- **Next step**: T24 (PATCH /api/v1/orders/:id).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-orders.
