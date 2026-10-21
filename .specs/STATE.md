@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T14 concluídas, 14/53 tarefas concluídas.
-- **Completed**: T11–T13 commitadas (`8c5b8be`, `185735e`, `67b6fa6`). T14: `GET /api/v1/health` (`HealthController`/`HealthModule`) consulta `SELECT 1` real; 200 `{status:ok,database:up}` ou 503 SERVICE_UNAVAILABLE sem detalhe do driver (provado contra PostgreSQL real e contra porta inalcançável). `@nestjs/swagger` 12.0.2 adicionado; docs 200/503 declaradas por decorators (verificação via documento OpenAPI em T18). Gate F verde: 79 unitários, e2e 1, integração 13, cobertura e build.
+- **Phase / Task**: T1–T15 concluídas, 15/53 tarefas concluídas.
+- **Completed**: T11–T14 commitadas (até `5214dd8`). T15: `POST /api/v1/auth/login` (AuthModule/Controller/Service) com schema Zod estrito (`@Body({schema})` + `StandardSchemaValidationPipe` global), argon2 verify com hash descartável para email desconhecido, JWT HS256 (sub, email, iat, exp, iss, aud) via `@nestjs/jwt` 12.0.3, `InvalidCredentialsError` 401. Contrato OpenAPI do login gerado com `SwaggerModule.createDocument` e verificado em `login.contract.spec.ts`. Gate F verde: 90 unitários, e2e 1, integração 20, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T15 (login JWT demonstrativo; adicionar @nestjs/jwt).
+- **Next step**: T16 (@Public).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.

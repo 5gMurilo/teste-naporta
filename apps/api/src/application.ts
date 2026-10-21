@@ -1,11 +1,19 @@
-import { ConsoleLogger, type INestApplication, ValidationPipe } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  type INestApplication,
+  StandardSchemaValidationPipe,
+  ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { createAppModule } from './app.module.js';
 import {
   ProblemDetailsFilter,
   type ProblemLogger,
 } from './common/errors/problem-details.filter.js';
-import { validationExceptionFactory } from './common/errors/validation.exception.js';
+import {
+  schemaExceptionFactory,
+  validationExceptionFactory,
+} from './common/errors/validation.exception.js';
 import { requestIdMiddleware } from './common/http/request-id.middleware.js';
 import type { ApiConfig } from './config/env.js';
 
@@ -17,6 +25,7 @@ export function configureApplication(
 ): void {
   app.use(requestIdMiddleware);
   app.useGlobalPipes(
+    new StandardSchemaValidationPipe({ exceptionFactory: schemaExceptionFactory }),
     new ValidationPipe({
       transform: true,
       whitelist: true,

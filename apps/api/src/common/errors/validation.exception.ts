@@ -1,4 +1,13 @@
-import { BadRequestException, type ValidationError } from '@nestjs/common';
+import {
+  BadRequestException,
+  type StandardSchemaValidationPipeOptions,
+  type ValidationError,
+} from '@nestjs/common';
+
+type SchemaIssues = Parameters<
+  NonNullable<StandardSchemaValidationPipeOptions['exceptionFactory']>
+>[0];
+type SchemaIssue = SchemaIssues[number];
 
 export type FieldError = { field: string; message: string };
 
@@ -18,4 +27,17 @@ function flatten(errors: ValidationError[], parent = ''): FieldError[] {
 
 export function validationExceptionFactory(errors: ValidationError[]): RequestValidationException {
   return new RequestValidationException(flatten(errors));
+}
+
+function pathOf(issue: SchemaIssue): string {
+  const segments = (issue.path ?? []).map((segment) =>
+    String(typeof segment === 'object' ? segment.key : segment),
+  );
+  return segments.length > 0 ? segments.join('.') : 'body';
+}
+
+export function schemaExceptionFactory(issues: SchemaIssues): RequestValidationException {
+  return new RequestValidationException(
+    issues.map((issue) => ({ field: pathOf(issue), message: issue.message })),
+  );
 }

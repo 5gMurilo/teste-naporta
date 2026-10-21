@@ -14,3 +14,14 @@ export class OrderNumberAlreadyExistsError extends DomainError {
     this.name = 'OrderNumberAlreadyExistsError';
   }
 }
+
+export class InvalidCredentialsError extends DomainError {
+  readonly status = 401;
+  readonly code = 'INVALID_CREDENTIALS';
+  readonly detail = 'Invalid email or password.';
+
+  constructor() {
+    super('Invalid credentials');
+    this.name = 'InvalidCredentialsError';
+  }
+}

@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T14 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T15 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -288,7 +288,7 @@ T47 -> T48
 **Depends on**: T14
 **Reuses**: User seed/hash, config, PrismaService e filtro; @nestjs/jwt compatível.
 **Requirement**: AUTH-01, AUTH-02, AUTH-03, AUTH-08, VAL-01, VAL-02, DOC-02, DOC-04.
-**Done when**: [ ] 200 TTL/tokenType exatos e claims mínimos HS256; email trim/lowercase, senha sem trim; credenciais erradas indistinguíveis; entrada estrita e OpenAPI com exemplos.
+**Done when**: [x] 200 TTL/tokenType exatos e claims mínimos HS256; email trim/lowercase, senha sem trim; credenciais erradas indistinguíveis; entrada estrita e OpenAPI com exemplos.
 **Tests**: Unit + HTTP/PG + contrato U03/U04/I04, >=6 casos de login, inexistente, senha errada, email normalizado, schema e claims/TTL.
 **Gate**: F.
 **Commit**: `feat(auth): issue bearer tokens from demo credentials`
