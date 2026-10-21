@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T13 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T14 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -277,7 +277,7 @@ T47 -> T48
 **Depends on**: T13
 **Reuses**: Factory, PrismaService, requestId e filtro global já entregues; metadata pública será aplicada antes de instalar guard global.
 **Requirement**: BOOT-05, BOOT-06, DOC-04.
-**Done when**: [ ] Banco acessível responde 200 exato; indisponível após startup responde 503 SERVICE_UNAVAILABLE em ProblemDetails com content-type e requestId; schemas/status/exemplos da unidade documentados.
+**Done when**: [x] Banco acessível responde 200 exato; indisponível após startup responde 503 SERVICE_UNAVAILABLE em ProblemDetails com content-type e requestId; schemas/status/exemplos da unidade documentados.
 **Tests**: Unit + HTTP/PostgreSQL real I22, >=4 casos de disponibilidade, consulta real, envelope 503 e falha sem detalhes do driver.
 **Gate**: F.
 **Commit**: `feat(health): report postgres availability over http`
