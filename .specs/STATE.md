@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T38 concluídas, 38/53 tarefas concluídas.
-- **Completed**: Etapa 6 encerrada em `cfedcf3` (registro `bce2a22`); branch feat/naporta-web-forms. T38: página de lista em /orders com filtros (número, status em pt-BR, período) aplicados explicitamente, limpar, tabela só com o resumo da API (nenhuma requisição por item), paginação anterior/próxima com meta e botões desabilitados nas pontas, voltar à página 1 ao aplicar filtro, estados de carregando/vazio/erro com nova tentativa, resposta antiga ignorada por AbortController, período invertido barrado no cliente, data civil exibida sem deslocamento de fuso. Browser real: lista vazia, filtros por status/número/período, 21 pedidos em duas páginas, erro 503 com retry, sessão expirada com aviso. Gate H verde: 94 testes web, 18 e2e web.
+- **Phase / Task**: T1–T39 concluídas, 39/53 tarefas concluídas.
+- **Completed**: T38 `ab43ed6`. T39: order-form-model com funções puras: valores do formulário como texto, fromOrder (sem ids de item), validateForm só estrutural (obrigatório, preço em centavos inteiros, ao menos um item; limites de negócio ficam com a API), toCreatePayload (texto aparado, complemento omitido se vazio, centavos inteiros, sem ids nem chaves locais) e toPatchPayload (só o que mudou; customer, endereço e itens sempre inteiros; sem alteração devolve undefined, nunca PATCH vazio; data civil como texto em três fusos). Tipos públicos de pedido em api-types. Gate W verde: 126 testes web.
 - **In-progress**: Nada.
-- **Next step**: T39 (modelo de formulário: payloads Create/PATCH).
+- **Next step**: T40 (editor de itens acessível).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-forms.

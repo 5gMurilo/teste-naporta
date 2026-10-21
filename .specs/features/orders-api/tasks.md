@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T38 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T39 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -560,7 +560,7 @@ T47 -> T48
 **Depends on**: T38
 **Reuses**: Tipos públicos/OpenAPI e semântica da spec; sem pacote compartilhado ou service no browser.
 **Requirement**: WEB-05, WEB-07, VAL-01, VAL-04.
-**Done when**: [ ] Centavos inteiros, DATE texto; PATCH só alterações com objetos/coleção completos; ids de item não enviados; mudança inexistente não envia PATCH vazio; validação cliente não cria regra nova de negócio.
+**Done when**: [x] Centavos inteiros, DATE texto; PATCH só alterações com objetos/coleção completos; ids de item não enviados; mudança inexistente não envia PATCH vazio; validação cliente não cria regra nova de negócio.
 **Tests**: Unit U32, >=9 casos de create, diff escalar/objeto/itens, omissão/limpeza complement, preço float, datas e sem alteração.
 **Gate**: W.
 **Commit**: `feat(web): serialize precise order form changes`
