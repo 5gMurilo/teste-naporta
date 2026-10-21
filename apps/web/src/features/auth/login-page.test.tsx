@@ -1,6 +1,13 @@
 import { act, screen, waitFor, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { json, loginSuccess, problem, type Route, renderApp } from '@/test-utils/render-app';
+import {
+  emptyList,
+  json,
+  loginSuccess,
+  problem,
+  type Route,
+  renderApp,
+} from '@/test-utils/render-app';
 
 const email = () => screen.getByLabelText('E-mail');
 const password = () => screen.getByLabelText('Senha');
@@ -136,17 +143,16 @@ describe('LoginPage form (U30, U34, U35)', () => {
   });
 
   it('differentiates an expired session from wrong credentials and clears the notice on success', async () => {
+    let expire = true;
     const app = await renderApp({
       path: '/orders',
       authenticated: true,
-      routes: { '/api/v1/orders': () => problem(401, 'UNAUTHORIZED') },
+      routes: {
+        '/api/v1/orders': (request) => (expire ? problem(401, 'UNAUTHORIZED') : emptyList(request)),
+      },
     });
-    await act(() =>
-      app
-        .session()
-        .http.request('/api/v1/orders')
-        .catch(() => undefined),
-    );
+    await screen.findByRole('heading', { name: 'Entrar' });
+    expire = false;
 
     expect(await screen.findByRole('status')).toHaveTextContent(
       'Sua sessão expirou. Entre novamente.',

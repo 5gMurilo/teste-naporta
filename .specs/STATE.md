@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T37 concluídas, 37/53 tarefas concluídas.
-- **Completed**: T31–T36 commitadas (até `e5e6eec`). T37: LoginPage (shadcn Card/Input/Label/Button) com labels associados, validação cliente sem chamada à API, erro de credencial calmo em pt-BR (foco na senha, e-mail preservado), 400 mapeado nos campos sem repetir texto da API, falha de rede com nova tentativa, envio único durante a requisição (botão desabilitado, aria-busy, guarda contra Enter), aviso de sessão expirada diferente de senha incorreta, redirecionamento pós-login seguro (safeRedirect só aceita caminhos internos), nada de senha ou token em DOM, URL ou storage. Browser real: 7 cenários em 390 px e 1280 px (login, logout, reload exige novo login, senha errada, teclado sem rolagem horizontal, clique repetido gera uma só chamada). Gate H e fechamento da etapa 6 verdes: 84 testes web (99,4% linhas, 91,1% branches), 13 e2e web, regressão completa da API e comandos da raiz.
+- **Phase / Task**: T1–T38 concluídas, 38/53 tarefas concluídas.
+- **Completed**: Etapa 6 encerrada em `cfedcf3` (registro `bce2a22`); branch feat/naporta-web-forms. T38: página de lista em /orders com filtros (número, status em pt-BR, período) aplicados explicitamente, limpar, tabela só com o resumo da API (nenhuma requisição por item), paginação anterior/próxima com meta e botões desabilitados nas pontas, voltar à página 1 ao aplicar filtro, estados de carregando/vazio/erro com nova tentativa, resposta antiga ignorada por AbortController, período invertido barrado no cliente, data civil exibida sem deslocamento de fuso. Browser real: lista vazia, filtros por status/número/período, 21 pedidos em duas páginas, erro 503 com retry, sessão expirada com aviso. Gate H verde: 94 testes web, 18 e2e web.
 - **In-progress**: Nada.
-- **Next step**: T38 (Phase 7, branch feat/naporta-web-forms: lista e filtros na web).
+- **Next step**: T39 (modelo de formulário: payloads Create/PATCH).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-web-platform.
+- **Branch**: feat/naporta-web-forms.

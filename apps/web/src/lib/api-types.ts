@@ -25,3 +25,33 @@ export interface LoginResponse {
   tokenType: 'Bearer';
   expiresIn: number;
 }
+
+export const ORDER_STATUSES = [
+  'PENDING',
+  'PROCESSING',
+  'SHIPPED',
+  'DELIVERED',
+  'CANCELED',
+] as const;
+export type OrderStatus = (typeof ORDER_STATUSES)[number];
+
+export interface Customer {
+  name: string;
+  document: string;
+}
+
+export interface OrderSummary {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  /** Civil date, YYYY-MM-DD. */
+  expectedDeliveryDate: string;
+  customer: Customer;
+  /** UTC instant, ISO 8601. */
+  createdAt: string;
+}
+
+export interface ListOrdersResponse {
+  data: OrderSummary[];
+  meta: { page: number; pageSize: number; total: number; totalPages: number };
+}

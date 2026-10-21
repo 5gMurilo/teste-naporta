@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { LoginRoute } from '@/features/auth/login-route';
 import { useSession } from '@/features/auth/session-provider';
+import { OrdersListPage } from '@/features/orders/orders-list-page';
 import { AppLayout } from './app-layout';
 import { NotFound } from './not-found';
-import { OrdersShell } from './orders-shell';
 import { ProtectedRoute } from './protected-route';
 
 function Home() {
@@ -19,7 +19,7 @@ export function AppRoutes() {
       <Route path="/login" element={<LoginRoute />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
-          <Route path="/orders" element={<OrdersShell />} />
+          <Route path="/orders" element={<OrdersListPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
