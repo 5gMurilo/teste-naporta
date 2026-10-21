@@ -3,4 +3,9 @@ dist/
 coverage/
 .env
 src/generated/prisma/
-.specs/
+.specs/*
+!.specs/STATE.md
+!.specs/features/
+.specs/features/*
+!.specs/features/orders-api/
+!.specs/features/orders-api/**
