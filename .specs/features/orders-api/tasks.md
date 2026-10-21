@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T52 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T53 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -718,7 +718,7 @@ T47 -> T48
 **Depends on**: T52
 **Reuses**: Scripts/Compose/docs/contratos e evidências reais; usuário faz merges.
 **Requirement**: DOC-06, OPS-05, QA-06, QA-07.
-**Done when**: [ ] Roteiro reproduzido em ambiente de prova e curls coerentes; scripts/portas/semântica/erros/limitações completos; registro final da etapa e traceabilidade atualizados antes do commit. QA-07 continua pendente até fechamento independente abaixo.
+**Done when**: [x] Roteiro reproduzido em ambiente de prova e curls coerentes; scripts/portas/semântica/erros/limitações completos; registro final da etapa e traceabilidade atualizados antes do commit. QA-07 continua pendente até fechamento independente abaixo.
 **Tests**: Documental + smoke de roteiro real E05–E08 e fluxo E01, >=5 checks de instalação/env/migration-seed/login-CRUD/web/comandos e gate completo; sem executar no banco da pessoa.
 **Gate**: A e validadores de spec/tarefas; após commit começa fechamento independente, não aprovação por autoavaliação.
 **Commit**: `docs(readme): document and prove the evaluator workflow`

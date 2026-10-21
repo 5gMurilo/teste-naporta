@@ -1,9 +1,9 @@
 # naPorta: design técnico
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Não executado; execução continua bloqueada até nova autorização explícita no chat.
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`) e executado: T1–T53 estão entregues (ver [tarefas](tasks.md)). Onde a implementação divergiu deste desenho, a divergência está em `docs/decisions.md`, seção "Desvios do plano".
 **Spec:** [spec.md](spec.md), revisão 2 aprovada com adendo de branches.
-**Limite desta rodada:** produzir os três artefatos de planejamento e apresentar no Plannotator. Mesmo uma aprovação na revisão não inicia execução; é necessária nova autorização no chat.
-**Baseline:** `feat/postgres-testcontainers` em `f039f21`; arquivos versionados limpos na inspeção. Nenhum build, teste de aplicação, instalação, container ou mudança de branch foi executado nesta rodada.
+**Limite da rodada de planejamento (histórico):** produzir os três artefatos e apresentá-los no Plannotator; a execução foi autorizada depois, no chat.
+**Baseline do planejamento:** `feat/postgres-testcontainers` em `f039f21`, antes de qualquer execução.
 
 ## Architecture Overview
 
