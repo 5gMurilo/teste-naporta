@@ -40,6 +40,9 @@ const apiSchema = z.object({
   REDIS_URL: redisUrl,
   CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(60),
   CACHE_TIMEOUT_MS: z.coerce.number().int().min(1).max(5000).default(200),
+  LOGIN_RATE_LIMIT: z.coerce.number().int().positive().default(5),
+  LOGIN_RATE_TTL_SECONDS: z.coerce.number().int().positive().default(60),
+  TRUST_PROXY_HOPS: z.coerce.number().int().nonnegative().default(0),
   CORS_ORIGIN: corsOrigin.optional(),
 });
 

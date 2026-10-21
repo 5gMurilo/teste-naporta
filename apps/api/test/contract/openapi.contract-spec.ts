@@ -85,6 +85,25 @@ describe('OpenAPI document and export', () => {
     }
   });
 
+  it('documents 429 with Retry-After on login', () => {
+    const login = doc.paths['/api/v1/auth/login'].post as Operation & {
+      responses: Record<
+        string,
+        {
+          headers?: Record<string, { schema?: { type?: string } }>;
+          content?: Record<string, unknown>;
+        }
+      >;
+    };
+    const limited = login.responses['429'];
+
+    expect(limited).toBeDefined();
+    expect(limited.headers?.['Retry-After']?.schema?.type).toBe('integer');
+    expect(Object.keys(limited.content ?? {})).toEqual(['application/problem+json']);
+    expect(JSON.stringify(limited.content)).toContain('"status":429');
+    expect(JSON.stringify(limited.content)).toContain('"code":"HTTP_ERROR"');
+  });
+
   it('exports byte-identical documents on repeated runs without reading the environment', async () => {
     const previous = process.env.DATABASE_URL;
     process.env.DATABASE_URL = 'postgresql://leak:leak-sentinel@unreachable.invalid:1/leak';
@@ -133,5 +152,34 @@ describe('Swagger UI and JSON over HTTP', () => {
 
     expect(json.body.openapi).toMatch(/^3\./);
     expect(Object.keys(json.body.paths).sort()).toEqual(PATHS);
+  });
+
+  it('serves the seven operations, bearerAuth and the nine named schemas', async () => {
+    const json = await request(app.getHttpServer()).get('/docs-json').expect(200);
+    const served = json.body as Doc;
+
+    expect(
+      operationsOf(served)
+        .map(([name]) => name)
+        .sort(),
+    ).toEqual(OPERATIONS);
+    expect(served.components.securitySchemes.bearerAuth).toEqual({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    });
+    expect(Object.keys(served.components.schemas)).toEqual(
+      expect.arrayContaining([
+        'LoginRequest',
+        'LoginResponse',
+        'CreateOrderRequest',
+        'UpdateOrderRequest',
+        'OrderResponse',
+        'OrderSummaryResponse',
+        'ListOrdersResponse',
+        'ProblemDetails',
+        'ValidationProblemDetails',
+      ]),
+    );
   });
 });

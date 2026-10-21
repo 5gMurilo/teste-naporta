@@ -69,6 +69,13 @@ describe('ProblemDetailsFilter with PostgreSQL', () => {
     expect(errors).toHaveLength(0);
   });
 
+  it('answers 500 with the problem details content type', async () => {
+    const response = await request(app.getHttpServer()).get('/probe/orphan-item').expect(500);
+
+    expect(response.headers['content-type']).toMatch(/^application\/problem\+json/);
+    expect(response.body).toMatchObject({ status: 500, code: 'INTERNAL_SERVER_ERROR' });
+  });
+
   it('hides a real foreign key violation behind a generic 500 and a safe log entry', async () => {
     const response = await request(app.getHttpServer()).get('/probe/orphan-item').expect(500);
 

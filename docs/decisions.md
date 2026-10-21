@@ -47,6 +47,7 @@ frontend, o Dockerfile e o Compose foram incluídos por solicitação posterior 
 | Preço em centavos inteiros (`INTEGER`) | Nenhum float em dinheiro | O total é calculado (`number`), nunca armazenado; chega a 100000000000 sem overflow porque a soma ocorre fora do `INTEGER` |
 | Data de entrega como `DATE`; criação como `timestamptz` UTC | Dia civil não tem fuso; instante tem | O presenter extrai o dia por partes UTC; o web trata a data como texto |
 | Exclusão lógica (`deletedAt`) | O pedido some das consultas, mas a linha e os itens permanecem | O `orderNumber` continua reservado: a unique inclui pedidos excluídos |
+| Filtros `createdFrom` e `createdTo` em UTC, inclusivos por dia | O dia começa às 00:00:00Z e o fim é o início do dia seguinte (`createdAt >= início` e `createdAt < início do dia seguinte`), sem 23:59:59.999 | Quem pensa em fuso local precisa converter o dia para UTC antes de filtrar |
 | `cacheRevision` interno | Versão do pedido para o cache (seção 8) | Coluna extra que nunca aparece em DTO nem em OpenAPI |
 
 Índices: unique de `orderNumber`, `OrderItem(orderId)` e `Order(deletedAt, createdAt, id)` para o filtro de

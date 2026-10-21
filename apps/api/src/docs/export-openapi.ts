@@ -29,18 +29,20 @@ export async function exportOpenApi(): Promise<string> {
 
 async function main(): Promise<void> {
   const check = process.argv.includes('--check');
+  const target =
+    process.argv.find((arg) => arg.startsWith('--file='))?.slice('--file='.length) ?? OPENAPI_PATH;
   try {
     const generated = await exportOpenApi();
     if (check) {
-      const current = await readFile(OPENAPI_PATH, 'utf8').catch(() => undefined);
+      const current = await readFile(target, 'utf8').catch(() => undefined);
       if (current !== generated) {
         console.error('docs/openapi.json is out of date. Run pnpm docs:openapi.');
         process.exitCode = 1;
       }
       return;
     }
-    await mkdir(dirname(OPENAPI_PATH), { recursive: true });
-    await writeFile(OPENAPI_PATH, generated);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, generated);
     console.info('docs/openapi.json written.');
   } catch {
     console.error('OpenAPI export failed.');

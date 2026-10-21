@@ -72,6 +72,8 @@ export async function startStack(steps: StackSteps): Promise<Stack> {
         JWT_ISSUER: 'naporta-e2e',
         JWT_AUDIENCE: 'naporta-e2e-web',
         JWT_EXPIRES_IN: '3600',
+        // Every test logs in; the login limit itself is proven by the API suites.
+        LOGIN_RATE_LIMIT: '1000',
       },
     });
     cleanups.push(() => api.stop());

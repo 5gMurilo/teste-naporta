@@ -15,6 +15,7 @@ const MESSAGES = {
   passwordRequired: 'Informe a senha.',
   invalidCredentials: 'E-mail ou senha incorretos.',
   invalidData: 'Verifique os dados informados.',
+  rateLimited: 'Muitas tentativas de entrada. Aguarde um minuto e tente novamente.',
   expired: 'Sua sessão expirou. Entre novamente.',
 } as const;
 
@@ -79,6 +80,8 @@ export function LoginPage() {
       if (error instanceof ApiError && error.code === 'INVALID_CREDENTIALS') {
         setFormError(MESSAGES.invalidCredentials);
         passwordInput.current?.focus();
+      } else if (error instanceof ApiError && error.status === 429) {
+        setFormError(MESSAGES.rateLimited);
       } else if (error instanceof ApiError && error.status === 400) {
         const errorsFromApi = fieldErrorsFrom(error);
         setFieldErrors(errorsFromApi);

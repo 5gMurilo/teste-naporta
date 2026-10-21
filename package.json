@@ -21,6 +21,7 @@
 		"test:integration": "turbo run test:integration",
 		"prisma:generate": "turbo run prisma:generate",
 		"prisma:validate": "turbo run prisma:validate",
+		"start": "pnpm --filter @naporta/api start",
 		"start:prod": "turbo run start:prod --filter=@naporta/api",
 		"db:generate": "turbo run db:generate",
 		"db:migrate:dev": "turbo run db:migrate:dev",

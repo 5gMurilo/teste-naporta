@@ -78,6 +78,26 @@ describe('LoginPage form (U30, U34, U35)', () => {
     expect(loginCalls(app.calls)).toHaveLength(0);
   });
 
+  it('shows the rate limit message on 429 without echoing API text', async () => {
+    const app = await renderApp({
+      path: '/login',
+      routes: {
+        '/api/v1/auth/login': () => problem(429, 'HTTP_ERROR', { detail: 'API sentinel detail' }),
+      },
+    });
+    await app.user.type(email(), 'demo@example.test');
+    await app.user.type(password(), 'errada');
+
+    await app.user.click(submit());
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Muitas tentativas de entrada. Aguarde um minuto e tente novamente.',
+    );
+    expect(screen.queryByText(/API sentinel detail/)).toBeNull();
+    expect(email()).toHaveValue('demo@example.test');
+    expect(submit()).toBeEnabled();
+  });
+
   it('maps a 400 from the API onto the fields without echoing API text', async () => {
     const app = await renderApp({
       path: '/login',

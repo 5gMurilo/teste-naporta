@@ -48,6 +48,16 @@ describe('docs/decisions.md (DOC-06, CACHE-05, WEB-01, MONO-01)', () => {
     }
   });
 
+  it('records that createdFrom and createdTo are UTC and inclusive per day', () => {
+    const line = decisions
+      .split('\n')
+      .find((candidate) => candidate.includes('createdFrom') && candidate.includes('createdTo'));
+
+    assert.ok(line, 'decisions must have a line about createdFrom and createdTo');
+    assert.match(line, /UTC/);
+    assert.match(line, /inclusiv/i);
+  });
+
   it('explains that a cache hit still queries the database and claims no measured gain', () => {
     assert.match(decisions, /hit ainda faz uma consulta pequena ao banco/);
     assert.match(decisions, /não se alega ganho de\s+desempenho/);
@@ -135,6 +145,12 @@ describe('README (DOC-06, OPS-05, QA-06)', () => {
     ]) {
       assert.ok(readme.includes(part), `README must mention ${part}`);
     }
+  });
+
+  it('README explains dev, start and start:prod', () => {
+    assert.match(readme, /\| `pnpm dev` \|[^|]*watch/);
+    assert.match(readme, /\| `pnpm start` \|[^|]*compila[^|]*uma vez, sem watch/i);
+    assert.match(readme, /\| `pnpm start:prod` \|[^|]*já compilada/);
   });
 
   it('only references root scripts that exist', () => {
