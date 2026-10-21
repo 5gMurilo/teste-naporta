@@ -5,8 +5,8 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev",
-		"lint": "pnpm --filter @naporta/api lint",
-		"lint:fix": "pnpm --filter @naporta/api lint:fix",
+		"lint": "turbo run lint",
+		"lint:fix": "turbo run lint:fix",
 		"format": "turbo run format",
 		"format:check": "turbo run format:check",
 		"typecheck": "turbo run typecheck",

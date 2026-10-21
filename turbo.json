@@ -6,6 +6,8 @@
 			"passThroughEnv": ["DATABASE_URL"],
 			"outputs": ["dist/**"]
 		},
+		"lint": { "cache": false },
+		"lint:fix": { "cache": false },
 		"typecheck": {
 			"dependsOn": ["^typecheck"],
 			"outputs": []

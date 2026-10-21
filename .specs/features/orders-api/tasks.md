@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T30 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T31 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -470,7 +470,7 @@ T47 -> T48
 **Depends on**: T30
 **Reuses**: pnpm/Turbo/estilo da raiz; configurar somente componentes necessários.
 **Requirement**: WEB-01, MONO-01, MONO-02, MONO-03, QA-05.
-**Done when**: [ ] App renderiza shell, build estático e testes DOM funcionam; scripts reais e coverage 80/70 da lógica própria; proxy Vite /api e env público restrito; Node/versões compatíveis registrados.
+**Done when**: [x] App renderiza shell, build estático e testes DOM funcionam; scripts reais e coverage 80/70 da lógica própria; proxy Vite /api e env público restrito; Node/versões compatíveis registrados.
 **Tests**: Componentes/estrutural, >=4 casos de renderização, build/proxy/env e workspace; E05 ampliado, sem teste vazio para passar runner.
 **Gate**: W e regressão B com ambos os apps.
 **Commit**: `feat(web): bootstrap a typed vite spa with shadcn ui`

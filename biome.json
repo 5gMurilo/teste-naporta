@@ -8,7 +8,8 @@
 			"!**/generated/**",
 			"!**/coverage/**",
 			"!**/.turbo/**",
-			"!**/.omc/**"
+			"!**/.omc/**",
+			"!**/components/ui/**"
 		]
 	},
 	"formatter": {
@@ -17,6 +18,7 @@
 		"lineEnding": "lf",
 		"lineWidth": 100
 	},
+	"css": { "parser": { "tailwindDirectives": true } },
 	"javascript": {
 		"formatter": { "quoteStyle": "single" },
 		"parser": { "unsafeParameterDecoratorsEnabled": true }
