@@ -10,7 +10,7 @@ Um commit por tarefa, somente após gate verde, incluindo testes/documentação/
 
 Cada tarefa tem uma unidade principal; arquivos auxiliares de wiring, teste, docs de contrato e lockfile são permitidos somente quando necessários para tornar essa mesma unidade verificável. Não tratar esse apoio como permissão para implementar componentes de tarefas futuras. Mudanças mecânicas de relocation são isoladas de mudanças funcionais.
 
-Ferramentas propostas por tarefa: ferramentas locais de arquivo/shell; Context7 para as bibliotecas tocadas; skills tlc-spec-driven, codenavi e coding-guidelines na implementação; well-commited antes de cada commit. Não usar MCP remoto de Jira/Workforce nem abrir PR. Confirmar ferramentas e eventual delegação antes da execução, não nesta rodada bloqueada. Verifier independente é obrigatório ao final, sem delegar implementação sem consentimento.
+Ferramentas propostas por tarefa: ferramentas locais de arquivo/shell; Context7 para as bibliotecas tocadas; skills tlc-spec-driven, codenavi e coding-guidelines na implementação; commits feitos diretamente com git (Conventional Commits, escopo da tarefa, sem `git add .`). Não usar MCP remoto de Jira/Workforce nem abrir PR. Confirmar ferramentas e eventual delegação antes da execução, não nesta rodada bloqueada. Verifier independente é obrigatório ao final, sem delegar implementação sem consentimento.
 
 ## Test Coverage Matrix
 
