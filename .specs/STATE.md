@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T16 concluídas, 16/53 tarefas concluídas.
-- **Completed**: T11–T15 commitadas (até `bf701da`). T16: `@Public()` (`IS_PUBLIC_KEY`, SetMetadata) aplicado nas classes AuthController e HealthController; testes de metadata em método, classe e ausência no AppController. Gate F verde: 93 unitários, e2e 1, integração 20, cobertura e build. O bypass real entra com o guard em T17.
+- **Phase / Task**: T1–T17 concluídas, 17/53 tarefas concluídas.
+- **Completed**: T11–T16 commitadas (até `eb3f8ad`). T17: `JwtAuthGuard` registrado como APP_GUARD em AuthModule; bypass só por metadata @Public; valida bearer, assinatura/algoritmo/exp/iss/aud (verifyOptions do JwtModule) e claims sub/email; principal mínimo em `request.principal`. GET / agora retorna 401 sem token (teste de request-id ajustado: o contrato mudou, a asserção de header permanece). U07 N/A: sem @CurrentUser. Gate F verde: 117 unitários, e2e 1, integração 22, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T17 (JwtAuthGuard global).
+- **Next step**: T18 (OpenAPI Swagger UI/JSON + export determinístico; fecha a Phase 3 com gate B).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-security.

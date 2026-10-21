@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T16 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T17 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 (T7–T10) em `feat/naporta-persistence` e, depois de T10 commitada, autorizou seguir para Phase 3 (T11–T18) em `feat/naporta-security`, uma tarefa por vez. Fases posteriores exigem nova autorização. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -310,7 +310,7 @@ T47 -> T48
 **Depends on**: T16
 **Reuses**: JWT config, decorator, filtro e AppModule real.
 **Requirement**: AUTH-04, AUTH-05, AUTH-06, AUTH-07.
-**Done when**: [ ] Assinatura/algoritmo/exp/iss/aud validados; GET / protegido; login/health sem token; fixtures existentes preservadas e testes AppModule acrescentados; U07 N/A registrado sem decorator cosmético.
+**Done when**: [x] Assinatura/algoritmo/exp/iss/aud validados; GET / protegido; login/health sem token; fixtures existentes preservadas e testes AppModule acrescentados; U07 N/A registrado sem decorator cosmético.
 **Tests**: Unit + HTTP real, U05/U06/I05/I06, >=8 casos de tokens, metadata e rota privada fixture; endpoints futuros levam teste sem Bearer no seu commit.
 **Gate**: F.
 **Commit**: `feat(auth): protect routes with a global jwt guard`

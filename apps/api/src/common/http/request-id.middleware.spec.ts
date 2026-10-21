@@ -53,7 +53,7 @@ describe('requestIdMiddleware', () => {
 describe('request id over HTTP', () => {
   afterEach(() => jest.restoreAllMocks());
 
-  it('adds a fresh X-Request-Id to success, not-found, and malformed JSON responses', async () => {
+  it('adds a fresh X-Request-Id to unauthorized, not-found, and malformed JSON responses', async () => {
     jest.spyOn(PrismaService.prototype, 'onModuleInit').mockResolvedValue();
     const app = await createApplication(
       loadApiConfig({
@@ -68,7 +68,7 @@ describe('request id over HTTP', () => {
     );
     try {
       const server = app.getHttpServer();
-      const ok = await request(server).get('/').set('X-Request-Id', 'client-chosen').expect(200);
+      const ok = await request(server).get('/').set('X-Request-Id', 'client-chosen').expect(401);
       const missing = await request(server).get('/missing').expect(404);
       const malformed = await request(server)
         .post('/')
