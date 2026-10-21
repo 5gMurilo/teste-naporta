@@ -104,6 +104,9 @@ describe('createOrderRequestSchema (U08, U09, U10)', () => {
     ['timestamp instead of date', { expectedDeliveryDate: '2026-11-03T00:00:00.000Z' }],
     ['unpadded date', { expectedDeliveryDate: '2026-1-3' }],
     ['empty date', { expectedDeliveryDate: '' }],
+    ['NUL in order number', { orderNumber: 'a\u0000b' }],
+    ['NUL in item description', { items: [{ description: 'a\u0000b', priceCents: 1 }] }],
+    ['NUL in complement', { deliveryAddress: { ...address, complement: 'a\u0000b' } }],
     ['unknown top level property', { extra: true }],
     ['private properties', { id: 'x', createdAt: '2026-01-01', updatedAt: 'x', deletedAt: null }],
   ])('rejects %s', (_name, override) => {

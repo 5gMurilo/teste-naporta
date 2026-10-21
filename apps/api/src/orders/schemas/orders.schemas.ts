@@ -29,7 +29,11 @@ export function startOfNextDayUtc(date: string): Date {
   return next;
 }
 
-const text = (max: number) => z.string().trim().min(1).max(max);
+// PostgreSQL text cannot store NUL; reject it as invalid input instead of failing the write.
+const noNul = (value: string) => !value.includes('\u0000');
+const NUL_MESSAGE = 'Must not contain null characters';
+
+const text = (max: number) => z.string().trim().min(1).max(max).refine(noNul, NUL_MESSAGE);
 
 const orderStatus = z.enum(Object.values(OrderStatus) as [OrderStatus, ...OrderStatus[]]);
 
@@ -44,7 +48,7 @@ export const deliveryAddressSchema = z
   .strictObject({
     street: text(160),
     number: text(20),
-    complement: z.string().trim().max(100).optional(),
+    complement: z.string().trim().max(100).refine(noNul, NUL_MESSAGE).optional(),
     neighborhood: text(100),
     city: text(100),
     state: z
@@ -86,7 +90,27 @@ export const createOrderRequestSchema = z
     deliveryAddress: deliveryAddressSchema,
     items: itemsSchema,
   })
-  .meta({ id: 'CreateOrderRequest' });
+  .meta({
+    id: 'CreateOrderRequest',
+    example: {
+      orderNumber: 'NP-2026-0001',
+      expectedDeliveryDate: '2026-11-03',
+      customer: { name: 'Ana Silva', document: '123.456.789-00' },
+      deliveryAddress: {
+        street: 'Rua das Flores',
+        number: '101',
+        complement: 'Apto 12',
+        neighborhood: 'Centro',
+        city: 'São Paulo',
+        state: 'SP',
+        postalCode: '01001000',
+      },
+      items: [
+        { description: 'Café especial', priceCents: 4990 },
+        { description: 'Caneca', priceCents: 0 },
+      ],
+    },
+  });
 
 export const updateOrderRequestSchema = z
   .strictObject({

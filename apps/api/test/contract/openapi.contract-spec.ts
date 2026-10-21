@@ -40,7 +40,7 @@ describe('OpenAPI document and export', () => {
       operationsOf(doc)
         .map(([name]) => name)
         .sort(),
-    ).toEqual(['GET /api/v1/health', 'POST /api/v1/auth/login']);
+    ).toEqual(['GET /api/v1/health', 'POST /api/v1/auth/login', 'POST /api/v1/orders']);
     expect(doc.components.securitySchemes.bearerAuth).toEqual({
       type: 'http',
       scheme: 'bearer',
@@ -120,6 +120,10 @@ describe('Swagger UI and JSON over HTTP', () => {
     await request(app.getHttpServer()).get('/').expect(401);
 
     expect(json.body.openapi).toMatch(/^3\./);
-    expect(Object.keys(json.body.paths).sort()).toEqual(['/api/v1/auth/login', '/api/v1/health']);
+    expect(Object.keys(json.body.paths).sort()).toEqual([
+      '/api/v1/auth/login',
+      '/api/v1/health',
+      '/api/v1/orders',
+    ]);
   });
 });

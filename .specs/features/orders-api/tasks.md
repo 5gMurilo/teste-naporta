@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T20 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T21 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -356,7 +356,7 @@ T47 -> T48
 **Depends on**: T20
 **Reuses**: Guard, schemas, presenter, Prisma e mapper.
 **Requirement**: ORDER-01, ORDER-02, ORDER-11, ORDER-12, VAL-01, VAL-02, VAL-03, VAL-05, ERR-03, DOC-03, DOC-04.
-**Done when**: [ ] 201/Location e persistência exatos; default PENDING; rollback e disputa de número comprovados; sem Bearer 401; inválido 400; conflito 409 e responses OpenAPI da rota.
+**Done when**: [x] 201/Location e persistência exatos; default PENDING; rollback e disputa de número comprovados; sem Bearer 401; inválido 400; conflito 409 e responses OpenAPI da rota.
 **Tests**: Unit + HTTP/PG + contrato U14/I07/I11/I14/I19/I20, >=8 cenários, incluindo falha de itens e mesmo número soft-deleted.
 **Gate**: F.
 **Commit**: `feat(orders): create orders and items atomically`
