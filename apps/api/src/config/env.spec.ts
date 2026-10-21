@@ -49,6 +49,15 @@ describe('loadApiConfig', () => {
     expect(() => loadApiConfig(env)).toThrow('JWT_SECRET');
   });
 
+  it('rejects a 31 character JWT_SECRET and accepts 32', () => {
+    expect(() => loadApiConfig({ ...validApiEnv(), JWT_SECRET: 'a'.repeat(31) })).toThrow(
+      'Invalid environment fields: JWT_SECRET',
+    );
+    expect(loadApiConfig({ ...validApiEnv(), JWT_SECRET: 'a'.repeat(32) }).JWT_SECRET).toBe(
+      'a'.repeat(32),
+    );
+  });
+
   it('rejects empty JWT_ISSUER', () => {
     const issuer = '';
     expect(() => loadApiConfig({ ...validApiEnv(), JWT_ISSUER: issuer })).toThrow('JWT_ISSUER');
