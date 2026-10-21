@@ -133,9 +133,46 @@ describe('ProblemDetailsFilter over HTTP', () => {
       method: 'GET',
       route: '/probe/boom',
       status: 500,
+      errorName: 'Error',
     });
     expect(logger.error.mock.calls[0]?.[0]).not.toMatch(
       /hunter2|SELECT|Bearer|header-secret|query-secret/,
     );
+  });
+
+  it('keeps the status of client errors raised by the body parser before any route runs (ERR-08)', async () => {
+    const tooLarge = await request(app.getHttpServer())
+      .post('/probe/validate')
+      .set('Content-Type', 'application/json')
+      .send(JSON.stringify({ email: 'a@b.co', password: 'x'.repeat(200_000) }))
+      .expect(413);
+    const badCharset = await request(app.getHttpServer())
+      .post('/probe/validate')
+      .set('Content-Type', 'application/json')
+      .set('Content-Encoding', 'x-unknown')
+      .send('{}')
+      .expect(415);
+
+    expect(tooLarge.headers['content-type']).toMatch(/^application\/problem\+json/);
+    expect(tooLarge.body).toMatchObject({
+      status: 413,
+      code: 'HTTP_ERROR',
+      title: 'Payload Too Large',
+    });
+    expect(badCharset.body).toMatchObject({ status: 415, code: 'HTTP_ERROR' });
+    expect(JSON.stringify([tooLarge.body, badCharset.body])).not.toMatch(/xxxx|x-unknown|limit/i);
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+
+  it('logs the error class and driver code, never the message, for unexpected failures', async () => {
+    await request(app.getHttpServer()).get('/probe/prisma-email-conflict').expect(500);
+
+    const entry = JSON.parse(logger.error.mock.calls[0]?.[0] ?? '{}');
+    expect(entry).toMatchObject({
+      status: 500,
+      errorName: 'PrismaClientKnownRequestError',
+      errorCode: 'P2002',
+    });
+    expect(logger.error.mock.calls[0]?.[0]).not.toMatch(/SELECT|leaked/);
   });
 });

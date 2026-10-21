@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { createApplication } from './application.js';
+import { createApplication, jsonErrorLogger } from './application.js';
 import { API_CONFIG, loadApiConfig } from './config/env.js';
 import { PrismaService } from './prisma/prisma.service.js';
 
@@ -58,5 +58,16 @@ describe('createApplication', () => {
     expect(error).toBeInstanceOf(Error);
     expect((error as Error).message).toBe('Unable to initialize API application');
     expect((error as Error).message).not.toContain('database-password-sentinel');
+  });
+
+  it('writes failure logs as one plain JSON object per line on stderr, without colour codes', () => {
+    const write = jest.spyOn(process.stderr, 'write').mockReturnValue(true);
+
+    jsonErrorLogger.error(JSON.stringify({ event: 'request_failed', status: 500 }));
+
+    const line = String(write.mock.calls[0]?.[0]);
+    expect(line.endsWith('\n')).toBe(true);
+    expect(line).not.toContain('\u001b[');
+    expect(JSON.parse(line)).toEqual({ event: 'request_failed', status: 500 });
   });
 });

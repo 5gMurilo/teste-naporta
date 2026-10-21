@@ -4,6 +4,7 @@ import {
   type IntegrationApp,
   validOrderBody,
 } from '../helpers/integration-app.js';
+import { assertRequestedZoneApplied } from '../helpers/process-zone.js';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -50,33 +51,27 @@ describe('POST /api/v1/orders with PostgreSQL', () => {
     expect(stored.cacheRevision).toBe(1);
   });
 
-  it('persists trimmed text, uppercase state, and the exact civil date under another time zone (I20)', async () => {
-    const previous = process.env.TZ;
-    process.env.TZ = 'America/Sao_Paulo';
-    try {
-      const body = {
-        ...validOrderBody(),
-        status: 'SHIPPED',
-        orderNumber: '  NP-TRIM  ',
-        deliveryAddress: { ...validOrderBody().deliveryAddress, state: ' sp ', city: '  Santos ' },
-      };
-      const response = await post(body).expect(201);
+  it('persists trimmed text, uppercase state, and the exact civil date in the process time zone [tz] (I20)', async () => {
+    assertRequestedZoneApplied();
+    const body = {
+      ...validOrderBody(),
+      status: 'SHIPPED',
+      orderNumber: '  NP-TRIM  ',
+      deliveryAddress: { ...validOrderBody().deliveryAddress, state: ' sp ', city: '  Santos ' },
+    };
+    const response = await post(body).expect(201);
 
-      const [row] = await env.prisma.$queryRaw<
-        { orderNumber: string; date: string; address: { state: string; city: string } }[]
-      >`SELECT "orderNumber", "expectedDeliveryDate"::text AS date, "deliveryAddress" AS address
-        FROM "Order" WHERE id = ${response.body.id}::uuid`;
-      expect(row).toMatchObject({
-        orderNumber: 'NP-TRIM',
-        date: '2026-11-03',
-        address: { state: 'SP', city: 'Santos' },
-      });
-      expect(response.body.status).toBe('SHIPPED');
-      expect(response.body.expectedDeliveryDate).toBe('2026-11-03');
-    } finally {
-      if (previous === undefined) delete process.env.TZ;
-      else process.env.TZ = previous;
-    }
+    const [row] = await env.prisma.$queryRaw<
+      { orderNumber: string; date: string; address: { state: string; city: string } }[]
+    >`SELECT "orderNumber", "expectedDeliveryDate"::text AS date, "deliveryAddress" AS address
+      FROM "Order" WHERE id = ${response.body.id}::uuid`;
+    expect(row).toMatchObject({
+      orderNumber: 'NP-TRIM',
+      date: '2026-11-03',
+      address: { state: 'SP', city: 'Santos' },
+    });
+    expect(response.body.status).toBe('SHIPPED');
+    expect(response.body.expectedDeliveryDate).toBe('2026-11-03');
   });
 
   it('accepts boundary values: past date, generic document, free item, 50 maximum items (I20)', async () => {

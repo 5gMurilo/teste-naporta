@@ -11,6 +11,8 @@ type JsonSchema = {
   required?: string[];
   additionalProperties?: boolean;
   minItems?: number;
+  minProperties?: number;
+  pattern?: string;
   maxItems?: number;
 };
 
@@ -59,6 +61,7 @@ describe('orders schemas as OpenAPI input', () => {
     expect(create.additionalProperties).toBe(false);
     expect(create.properties?.items).toMatchObject({ type: 'array', minItems: 1, maxItems: 50 });
     expect(update.required ?? []).toEqual([]);
+    expect(update.minProperties).toBe(1);
     expect(update.additionalProperties).toBe(false);
   });
 });

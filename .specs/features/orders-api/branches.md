@@ -1,8 +1,8 @@
 # naPorta: mapa de branches e entregas
 
-**Status:** aprovado na revisão conjunta com [design.md](design.md) e [tasks.md](tasks.md), via Plannotator em 2026-10-21 (`decision: approved`). Nenhuma etapa executada.
+**Status:** aprovado na revisão conjunta com [design.md](design.md) e [tasks.md](tasks.md), via Plannotator em 2026-10-21 (`decision: approved`); etapas 1 a 9 executadas conforme a tabela de registro abaixo.
 **Regra ativa:** AD-001 em `.specs/STATE.md`, uma branch por etapa, commits atômicos por tarefa, merges pelo usuário.
-**Execução bloqueada:** nesta rodada nenhuma branch, commit, merge ou push será criado, mesmo após aprovação no Plannotator.
+**Merges:** não foram feitos pelo agente; ficam a cargo do usuário, na ordem da cadeia abaixo. Nenhum push, merge, rebase ou exclusão de branch foi executado.
 
 ## Etapas propostas
 
@@ -63,7 +63,7 @@ Hoje `.gitignore` ignora toda `.specs/`. T1 planeja exceções seletivas para o 
 | 6 | 3cd9798 (etapa 5 validada; 25fc3d5 registra) | cfedcf3 | Gate H e regressão dos dois apps pelos comandos da raiz | Done |
 | 7 | cfedcf3 (etapa 6 validada; bce2a22 registra) | 2e62e32 | Gates W e H, regressão dos dois apps pelos comandos da raiz | Done |
 | 8 | 2e62e32 (etapa 7 validada; 0de6c17 registra) | 8409d63 | Gates W e H, E01 a E04 completos com stack real, regressão pelos comandos da raiz | Done |
-| 9 | A obter após etapa 8 | Ainda não criado | Não executado | Not started |
+| 9 | 8409d63 (etapa 8 validada; e0d5356 registra) | 9ea8604 | `pnpm check` completo em exit 0 (lint, format, typecheck, scripts, build, unit, contrato, drift OpenAPI, cobertura, e2e, integração, e2e web, containers); roteiro do README reproduzido em Compose e em desenvolvimento local | Done e verificado de forma independente (ciclo 1 fechado em `f8dc0ab`) |
 
 ## Fechamento futuro
 

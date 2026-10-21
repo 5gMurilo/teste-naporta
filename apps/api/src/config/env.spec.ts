@@ -1,4 +1,4 @@
-import { loadApiConfig, loadSeedConfig } from './env.js';
+import { ConfigError, loadApiConfig, loadSeedConfig } from './env.js';
 
 const validApiEnv = (): NodeJS.ProcessEnv => ({
   NODE_ENV: 'test',
@@ -146,5 +146,26 @@ describe('loadSeedConfig', () => {
         SEED_USER_PASSWORD: 'demo-password',
       }),
     ).toThrow('SEED_USER_EMAIL');
+  });
+});
+
+describe('ConfigError', () => {
+  it('is thrown for invalid input and names only the offending variables, never their values', () => {
+    const attempt = () =>
+      loadApiConfig({
+        ...validApiEnv(),
+        JWT_SECRET: 'too-short-secret-value',
+        DATABASE_URL: 'not-a-url',
+      });
+
+    expect(attempt).toThrow(ConfigError);
+    expect(attempt).toThrow('Invalid environment fields: DATABASE_URL, JWT_SECRET');
+    expect(attempt).not.toThrow(/too-short-secret-value|not-a-url/);
+  });
+
+  it('reports a missing variable the same way', () => {
+    const { JWT_SECRET: _omitted, ...withoutSecret } = validApiEnv();
+
+    expect(() => loadApiConfig(withoutSecret)).toThrow('Invalid environment fields: JWT_SECRET');
   });
 });

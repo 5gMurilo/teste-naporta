@@ -38,6 +38,7 @@
             "$ref": "#/components/schemas/DeliveryAddress"
           },
           "expectedDeliveryDate": {
+            "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
             "example": "2026-11-03",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
             "type": "string"
@@ -127,8 +128,9 @@
             "type": "string"
           },
           "state": {
+            "description": "Two letters; uppercased by the API.",
             "example": "SP",
-            "pattern": "^[A-Z]{2}$",
+            "pattern": "^[A-Za-z]{2}$",
             "type": "string"
           },
           "street": {
@@ -514,9 +516,11 @@
       },
       "UpdateOrderRequest": {
         "additionalProperties": false,
+        "description": "At least one field is required; customer, deliveryAddress and items replace the stored value.",
         "example": {
           "status": "SHIPPED"
         },
+        "minProperties": 1,
         "properties": {
           "customer": {
             "allOf": [
@@ -533,6 +537,7 @@
             ]
           },
           "expectedDeliveryDate": {
+            "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
             "type": "string"
           },
@@ -822,19 +827,23 @@
             }
           },
           {
+            "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
             "in": "query",
             "name": "createdFrom",
             "required": false,
             "schema": {
+              "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
               "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
               "type": "string"
             }
           },
           {
+            "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
             "in": "query",
             "name": "createdTo",
             "required": false,
             "schema": {
+              "description": "Real calendar date, YYYY-MM-DD (not a timestamp).",
               "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
               "type": "string"
             }

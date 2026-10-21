@@ -1,2 +1,6 @@
 packages:
   - 'apps/*'
+# Prisma downloads its schema engine in postinstall; migrate deploy cannot run without it.
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - prisma

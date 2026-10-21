@@ -15,10 +15,8 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T47 concluídas, 47/53 tarefas concluídas.
-- **Completed**: T44–T46 commitadas (até `d298db9`). T47: DeleteOrderDialog (shadcn AlertDialog) na lista e no detalhe: confirmação com título e descrição acessíveis, foco inicial em Cancelar e retorno ao gatilho, Esc/Cancelar não chamam a API, Confirmar envia um DELETE e só fecha e atualiza após o 204, não pode ser dispensado nem repetido enquanto pendente, falhas (rede, 404) mantêm o diálogo aberto com o motivo; lista recarrega, volta à página anterior quando a última página fica vazia e leva o foco ao título; detalhe volta à lista. Fluxo vertical E01 completo no browser real (criar, filtrar, abrir, editar, excluir, conferido pela API) mais cancelamento, clique duplo, rede, paginação e teclado em 390 px. Gate H e fechamento da etapa 8 verdes: 212 testes web (99,35% linhas, 93,4% branches), 41 e2e web, regressão completa e comandos da raiz.
-- **In-progress**: Nada.
-- **Next step**: T48 (Phase 9, branch feat/naporta-delivery: imagem Docker da API).
-- **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
+- **Status**: T1–T53 concluídas e commitadas nas branches encadeadas `feat/naporta-persistence` até `feat/naporta-delivery` (ver branches.md). Verificação independente feita (`validation.md`, ciclo 1) e lacunas reverificadas (`revalidation.md`); `pnpm check` com exit 0 em clone limpo.
+- **Next step**: o usuário revisa e faz os merges na ordem da cadeia. Nenhum push, merge ou rebase foi feito.
+- **Blockers**: Nenhum. Requer Docker e `pnpm --filter @naporta/web exec playwright install chromium`.
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-web-orders.
+- **Branch**: feat/naporta-delivery.

@@ -1,6 +1,6 @@
 # naPorta: API de pedidos, cache Redis e frontend de validação
 
-**Status:** revisão 2 aprovada no Plannotator em 2026-10-21 (`decision: approved`). [Design](design.md), [tarefas](tasks.md) e [mapa de branches](branches.md) também aprovados na revisão conjunta. Implementação não iniciada e explicitamente bloqueada pelo usuário até nova autorização no chat, mesmo após aprovação dos documentos.
+**Status:** implementada e verificada de forma independente (T1–T53, uma branch por etapa, commits atômicos por tarefa; ver [tarefas](tasks.md), [branches](branches.md), [validation.md](validation.md) e [revalidation.md](revalidation.md)). A revisão 2 foi aprovada no Plannotator em 2026-10-21.
 **Data:** 2026-10-21.
 **Prioridade:** P0 obrigatório e P1 opcional, conforme o handoff. P1 nesta spec não significa MVP.
 **Fontes:** `/Users/digitalrepublic/Downloads/naporta-codex-handoff/CODEX_HANDOFF.md` e `AGENTS.md`, lidos integralmente.
@@ -579,105 +579,105 @@ Controllers cuidam de HTTP/DTO; services de casos de uso; repository concreto ce
 
 ## Requirement Traceability
 
-Cada ID identifica o critério EARS correspondente. Tarefas e evidências só serão preenchidas nas etapas posteriores; nenhum item abaixo está implementado ou verificado por esta spec.
+Cada ID identifica o critério EARS correspondente. As provas por requisito estão nos cenários U/I/E acima e nos testes do repositório (`apps/api/src`, `apps/api/test`, `apps/web`, `scripts`). "Verified" significa: confirmado pelo Verifier independente ([validation.md](validation.md)) e, para as lacunas apontadas, reconfirmado em [revalidation.md](revalidation.md) após as correções.
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| BOOT-01 | S1: stack e build | Specify | Pending |
-| BOOT-02 | S1: migrations/modelos | Specify | Pending |
-| BOOT-03 | S1: ambiente validado | Specify | Pending |
-| BOOT-04 | S1: lifecycle Prisma | Specify | Pending |
-| BOOT-05 | S1: health disponível | Specify | Pending |
-| BOOT-06 | S1: health indisponível | Specify | Pending |
-| AUTH-01 | S2: login válido | Specify | Pending |
-| AUTH-02 | S2: claims mínimos | Specify | Pending |
-| AUTH-03 | S2: credenciais inválidas | Specify | Pending |
-| AUTH-04 | S2: validação Bearer | Specify | Pending |
-| AUTH-05 | S2: metadata pública | Specify | Pending |
-| AUTH-06 | S2: proteção por padrão | Specify | Pending |
-| AUTH-07 | S2: acesso compartilhado | Specify | Pending |
-| AUTH-08 | S2: hash seguro | Specify | Pending |
-| ORDER-01 | S3: criação | Specify | Pending |
-| ORDER-02 | S3: status inicial | Specify | Pending |
-| ORDER-03 | S3: detalhe e DTO | Specify | Pending |
-| ORDER-04 | S3: total | Specify | Pending |
-| ORDER-05 | S3: preservação dos itens | Specify | Pending |
-| ORDER-06 | S3: substituição dos itens | Specify | Pending |
-| ORDER-07 | S3: substituição dos objetos | Specify | Pending |
-| ORDER-08 | S3: status sem máquina | Specify | Pending |
-| ORDER-09 | S3: soft delete | Specify | Pending |
-| ORDER-10 | S3: inexistente/excluído | Specify | Pending |
-| ORDER-11 | S3: unicidade concorrente | Specify | Pending |
-| ORDER-12 | S3: rollback | Specify | Pending |
-| ORDER-13 | S3: corrida PATCH/DELETE | Specify | Pending |
-| ORDER-14 | S3: data civil | Specify | Pending |
-| ORDER-15 | S3: soma máxima | Specify | Pending |
-| LIST-01 | S4: defaults | Specify | Pending |
-| LIST-02 | S4: filtros combinados | Specify | Pending |
-| LIST-03 | S4: limites UTC | Specify | Pending |
-| LIST-04 | S4: ordem determinística | Specify | Pending |
-| LIST-05 | S4: metadados | Specify | Pending |
-| LIST-06 | S4: projeção enxuta | Specify | Pending |
-| LIST-07 | S4: igualdade exata | Specify | Pending |
-| VAL-01 | S5: limites/tipos | Specify | Pending |
-| VAL-02 | S5: objetos estritos | Specify | Pending |
-| VAL-03 | S5: normalização | Specify | Pending |
-| VAL-04 | S5: PATCH/intervalos inválidos | Specify | Pending |
-| VAL-05 | S5: ausência de regras inventadas | Specify | Pending |
-| VAL-06 | S5: datas inválidas | Specify | Pending |
-| ERR-01 | S6: matriz/envelope | Specify | Pending |
-| ERR-02 | S6: erros por campo | Specify | Pending |
-| ERR-03 | S6: conflito orderNumber | Specify | Pending |
-| ERR-04 | S6: não mascarar Prisma | Specify | Pending |
-| ERR-05 | S6: falha inesperada | Specify | Pending |
-| ERR-06 | S6: logs seguros | Specify | Pending |
-| ERR-07 | S6: correlação | Specify | Pending |
-| ERR-08 | S6: exceções HTTP nativas | Specify | Pending |
-| DOC-01 | S7: superfícies OpenAPI | Specify | Pending |
-| DOC-02 | S7: schemas separados | Specify | Pending |
-| DOC-03 | S7: contrato derivado | Specify | Pending |
-| DOC-04 | S7: responses documentados | Specify | Pending |
-| DOC-05 | S7: export determinístico | Specify | Pending |
-| DOC-06 | S7: README/decisões | Specify | Pending |
-| OPS-01 | S8: Compose local | Specify | Pending |
-| OPS-02 | S8: seed idempotente | Specify | Pending |
-| OPS-03 | S8: preservar dados externos | Specify | Pending |
-| OPS-04 | S8: seed/segredos seguros | Specify | Pending |
-| OPS-05 | S8: scripts | Specify | Pending |
-| QA-01 | S8: integração real | Specify | Pending |
-| QA-02 | S8: isolamento | Specify | Pending |
-| QA-03 | S8: teardown seguro | Specify | Pending |
-| QA-04 | S8: Docker indisponível | Specify | Pending |
-| QA-05 | S8: cobertura | Specify | Pending |
-| QA-06 | S8: gates | Specify | Pending |
-| QA-07 | S8: verificação independente | Specify | Pending |
-| QA-08 | S8: integração Redis real | Specify | Pending |
-| QA-09 | S8: E2E web real | Specify | Pending |
-| CACHE-01 | S9: miss e TTL | Specify | Pending |
-| CACHE-02 | S9: hit válido | Specify | Pending |
-| CACHE-03 | S9: invalidação pós-commit | Specify | Pending |
-| CACHE-04 | S9: fail-open e timeout | Specify | Pending |
-| CACHE-05 | S9: consistência concorrente | Specify | Pending |
-| CACHE-06 | S9: escopo do cache | Specify | Pending |
-| CACHE-07 | S9: chave versionada | Specify | Pending |
-| CACHE-08 | S9: contadores/lifecycle | Specify | Pending |
-| WEB-01 | S10: stack SPA | Specify | Pending |
-| WEB-02 | S10: login em memória | Specify | Pending |
-| WEB-03 | S10: expiração/ausência de sessão | Specify | Pending |
-| WEB-04 | S10: filtros/paginação | Specify | Pending |
-| WEB-05 | S10: criação por formulário | Specify | Pending |
-| WEB-06 | S10: detalhe e apresentação | Specify | Pending |
-| WEB-07 | S10: edição por formulário | Specify | Pending |
-| WEB-08 | S10: confirmação de exclusão | Specify | Pending |
-| WEB-09 | S10: estados de feedback | Specify | Pending |
-| WEB-10 | S10: acessibilidade/layout | Specify | Pending |
-| MONO-01 | S11: workspace/lockfile | Specify | Pending |
-| MONO-02 | S11: orquestração Turbo | Specify | Pending |
-| MONO-03 | S11: tarefas sem cache | Specify | Pending |
-| PACK-01 | S11: Dockerfiles seguros | Specify | Pending |
-| PACK-02 | S11: Compose e prontidão | Specify | Pending |
-| PACK-03 | S11: SPA/proxy | Specify | Pending |
-| PACK-04 | S11: persistência/degradação | Specify | Pending |
+| BOOT-01 | S1: stack e build | Execute | Verified |
+| BOOT-02 | S1: migrations/modelos | Execute | Verified |
+| BOOT-03 | S1: ambiente validado | Execute | Verified |
+| BOOT-04 | S1: lifecycle Prisma | Execute | Verified |
+| BOOT-05 | S1: health disponível | Execute | Verified |
+| BOOT-06 | S1: health indisponível | Execute | Verified |
+| AUTH-01 | S2: login válido | Execute | Verified |
+| AUTH-02 | S2: claims mínimos | Execute | Verified |
+| AUTH-03 | S2: credenciais inválidas | Execute | Verified |
+| AUTH-04 | S2: validação Bearer | Execute | Verified |
+| AUTH-05 | S2: metadata pública | Execute | Verified |
+| AUTH-06 | S2: proteção por padrão | Execute | Verified |
+| AUTH-07 | S2: acesso compartilhado | Execute | Verified |
+| AUTH-08 | S2: hash seguro | Execute | Verified |
+| ORDER-01 | S3: criação | Execute | Verified |
+| ORDER-02 | S3: status inicial | Execute | Verified |
+| ORDER-03 | S3: detalhe e DTO | Execute | Verified |
+| ORDER-04 | S3: total | Execute | Verified |
+| ORDER-05 | S3: preservação dos itens | Execute | Verified |
+| ORDER-06 | S3: substituição dos itens | Execute | Verified |
+| ORDER-07 | S3: substituição dos objetos | Execute | Verified |
+| ORDER-08 | S3: status sem máquina | Execute | Verified |
+| ORDER-09 | S3: soft delete | Execute | Verified |
+| ORDER-10 | S3: inexistente/excluído | Execute | Verified |
+| ORDER-11 | S3: unicidade concorrente | Execute | Verified |
+| ORDER-12 | S3: rollback | Execute | Verified |
+| ORDER-13 | S3: corrida PATCH/DELETE | Execute | Verified |
+| ORDER-14 | S3: data civil | Execute | Verified |
+| ORDER-15 | S3: soma máxima | Execute | Verified |
+| LIST-01 | S4: defaults | Execute | Verified |
+| LIST-02 | S4: filtros combinados | Execute | Verified |
+| LIST-03 | S4: limites UTC | Execute | Verified |
+| LIST-04 | S4: ordem determinística | Execute | Verified |
+| LIST-05 | S4: metadados | Execute | Verified |
+| LIST-06 | S4: projeção enxuta | Execute | Verified |
+| LIST-07 | S4: igualdade exata | Execute | Verified |
+| VAL-01 | S5: limites/tipos | Execute | Verified |
+| VAL-02 | S5: objetos estritos | Execute | Verified |
+| VAL-03 | S5: normalização | Execute | Verified |
+| VAL-04 | S5: PATCH/intervalos inválidos | Execute | Verified |
+| VAL-05 | S5: ausência de regras inventadas | Execute | Verified |
+| VAL-06 | S5: datas inválidas | Execute | Verified |
+| ERR-01 | S6: matriz/envelope | Execute | Verified |
+| ERR-02 | S6: erros por campo | Execute | Verified |
+| ERR-03 | S6: conflito orderNumber | Execute | Verified |
+| ERR-04 | S6: não mascarar Prisma | Execute | Verified |
+| ERR-05 | S6: falha inesperada | Execute | Verified |
+| ERR-06 | S6: logs seguros | Execute | Verified |
+| ERR-07 | S6: correlação | Execute | Verified |
+| ERR-08 | S6: exceções HTTP nativas | Execute | Verified |
+| DOC-01 | S7: superfícies OpenAPI | Execute | Verified |
+| DOC-02 | S7: schemas separados | Execute | Verified |
+| DOC-03 | S7: contrato derivado | Execute | Verified |
+| DOC-04 | S7: responses documentados | Execute | Verified |
+| DOC-05 | S7: export determinístico | Execute | Verified |
+| DOC-06 | S7: README/decisões | Execute | Verified |
+| OPS-01 | S8: Compose local | Execute | Verified |
+| OPS-02 | S8: seed idempotente | Execute | Verified |
+| OPS-03 | S8: preservar dados externos | Execute | Verified |
+| OPS-04 | S8: seed/segredos seguros | Execute | Verified |
+| OPS-05 | S8: scripts | Execute | Verified |
+| QA-01 | S8: integração real | Execute | Verified |
+| QA-02 | S8: isolamento | Execute | Verified |
+| QA-03 | S8: teardown seguro | Execute | Verified |
+| QA-04 | S8: Docker indisponível | Execute | Verified |
+| QA-05 | S8: cobertura | Execute | Verified |
+| QA-06 | S8: gates | Execute | Verified |
+| QA-07 | S8: verificação independente | Execute | Verified |
+| QA-08 | S8: integração Redis real | Execute | Verified |
+| QA-09 | S8: E2E web real | Execute | Verified |
+| CACHE-01 | S9: miss e TTL | Execute | Verified |
+| CACHE-02 | S9: hit válido | Execute | Verified |
+| CACHE-03 | S9: invalidação pós-commit | Execute | Verified |
+| CACHE-04 | S9: fail-open e timeout | Execute | Verified |
+| CACHE-05 | S9: consistência concorrente | Execute | Verified |
+| CACHE-06 | S9: escopo do cache | Execute | Verified |
+| CACHE-07 | S9: chave versionada | Execute | Verified |
+| CACHE-08 | S9: contadores/lifecycle | Execute | Verified |
+| WEB-01 | S10: stack SPA | Execute | Verified |
+| WEB-02 | S10: login em memória | Execute | Verified |
+| WEB-03 | S10: expiração/ausência de sessão | Execute | Verified |
+| WEB-04 | S10: filtros/paginação | Execute | Verified |
+| WEB-05 | S10: criação por formulário | Execute | Verified |
+| WEB-06 | S10: detalhe e apresentação | Execute | Verified |
+| WEB-07 | S10: edição por formulário | Execute | Verified |
+| WEB-08 | S10: confirmação de exclusão | Execute | Verified |
+| WEB-09 | S10: estados de feedback | Execute | Verified |
+| WEB-10 | S10: acessibilidade/layout | Execute | Verified |
+| MONO-01 | S11: workspace/lockfile | Execute | Verified |
+| MONO-02 | S11: orquestração Turbo | Execute | Verified |
+| MONO-03 | S11: tarefas sem cache | Execute | Verified |
+| PACK-01 | S11: Dockerfiles seguros | Execute | Verified |
+| PACK-02 | S11: Compose e prontidão | Execute | Verified |
+| PACK-03 | S11: SPA/proxy | Execute | Verified |
+| PACK-04 | S11: persistência/degradação | Execute | Verified |
 
 **Coverage:** 95 requisitos alocados no rascunho de tasks.md, em 53 tarefas e nove etapas/branches; nenhum implementado/verificado por este planejamento. Cenários planejados: 35 unitários/componentes, 32 de integração e 8 E2E/empacotamento (75 grupos parametrizáveis, não promessa de apenas 75 asserts). Os testes devem derivar destes resultados esperados, não reproduzir detalhes da implementação. Aprovar os rascunhos não autoriza execução nesta rodada, por instrução posterior explícita do usuário.
 

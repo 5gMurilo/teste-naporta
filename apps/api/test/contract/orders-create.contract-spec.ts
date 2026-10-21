@@ -1,5 +1,6 @@
 import { exportOpenApi } from '../../src/docs/export-openapi.js';
 
+type Property = { pattern?: string };
 type Content = Record<string, { schema?: unknown; example?: unknown }>;
 type Operation = {
   security?: unknown[];
@@ -9,7 +10,10 @@ type Operation = {
 
 describe('POST /api/v1/orders OpenAPI contract', () => {
   let operation: Operation;
-  let schemas: Record<string, { required?: string[]; additionalProperties?: boolean }>;
+  let schemas: Record<
+    string,
+    { required?: string[]; additionalProperties?: boolean; properties?: Record<string, Property> }
+  >;
 
   beforeAll(async () => {
     const doc = JSON.parse(await exportOpenApi());
@@ -39,5 +43,13 @@ describe('POST /api/v1/orders OpenAPI contract', () => {
     }
     const conflict = operation.responses['409']?.content?.['application/problem+json'];
     expect(JSON.stringify(conflict?.example)).toContain('ORDER_NUMBER_ALREADY_EXISTS');
+  });
+
+  it('documents the state pattern the API really accepts (it uppercases lowercase input)', () => {
+    const pattern = schemas.DeliveryAddress?.properties?.state?.pattern ?? '';
+
+    expect(new RegExp(pattern).test('sp')).toBe(true);
+    expect(new RegExp(pattern).test('SP')).toBe(true);
+    expect(new RegExp(pattern).test('S1')).toBe(false);
   });
 });

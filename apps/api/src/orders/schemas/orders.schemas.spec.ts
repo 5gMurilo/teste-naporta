@@ -116,6 +116,43 @@ describe('createOrderRequestSchema (U08, U09, U10)', () => {
   });
 });
 
+describe('maximum lengths are accepted exactly at the limit (VAL-01)', () => {
+  it.each([
+    ['orderNumber', 64],
+    ['customer.name', 160],
+    ['customer.document', 32],
+    ['street', 160],
+    ['number', 20],
+    ['complement', 100],
+    ['neighborhood', 100],
+    ['city', 100],
+    ['item description', 240],
+  ])('accepts %s with %i characters and rejects one more', (field, max) => {
+    const make = (length: number) => {
+      const value = 'a'.repeat(length);
+      const body = validCreate();
+      if (field === 'orderNumber') body.orderNumber = value;
+      else if (field === 'customer.name') body.customer.name = value;
+      else if (field === 'customer.document') body.customer.document = value;
+      else if (field === 'item description') body.items[0] = { description: value, priceCents: 1 };
+      else (body.deliveryAddress as Record<string, string>)[field] = value;
+      return createOrderRequestSchema.safeParse(body).success;
+    };
+
+    expect(make(max)).toBe(true);
+    expect(make(max + 1)).toBe(false);
+  });
+
+  it('accepts a lowercase state and normalizes it, and still rejects non letters', () => {
+    const body = validCreate();
+    body.deliveryAddress.state = 'sp';
+
+    expect(createOrderRequestSchema.parse(body).deliveryAddress.state).toBe('SP');
+    body.deliveryAddress.state = 's1';
+    expect(createOrderRequestSchema.safeParse(body).success).toBe(false);
+  });
+});
+
 describe('updateOrderRequestSchema (U13)', () => {
   it.each([
     ['status only', { status: 'PENDING' }],

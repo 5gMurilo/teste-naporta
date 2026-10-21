@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T47 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T53 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -663,7 +663,7 @@ T47 -> T48
 **Depends on**: T47
 **Reuses**: Build Prisma/Node ESM validado, lockfile/workspaces e DB de prova.
 **Requirement**: PACK-01, BOOT-01, OPS-04, OPS-05.
-**Done when**: [ ] Build frozen, runtime só dist/client/deps necessárias, nenhum .env/segredo, UID não-root; target migrate aplica migrations versionadas; API compilada responde health/login com PG real, sem seed no startup.
+**Done when**: [x] Build frozen, runtime só dist/client/deps necessárias, nenhum .env/segredo, UID não-root; target migrate aplica migrations versionadas; API compilada responde health/login com PG real, sem seed no startup.
 **Tests**: Smoke de imagem E06/API + integração, >=5 verificações de build, UID, arquivos, migrate e HTTP; cria test:containers real para seleção API, não um no-op de Compose futuro.
 **Gate**: C/API e H de regressão.
 **Commit**: `build(api): package a non-root runtime and migration target`
@@ -674,7 +674,7 @@ T47 -> T48
 **Depends on**: T48
 **Reuses**: Vite dist, config pública sem segredos e API container real.
 **Requirement**: PACK-01, PACK-03, WEB-01.
-**Done when**: [ ] Imagem serve assets e reload de rota visual; /api mantém status/headers e nunca retorna fallback HTML para erro; sem SSR/segredo no bundle; UID não-root.
+**Done when**: [x] Imagem serve assets e reload de rota visual; /api mantém status/headers e nunca retorna fallback HTML para erro; sem SSR/segredo no bundle; UID não-root.
 **Tests**: Smoke real E06/web e E07/proxy parcial, >=5 casos de UID/assets/rota profunda/404 API/Location/header; ampliar runner focal, sem esperar T50 para provar imagem.
 **Gate**: C/web e H.
 **Commit**: `build(web): serve the spa through a non-root api proxy`
@@ -685,7 +685,7 @@ T47 -> T48
 **Depends on**: T49
 **Reuses**: PostgreSQL 17/volume atual, imagens testadas e health API.
 **Requirement**: OPS-01, PACK-02, PACK-03, PACK-04, OPS-04.
-**Done when**: [ ] config válida, portas loopback configuráveis, Redis sem exposição/persistência, migrate antes da API, web pronto, down/up conserva PG; nenhuma remoção de volume da pessoa, nenhum seed automático.
+**Done when**: [x] config válida, portas loopback configuráveis, Redis sem exposição/persistência, migrate antes da API, web pronto, down/up conserva PG; nenhuma remoção de volume da pessoa, nenhum seed automático.
 **Tests**: Smoke Compose real E07/E08, >=6 casos de config/saúde/ordem/proxy/persistência/perda de Redis, em projeto/volumes/portas de prova exclusivos.
 **Gate**: C completo e H.
 **Commit**: `build(compose): orchestrate the complete local stack safely`
@@ -696,7 +696,7 @@ T47 -> T48
 **Depends on**: T50
 **Reuses**: Todos os scripts/provas já implementados; nada de concentrar testes funcionais ausentes aqui.
 **Requirement**: OPS-05, QA-05, QA-06, MONO-03, DOC-05.
-**Done when**: [ ] check encadeia todas as provas exigidas e propaga falha de cada etapa; cobertura real 80/70 por app; OpenAPI versionado sem drift; testes infra sempre executados; registrar comandos/exit codes, não promessa de sucesso.
+**Done when**: [x] check encadeia todas as provas exigidas e propaga falha de cada etapa; cobertura real 80/70 por app; OpenAPI versionado sem drift; testes infra sempre executados; registrar comandos/exit codes, não promessa de sucesso.
 **Tests**: Estruturais/agregador + gate real completo, >=3 provas de falha propagada/sem cache/coverage gate e todas as suites preservadas.
 **Gate**: A; se Docker/browser indisponível, tarefa fica aberta.
 **Commit**: `build(quality): enforce complete delivery verification gates`
@@ -707,7 +707,7 @@ T47 -> T48
 **Depends on**: T51
 **Reuses**: Spec/design, commits e resultados reais das etapas.
 **Requirement**: DOC-06, CACHE-05, WEB-01, MONO-01.
-**Done when**: [ ] Todas as decisões exigidas na spec cobertas, inclusive cache solicitado sem alegação de ganho medido, consulta de revisão, JWT em memória, JSONB/centavos/DATE/queries, ESM/versões e limites de auth; nenhum bônus fingido.
+**Done when**: [x] Todas as decisões exigidas na spec cobertas, inclusive cache solicitado sem alegação de ganho medido, consulta de revisão, JWT em memória, JSONB/centavos/DATE/queries, ESM/versões e limites de auth; nenhum bônus fingido.
 **Tests**: Revisão documental vinculada a código/contrato e gate completo, >=4 checks de cobertura de decisões, links, desvio/justificativa e coerência com runtime.
 **Gate**: A e validação documental.
 **Commit**: `docs(architecture): record implemented decisions and trade-offs`
@@ -718,7 +718,7 @@ T47 -> T48
 **Depends on**: T52
 **Reuses**: Scripts/Compose/docs/contratos e evidências reais; usuário faz merges.
 **Requirement**: DOC-06, OPS-05, QA-06, QA-07.
-**Done when**: [ ] Roteiro reproduzido em ambiente de prova e curls coerentes; scripts/portas/semântica/erros/limitações completos; registro final da etapa e traceabilidade atualizados antes do commit. QA-07 continua pendente até fechamento independente abaixo.
+**Done when**: [x] Roteiro reproduzido em ambiente de prova e curls coerentes; scripts/portas/semântica/erros/limitações completos; registro final da etapa e traceabilidade atualizados antes do commit. QA-07 continua pendente até fechamento independente abaixo.
 **Tests**: Documental + smoke de roteiro real E05–E08 e fluxo E01, >=5 checks de instalação/env/migration-seed/login-CRUD/web/comandos e gate completo; sem executar no banco da pessoa.
 **Gate**: A e validadores de spec/tarefas; após commit começa fechamento independente, não aprovação por autoavaliação.
 **Commit**: `docs(readme): document and prove the evaluator workflow`
@@ -730,6 +730,24 @@ Itens exigidos pela spec que nenhuma tarefa numerada cobria, entregues como comm
 | Item | Requisito | Commit |
 | --- | --- | --- |
 | CORS configurável (uma origem explícita, nada sem `CORS_ORIGIN`) e helmet, com CSP desligado só nas páginas `/docs` | Spec, seção Configuração; CORS na tabela de decisões | `feat(http): apply configurable cors and security headers` na branch `feat/naporta-web-platform` |
+| `.env` da raiz não era lido pela API após a relocation (caminho `../../.env` a partir de `apps/api/src`) | Spec, seção Configuração e Scripts | `fix(api): read the repository .env and expose the documented db and start scripts` na branch `feat/naporta-delivery` |
+| Aliases de script da spec (`db:generate`, `db:migrate:dev`, `db:migrate:deploy`, `start:prod` na raiz) | Spec, tabela de scripts | mesmo commit |
+
+### Ciclo 1 da verificação independente
+
+O relatório do Verifier fresco (`validation.md`, nesta pasta) deu 87 PASS, 7 PARTIAL e 0 FAIL. As correções abaixo são commits atômicos na `feat/naporta-delivery`.
+
+| Lacuna do relatório | Requisito | Commit |
+| --- | --- | --- |
+| Em clone limpo, `typecheck`, `test:unit` e `test:contract` falhavam: o client Prisma só era gerado pelo `build` | OPS-05 | `fix(workspace): generate the prisma client before anything that imports it` |
+| Provas de fuso horário não trocavam o fuso dentro do Jest; mutação de DATE em meia-noite local sobrevivia | ORDER-14 | `test(api): run the time zone proofs in one process per zone` e `fix(api): run the time zone suites through a node runner that accepts extra arguments` |
+| Opções de verificação do JWT (algoritmo, issuer) sem teste na configuração de produção | AUTH-04 | `test(auth): pin the production jwt algorithm and issuer checks` |
+| Corpo grande virava 500 em vez de 413; logs coloridos e sem classe do erro | ERR-08, ERR-06 | `fix(errors): keep client error statuses from the body parser and log as plain json` |
+| Limites máximos sem teste de aceitação; OpenAPI divergente do runtime | VAL-01, DOC-03 | `fix(api): align the published openapi with the accepted input and test maximum lengths` |
+| Filtro de número só com espaços gerava 400 | WEB-04 | `fix(web): treat a blank order number filter as no filter` |
+| Logger padrão sem teste e execução por fuso verde sem teste marcado | ERR-06, ORDER-14 | `test(api): cover the json logger and fail zone runs that executed nothing` |
+
+Resultado: [revalidation.md](revalidation.md) fecha as nove lacunas; `pnpm check` saiu com exit 0 em clone limpo.
 
 ## Fechamento independente após T53
 

@@ -15,7 +15,8 @@ function isRealCivilDate(value: string): boolean {
 const civilDate = z
   .string()
   .regex(CIVIL_DATE, 'Expected a date in the format YYYY-MM-DD')
-  .refine(isRealCivilDate, 'Expected a real calendar date');
+  .refine(isRealCivilDate, 'Expected a real calendar date')
+  .meta({ description: 'Real calendar date, YYYY-MM-DD (not a timestamp).' });
 
 /** Start of the given civil day, in UTC. */
 export function startOfDayUtc(date: string): Date {
@@ -54,9 +55,9 @@ export const deliveryAddressSchema = z
     state: z
       .string()
       .trim()
+      .regex(/^[A-Za-z]{2}$/, 'Expected two letters')
       .toUpperCase()
-      .regex(/^[A-Z]{2}$/, 'Expected two letters')
-      .meta({ example: 'SP' }),
+      .meta({ description: 'Two letters; uppercased by the API.', example: 'SP' }),
     postalCode: z
       .string()
       .trim()
@@ -124,6 +125,9 @@ export const updateOrderRequestSchema = z
   .refine((body) => Object.keys(body).length > 0, 'At least one field is required')
   .meta({
     id: 'UpdateOrderRequest',
+    description:
+      'At least one field is required; customer, deliveryAddress and items replace the stored value.',
+    minProperties: 1,
     example: { status: 'SHIPPED' },
   });
 

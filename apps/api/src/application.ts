@@ -1,5 +1,4 @@
 import {
-  ConsoleLogger,
   type INestApplication,
   StandardSchemaValidationPipe,
   ValidationPipe,
@@ -19,11 +18,16 @@ import type { ApiConfig } from './config/env.js';
 import { setupDocs } from './docs/openapi.js';
 import { applyHttpSecurity } from './http-security.js';
 
+/** One JSON object per line on stderr: no colours, no prefix, parseable by any log collector. */
+export const jsonErrorLogger: ProblemLogger = {
+  error: (message) => process.stderr.write(`${message}\n`),
+};
+
 export type ApplicationMode = 'http' | 'docs';
 
 export function configureApplication(
   app: INestApplication,
-  logger: ProblemLogger = new ConsoleLogger('ProblemDetails'),
+  logger: ProblemLogger = jsonErrorLogger,
 ): void {
   app.use(requestIdMiddleware);
   app.useGlobalPipes(

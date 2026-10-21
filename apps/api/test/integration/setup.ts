@@ -13,7 +13,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-  await context.reset();
+  await context?.reset();
 });
 
 afterAll(async () => {
