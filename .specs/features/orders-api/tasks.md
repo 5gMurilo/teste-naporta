@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T7 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T8 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou explicitamente Phase 2 (T7–T10), uma tarefa por vez, nesta branch `feat/naporta-persistence`. A aprovação no Plannotator por si só não autorizava execução. Não executar T11 ou tarefas posteriores.
 
@@ -209,7 +209,7 @@ T47 -> T48
 **Depends on**: T7
 **Reuses**: PrismaPg, PrismaModule e teste de shutdown.
 **Requirement**: BOOT-01, BOOT-04, QA-03.
-**Done when**: [ ] Uma instância por app, connect/disconnect seguros; generator/client/adapter alinhados e Node compilado consulta PostgreSQL sem depender de Jest resolver.
+**Done when**: [x] Uma instância por app, connect/disconnect seguros; generator/client/adapter alinhados e Node compilado consulta PostgreSQL sem depender de Jest resolver.
 **Tests**: Unit + integração, U02 e I01, >=3 casos de lifecycle/erro/consulta compilada, sem remover prova SELECT 1/current_database.
 **Gate**: F.
 **Commit**: `fix(database): align prisma lifecycle and esm runtime`

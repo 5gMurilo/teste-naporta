@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: Phase 2 — Persistência; T1–T7 concluídas, 7/53 tarefas concluídas.
-- **Completed**: Phase 1 T1–T6 está commitada até `019b1f0`. T7 adicionou os modelos User, Order e OrderItem, a enum OrderStatus e a migration PostgreSQL versionada. `prisma:validate`, build, lint, typecheck e a integração com PostgreSQL descartável passaram. A inspeção real confirmou UUID, timestamptz(3), DATE, JSONB, enum/defaults, unique indexes, FK e índices. A integração mantém os testes SELECT 1/current_database e adiciona a prova de migration/schema.
-- **In-progress**: Commit atômico de T7.
-- **Next step**: T8, provar lifecycle compartilhado e consulta do client Prisma em Node ESM compilado contra PostgreSQL real.
+- **Phase / Task**: Phase 2 — Persistência; T1–T8 concluídas, 8/53 tarefas concluídas.
+- **Completed**: Phase 1 T1–T6 está commitada até `019b1f0`; T7 foi commitada em `da9a2a9`. T8 alinhou o generator Prisma com ESM e adicionou prova de propagação da falha de conexão. Gate F passou: validate, lint, format, typecheck, build, 49 testes unitários + 10 workspace, e2e (1) e integração PostgreSQL (3), incluindo SELECT 1/current_database pelo client compilado executado diretamente em Node ESM.
+- **In-progress**: Commit atômico de T8.
+- **Next step**: T9, centralizar lifecycle/cleanup e reset isolado do harness PostgreSQL sem fallback de URL.
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack.
-- **Uncommitted files**: Schema/migration Prisma, prova de integração do schema e atualização do estado da feature.
+- **Uncommitted files**: Ajuste do generator para ESM, testes lifecycle/runtime e atualização do estado da feature.
 - **Branch**: feat/naporta-persistence.

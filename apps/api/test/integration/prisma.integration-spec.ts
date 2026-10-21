@@ -27,6 +27,32 @@ describe('PostgreSQL integration', () => {
     }
   });
 
+  it('queries PostgreSQL through the compiled ESM Prisma client', () => {
+    const output = execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `import { loadApiConfig } from './dist/config/env.js';
+         import { PrismaService } from './dist/prisma/prisma.service.js';
+         const prisma = new PrismaService(loadApiConfig());
+         await prisma.$connect();
+         try {
+           const rows = await prisma.$queryRaw\`SELECT 1 AS result, current_database() AS database\`;
+           if (Number(rows[0].result) !== 1 || rows[0].database !== 'teste_naporta_test') {
+             throw new Error('compiled Prisma query returned an unexpected result');
+           }
+           console.log('compiled Prisma ESM query passed');
+         } finally {
+           await prisma.$disconnect();
+         }`,
+      ],
+      { cwd: process.cwd(), env: process.env, encoding: 'utf8' },
+    );
+
+    expect(output).toContain('compiled Prisma ESM query passed');
+  });
+
   it('applies the order migration with the required PostgreSQL types and constraints', async () => {
     const prisma = new PrismaService(loadApiConfig());
     await prisma.$connect();
