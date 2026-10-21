@@ -62,7 +62,7 @@ Hoje `.gitignore` ignora toda `.specs/`. T1 planeja exceções seletivas para o 
 | 5 | 7048fb4 (etapa 4 validada; ad7868e registra) | 3cd9798 | Gate B da etapa pelos comandos da raiz | Done |
 | 6 | 3cd9798 (etapa 5 validada; 25fc3d5 registra) | cfedcf3 | Gate H e regressão dos dois apps pelos comandos da raiz | Done |
 | 7 | cfedcf3 (etapa 6 validada; bce2a22 registra) | 2e62e32 | Gates W e H, regressão dos dois apps pelos comandos da raiz | Done |
-| 8 | A obter após etapa 7 | Ainda não criado | Não executado | Not started |
+| 8 | 2e62e32 (etapa 7 validada; 0de6c17 registra) | SHA_T47 | Gates W e H, E01 a E04 completos com stack real, regressão pelos comandos da raiz | Done |
 | 9 | A obter após etapa 8 | Ainda não criado | Não executado | Not started |
 
 ## Fechamento futuro

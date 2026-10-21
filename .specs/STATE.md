@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T46 concluídas, 46/53 tarefas concluídas.
-- **Completed**: T44 `00b239c`, T45 `5b41047`. T46: rota /orders/:id/edit com EditOrderPage: carrega o pedido (hook useOrder compartilhado com o detalhe, que ganhou a ação Editar), mostra o OrderForm em modo edição e envia um único PATCH só com o que mudou (nada alterado não envia; status isolado omite itens; item alterado manda a lista inteira sem ids; complemento limpo manda o endereço inteiro sem ele); após 200 abre o detalhe, que lê o pedido confirmado; 400, 409 e 404 aparecem sem simular sucesso, falha de rede preserva as edições. Browser real: PATCH com corpo {status}, itens substituídos e cache nunca servindo a lista antiga, sem alteração sem requisição, número tomado, pedido excluído durante a edição. Gate H verde: 202 testes web, 34 e2e web.
+- **Phase / Task**: T1–T47 concluídas, 47/53 tarefas concluídas.
+- **Completed**: T44–T46 commitadas (até `d298db9`). T47: DeleteOrderDialog (shadcn AlertDialog) na lista e no detalhe: confirmação com título e descrição acessíveis, foco inicial em Cancelar e retorno ao gatilho, Esc/Cancelar não chamam a API, Confirmar envia um DELETE e só fecha e atualiza após o 204, não pode ser dispensado nem repetido enquanto pendente, falhas (rede, 404) mantêm o diálogo aberto com o motivo; lista recarrega, volta à página anterior quando a última página fica vazia e leva o foco ao título; detalhe volta à lista. Fluxo vertical E01 completo no browser real (criar, filtrar, abrir, editar, excluir, conferido pela API) mais cancelamento, clique duplo, rede, paginação e teclado em 390 px. Gate H e fechamento da etapa 8 verdes: 212 testes web (99,35% linhas, 93,4% branches), 41 e2e web, regressão completa e comandos da raiz.
 - **In-progress**: Nada.
-- **Next step**: T47 (exclusão com confirmação; fecha a etapa 8).
+- **Next step**: T48 (Phase 9, branch feat/naporta-delivery: imagem Docker da API).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-orders.

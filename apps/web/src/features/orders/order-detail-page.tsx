@@ -1,10 +1,11 @@
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { AsyncState } from '@/components/async-state';
 import { Button } from '@/components/ui/button';
 import type { OrderDetail } from '@/lib/api-types';
 import { errorMessage } from '@/lib/error-message';
 import { formatBRL, formatCivilDate, formatInstant, STATUS_LABELS } from '@/lib/format';
 import { ApiError } from '@/lib/http-client';
+import { DeleteOrderDialog } from './delete-order-dialog';
 import { useOrder } from './use-order';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -18,6 +19,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function OrderDetailPage() {
   const { id = '' } = useParams();
+  const navigate = useNavigate();
   const { order, error, loading, reload } = useOrder(id);
   const notFound = error instanceof ApiError && error.status === 404;
 
@@ -30,9 +32,12 @@ export function OrderDetailPage() {
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-2xl font-semibold">Detalhe do pedido</h1>
           {order && (
-            <Button asChild variant="outline">
-              <Link to={`/orders/${order.id}/edit`}>Editar</Link>
-            </Button>
+            <div className="flex gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link to={`/orders/${order.id}/edit`}>Editar</Link>
+              </Button>
+              <DeleteOrderDialog order={order} onDeleted={() => navigate('/orders')} />
+            </div>
           )}
         </div>
       </div>

@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T46 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T47 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -650,7 +650,7 @@ T47 -> T48
 **Depends on**: T46
 **Reuses**: AlertDialog shadcn, cliente HTTP, detalhe/lista e estados existentes.
 **Requirement**: WEB-08, WEB-09, WEB-10, QA-09.
-**Done when**: [ ] Cancelar não chama; confirmar espera 204 e atualiza lista; último item em página posterior retorna à anterior; pending/foco/erro corretos; E01–E04 completos com stack real.
+**Done when**: [x] Cancelar não chama; confirmar espera 204 e atualiza lista; último item em página posterior retorna à anterior; pending/foco/erro corretos; E01–E04 completos com stack real.
 **Tests**: Componentes U34/U35 + browser E01/E03/E04, >=6 casos incluindo cancelamento, confirmação, double-click, rede, 404 e paginação pós-delete.
 **Gate**: H e coverage/regressão completa dos dois apps da etapa.
 **Commit**: `feat(web): confirm order deletion and refresh browsing state`

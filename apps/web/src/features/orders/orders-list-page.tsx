@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { AsyncState } from '@/components/async-state';
 import { Button } from '@/components/ui/button';
@@ -44,13 +44,30 @@ export function OrdersListPage() {
     return () => controller.abort();
   }, [http, filters, page, reload]);
 
+  // The page may no longer exist (the last item of the last page was deleted, or other changes
+  // shrank the list): go to the last page that does.
+  useEffect(() => {
+    if (result && result.data.length === 0 && page > 1) {
+      setPage(Math.max(Math.min(result.meta.totalPages, page - 1), 1));
+    }
+  }, [result, page]);
+
+  const heading = useRef<HTMLHeadingElement>(null);
+  const afterDelete = () => {
+    setReload((count) => count + 1);
+    // The deleted row held the focus; hand it to the page title so keyboard users keep their place.
+    heading.current?.focus();
+  };
+
   const meta = result?.meta;
   const totalPages = Math.max(meta?.totalPages ?? 1, 1);
 
   return (
     <div className="grid gap-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Pedidos</h1>
+        <h1 ref={heading} tabIndex={-1} className="text-2xl font-semibold outline-none">
+          Pedidos
+        </h1>
         <Button asChild>
           <Link to="/orders/new">Novo pedido</Link>
         </Button>
@@ -76,7 +93,7 @@ export function OrdersListPage() {
       >
         {result && (
           <div className="grid gap-4">
-            <OrdersTable orders={result.data} />
+            <OrdersTable orders={result.data} onDeleted={afterDelete} />
             <nav
               aria-label="Paginação"
               className="flex flex-wrap items-center justify-between gap-2"
