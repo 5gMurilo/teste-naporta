@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T47 concluídas, 47/53 tarefas concluídas.
-- **Completed**: T44–T46 commitadas (até `d298db9`). T47: DeleteOrderDialog (shadcn AlertDialog) na lista e no detalhe: confirmação com título e descrição acessíveis, foco inicial em Cancelar e retorno ao gatilho, Esc/Cancelar não chamam a API, Confirmar envia um DELETE e só fecha e atualiza após o 204, não pode ser dispensado nem repetido enquanto pendente, falhas (rede, 404) mantêm o diálogo aberto com o motivo; lista recarrega, volta à página anterior quando a última página fica vazia e leva o foco ao título; detalhe volta à lista. Fluxo vertical E01 completo no browser real (criar, filtrar, abrir, editar, excluir, conferido pela API) mais cancelamento, clique duplo, rede, paginação e teclado em 390 px. Gate H e fechamento da etapa 8 verdes: 212 testes web (99,35% linhas, 93,4% branches), 41 e2e web, regressão completa e comandos da raiz.
+- **Phase / Task**: T1–T48 concluídas, 48/53 tarefas concluídas.
+- **Completed**: Etapa 8 encerrada em `8409d63` (registro `e0d5356`); branch feat/naporta-delivery. T48: apps/api/Dockerfile multi-stage (contexto na raiz) com node:22.22.3-slim, pnpm via corepack, instalação `--frozen-lockfile`, stages dependencies/build/production-dependencies/migrate/runtime; runtime só com dist, node_modules de produção (pnpm deploy) e package.json, usuário node (UID 1000), HEALTHCHECK em /api/v1/health, sem .env nem segredos; target migrate roda `prisma migrate deploy` uma vez como job, nunca no startup. .dockerignore na raiz. pnpm-workspace libera o postinstall de prisma e @prisma/engines (o motor de schema precisa dele). `pnpm test:containers [api]` (scripts/containers, Node test runner, Docker real): build frozen, UID não-root, conteúdo mínimo e sem segredos, migrations aplicadas e idempotentes em PostgreSQL vazio, health 200 e login 401 INVALID_CREDENTIALS contra o banco real com Redis inalcançável e zero usuários (sem seed no startup), healthcheck, configuração inválida sem vazar segredo. Gates C/API e H verdes: 7 testes de container, regressão completa.
 - **In-progress**: Nada.
-- **Next step**: T48 (Phase 9, branch feat/naporta-delivery: imagem Docker da API).
+- **Next step**: T49 (imagem da SPA com Nginx e proxy /api).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-web-orders.
+- **Branch**: feat/naporta-delivery.

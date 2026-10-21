@@ -1,6 +1,6 @@
 # naPorta: tarefas e gates
 
-**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T47 de 53 tarefas concluída.**
+**Status:** aprovado na revisão conjunta via Plannotator em 2026-10-21 (`decision: approved`). Phase 1 concluída (T1–T6); execução autorizada nesta sessão para Phase 2, somente T7–T10. **T48 de 53 tarefas concluída.**
 **Design:** [design.md](design.md). **Spec:** [spec.md](spec.md). **Branches:** [branches.md](branches.md).
 **Autorização de execução:** o usuário autorizou Phase 2 e Phase 3 e, em 2026-10-21, autorizou seguir autonomamente pelas demais tarefas (T19–T53), criando as branches encadeadas de `branches.md` quando necessário. Continua não autorizado: merge, push, rebase, force-push, PR, remoção de volumes/dados e MCP remoto. A aprovação no Plannotator por si só não autorizava execução.
 
@@ -663,7 +663,7 @@ T47 -> T48
 **Depends on**: T47
 **Reuses**: Build Prisma/Node ESM validado, lockfile/workspaces e DB de prova.
 **Requirement**: PACK-01, BOOT-01, OPS-04, OPS-05.
-**Done when**: [ ] Build frozen, runtime só dist/client/deps necessárias, nenhum .env/segredo, UID não-root; target migrate aplica migrations versionadas; API compilada responde health/login com PG real, sem seed no startup.
+**Done when**: [x] Build frozen, runtime só dist/client/deps necessárias, nenhum .env/segredo, UID não-root; target migrate aplica migrations versionadas; API compilada responde health/login com PG real, sem seed no startup.
 **Tests**: Smoke de imagem E06/API + integração, >=5 verificações de build, UID, arquivos, migrate e HTTP; cria test:containers real para seleção API, não um no-op de Compose futuro.
 **Gate**: C/API e H de regressão.
 **Commit**: `build(api): package a non-root runtime and migration target`

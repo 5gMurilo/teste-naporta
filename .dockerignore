@@ -1,0 +1,15 @@
+# Keep the build context small and free of local state or secrets.
+**/node_modules
+**/dist
+**/coverage
+**/.turbo
+**/test-results
+**/playwright-report
+.git
+.omc
+.specs
+.env
+.env.*
+!.env.example
+# Always regenerated from schema.prisma inside the image, as in a clean checkout.
+apps/api/src/generated
