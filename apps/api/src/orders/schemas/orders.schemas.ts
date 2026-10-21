@@ -124,7 +124,11 @@ export const updateOrderRequestSchema = z
   .refine((body) => Object.keys(body).length > 0, 'At least one field is required')
   .meta({ id: 'UpdateOrderRequest' });
 
-export const orderIdParamSchema = z.uuid();
+export const orderParamsSchema = z.strictObject({
+  id: z
+    .uuid()
+    .meta({ description: 'Order UUID.', example: '6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b' }),
+});
 
 const queryInteger = z
   .string()

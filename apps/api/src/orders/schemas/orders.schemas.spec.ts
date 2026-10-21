@@ -1,7 +1,7 @@
 import {
   createOrderRequestSchema,
   listOrdersQuerySchema,
-  orderIdParamSchema,
+  orderParamsSchema,
   startOfDayUtc,
   startOfNextDayUtc,
   updateOrderRequestSchema,
@@ -211,11 +211,14 @@ describe('listOrdersQuerySchema (U11, U12)', () => {
   });
 });
 
-describe('orderIdParamSchema', () => {
-  it('accepts a UUID and rejects everything else', () => {
-    expect(orderIdParamSchema.safeParse('6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b').success).toBe(true);
-    for (const bad of ['', '123', 'not-a-uuid', '6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6']) {
-      expect(orderIdParamSchema.safeParse(bad).success).toBe(false);
+describe('orderParamsSchema', () => {
+  it('accepts a UUID id and rejects everything else', () => {
+    const parse = (id: unknown) => orderParamsSchema.safeParse({ id });
+
+    expect(parse('6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b').success).toBe(true);
+    for (const bad of ['', '123', 'not-a-uuid', '6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6', 5, null]) {
+      expect(parse(bad).success).toBe(false);
     }
+    expect(orderParamsSchema.safeParse({}).success).toBe(false);
   });
 });

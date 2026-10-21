@@ -1,5 +1,8 @@
 import { jest } from '@jest/globals';
-import { OrderNumberAlreadyExistsError } from '../common/errors/domain-errors.js';
+import {
+  OrderNotFoundError,
+  OrderNumberAlreadyExistsError,
+} from '../common/errors/domain-errors.js';
 import { Prisma } from '../generated/prisma/client.js';
 import type { OrderDetailModel } from './orders.projections.js';
 import type { NewOrder, OrdersRepository } from './orders.repository.js';
@@ -69,5 +72,28 @@ describe('OrdersService.create (U14)', () => {
     await expect(
       service(jest.fn(async () => Promise.reject(failure))).create(request),
     ).rejects.toBe(failure);
+  });
+});
+
+describe('OrdersService.getActiveSnapshot (U15)', () => {
+  const repo = (found: unknown) =>
+    new OrdersService({
+      findActiveSnapshot: jest.fn(async () => found),
+    } as unknown as OrdersRepository);
+
+  it('returns the active projection', async () => {
+    const snapshot = { id: 'a', cacheRevision: 3 };
+
+    await expect(repo(snapshot).getActiveSnapshot('a')).resolves.toBe(snapshot);
+  });
+
+  it('turns a missing or deleted order into ORDER_NOT_FOUND', async () => {
+    const error = await repo(null)
+      .getActiveSnapshot('a')
+      .catch((failure: unknown) => failure);
+
+    expect(error).toBeInstanceOf(OrderNotFoundError);
+    expect((error as OrderNotFoundError).code).toBe('ORDER_NOT_FOUND');
+    expect((error as OrderNotFoundError).status).toBe(404);
   });
 });

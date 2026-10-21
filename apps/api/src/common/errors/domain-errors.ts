@@ -25,3 +25,14 @@ export class InvalidCredentialsError extends DomainError {
     this.name = 'InvalidCredentialsError';
   }
 }
+
+export class OrderNotFoundError extends DomainError {
+  readonly status = 404;
+  readonly code = 'ORDER_NOT_FOUND';
+  readonly detail = 'Order not found.';
+
+  constructor() {
+    super('Order not found');
+    this.name = 'OrderNotFoundError';
+  }
+}

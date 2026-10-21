@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T21 concluídas, 21/53 tarefas concluídas.
-- **Completed**: Branch feat/naporta-orders; T19 `1c576ab`, T20 `5643add`. T21: `POST /api/v1/orders` (OrdersController/Service/Repository/Module) com nested write atômico, default PENDING, Location relativo, 409 por unique do banco (inclusive soft-deleted e concorrência), NUL rejeitado na validação (PostgreSQL não armazena), OpenAPI com exemplos e respostas 201/400/401/409/500. Rollback provado com trigger real no PostgreSQL. Gate F verde: 229 unitários, e2e 1, integração 38, contrato 14, cobertura e build.
+- **Phase / Task**: T1–T22 concluídas, 22/53 tarefas concluídas.
+- **Completed**: T19–T21 commitadas (até `efe45ac`). T22: `GET /api/v1/orders/:id` sem cache, leitura do pedido, itens e cacheRevision num único snapshot RepeatableRead (repository), ORDER_NOT_FOUND para inexistente/excluído, id validado por schema de params (campo `id` no erro), mesma resposta do POST, DATE e total máximo estáveis em três fusos, dois usuários acessam. Gate F verde: 232 unitários, e2e 1, integração 48, contrato 16, cobertura e build.
 - **In-progress**: Nada.
-- **Next step**: T22 (GET /api/v1/orders/:id).
+- **Next step**: T23 (GET /api/v1/orders com filtros e paginação).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-orders.

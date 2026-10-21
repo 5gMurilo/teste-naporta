@@ -25,3 +25,11 @@ export const orderDetailSelect = {
 
 export type OrderSummaryModel = Prisma.OrderGetPayload<{ select: typeof orderSummarySelect }>;
 export type OrderDetailModel = Prisma.OrderGetPayload<{ select: typeof orderDetailSelect }>;
+
+/** Detail plus the internal revision, read in the same snapshot; the revision is never public. */
+export const orderSnapshotSelect = {
+  ...orderDetailSelect,
+  cacheRevision: true,
+} satisfies Prisma.OrderSelect;
+
+export type OrderSnapshotModel = Prisma.OrderGetPayload<{ select: typeof orderSnapshotSelect }>;

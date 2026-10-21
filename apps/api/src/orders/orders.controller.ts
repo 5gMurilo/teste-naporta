@@ -1,6 +1,7 @@
 import type { ServerResponse } from 'node:http';
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
+import type { z } from 'zod';
 import {
   ProblemDetailsDto,
   problemJsonContent,
@@ -10,7 +11,11 @@ import { BEARER_AUTH } from '../docs/openapi.js';
 import { OrderPresenter } from './dto/order.presenter.js';
 import { type OrderResponse, orderResponseSchema } from './dto/order.responses.js';
 import { OrdersService } from './orders.service.js';
-import { type CreateOrderRequest, createOrderRequestSchema } from './schemas/orders.schemas.js';
+import {
+  type CreateOrderRequest,
+  createOrderRequestSchema,
+  orderParamsSchema,
+} from './schemas/orders.schemas.js';
 
 const problem = (
   status: number,
@@ -96,5 +101,73 @@ export class OrdersController {
     const order = await this.orders.create(body);
     response.setHeader('Location', `/api/v1/orders/${order.id}`);
     return OrderPresenter.detail(order);
+  }
+
+  @Get(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'The active order with its items and calculated total.',
+    standardSchema: orderResponseSchema,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'The id is not a UUID.',
+    content: problemJsonContent(
+      problem(
+        400,
+        'Bad Request',
+        'VALIDATION_ERROR',
+        'The request is invalid.',
+        '/api/v1/orders/123',
+        {
+          errors: [{ field: 'id', message: 'Invalid UUID' }],
+        },
+      ),
+      'ValidationProblemDetails',
+    ),
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Missing, invalid, or expired bearer token.',
+    content: problemJsonContent(
+      problem(
+        401,
+        'Unauthorized',
+        'UNAUTHORIZED',
+        'Authentication is required or the token is invalid.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'The order does not exist or was deleted.',
+    content: problemJsonContent(
+      problem(
+        404,
+        'Not Found',
+        'ORDER_NOT_FOUND',
+        'Order not found.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Unexpected failure.',
+    content: problemJsonContent(
+      problem(
+        500,
+        'Internal Server Error',
+        'INTERNAL_SERVER_ERROR',
+        'An unexpected error occurred.',
+        '/api/v1/orders/6c0b1c32-8b4d-4f43-8c1b-0d4cf4fd7a6b',
+      ),
+    ),
+  })
+  async detail(
+    @Param({ schema: orderParamsSchema }) params: z.output<typeof orderParamsSchema>,
+  ): Promise<OrderResponse> {
+    return OrderPresenter.detail(await this.orders.getActiveSnapshot(params.id));
   }
 }

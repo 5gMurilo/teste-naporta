@@ -14,6 +14,15 @@ type Doc = {
   components: { schemas: Record<string, unknown>; securitySchemes: Record<string, unknown> };
 };
 
+// Every operation of the public contract; extend as endpoints are delivered.
+const OPERATIONS = [
+  'GET /api/v1/health',
+  'GET /api/v1/orders/{id}',
+  'POST /api/v1/auth/login',
+  'POST /api/v1/orders',
+];
+const PATHS = ['/api/v1/auth/login', '/api/v1/health', '/api/v1/orders', '/api/v1/orders/{id}'];
+
 const PUBLIC_OPERATIONS = ['POST /api/v1/auth/login', 'GET /api/v1/health'];
 
 function operationsOf(doc: Doc): [string, Operation][] {
@@ -40,7 +49,7 @@ describe('OpenAPI document and export', () => {
       operationsOf(doc)
         .map(([name]) => name)
         .sort(),
-    ).toEqual(['GET /api/v1/health', 'POST /api/v1/auth/login', 'POST /api/v1/orders']);
+    ).toEqual(OPERATIONS);
     expect(doc.components.securitySchemes.bearerAuth).toEqual({
       type: 'http',
       scheme: 'bearer',
@@ -120,10 +129,6 @@ describe('Swagger UI and JSON over HTTP', () => {
     await request(app.getHttpServer()).get('/').expect(401);
 
     expect(json.body.openapi).toMatch(/^3\./);
-    expect(Object.keys(json.body.paths).sort()).toEqual([
-      '/api/v1/auth/login',
-      '/api/v1/health',
-      '/api/v1/orders',
-    ]);
+    expect(Object.keys(json.body.paths).sort()).toEqual(PATHS);
   });
 });

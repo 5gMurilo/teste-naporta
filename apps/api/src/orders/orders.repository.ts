@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { type OrderDetailModel, orderDetailSelect } from './orders.projections.js';
+import {
+  type OrderDetailModel,
+  type OrderSnapshotModel,
+  orderDetailSelect,
+  orderSnapshotSelect,
+} from './orders.projections.js';
 import { type CreateOrderRequest, startOfDayUtc } from './schemas/orders.schemas.js';
 
 export type NewOrder = CreateOrderRequest & { status: NonNullable<CreateOrderRequest['status']> };
@@ -25,5 +31,16 @@ export class OrdersRepository {
       },
       select: orderDetailSelect,
     });
+  }
+
+  /**
+   * Order, items and revision come from one RepeatableRead snapshot: Prisma issues one query for
+   * the order and another for its items, which must not observe different committed states.
+   */
+  findActiveSnapshot(id: string): Promise<OrderSnapshotModel | null> {
+    return this.prisma.$transaction(
+      (tx) => tx.order.findFirst({ where: { id, deletedAt: null }, select: orderSnapshotSelect }),
+      { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
+    );
   }
 }
