@@ -115,6 +115,21 @@ describe('POST /api/v1/orders with PostgreSQL', () => {
     expect(await env.prisma.order.count()).toBe(0);
   });
 
+  it('does not echo an invalid customer document in the 400', async () => {
+    const document = 'D'.repeat(33);
+
+    const response = await post({
+      ...validOrderBody(),
+      customer: { name: 'Ana Silva', document },
+    }).expect(400);
+
+    expect(response.body.errors).toEqual(
+      expect.arrayContaining([expect.objectContaining({ field: 'customer.document' })]),
+    );
+    expect(JSON.stringify(response.body)).not.toContain(document);
+    expect(await env.prisma.order.count()).toBe(0);
+  });
+
   it('returns 409 for a duplicate order number, also when the first order was soft deleted (I14)', async () => {
     await post(validOrderBody()).expect(201);
     const duplicate = await post(validOrderBody()).expect(409);
