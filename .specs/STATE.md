@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T40 concluídas, 40/53 tarefas concluídas.
-- **Completed**: T38 `ab43ed6`, T39 `b6aa3bd`. T40: ItemsEditor com 1 a 50 itens, labels por posição, preço em centavos como texto (zero permitido, ajuda 'Ex.: 4990 = R$ 49,90'), chave local estável por linha (digitar e adicionar outras linhas não remonta o input), foco no novo item ao adicionar e no item que ocupou o lugar ao remover, remover desabilitado no último item, adicionar desabilitado em 50 com explicação, erros associados por aria-describedby/aria-invalid e alerta da coleção, operação só por teclado. Gate W verde: 136 testes web.
+- **Phase / Task**: T1–T41 concluídas, 41/53 tarefas concluídas.
+- **Completed**: T38–T40 commitadas (até `021de3e`). T41: CustomerFields (nome e documento do cliente) sobre o novo FormField compartilhado (label, erro e dica associados por aria): documento é texto livre sem máscara nem algoritmo CPF/CNPJ, nada é registrado em log, fieldset desabilita junto. Gate W verde: 141 testes web.
 - **In-progress**: Nada.
-- **Next step**: T41 (campos de cliente).
+- **Next step**: T42 (campos de endereço).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-web-forms.
