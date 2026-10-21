@@ -162,7 +162,7 @@ describe('OrdersListPage (U31, U33, U35)', () => {
     });
 
     const alert = await screen.findByRole('alert');
-    expect(alert).toHaveTextContent('detail SERVICE_UNAVAILABLE');
+    expect(alert).toHaveTextContent('temporariamente indisponível');
     failing = false;
     await app.user.click(screen.getByRole('button', { name: 'Tentar novamente' }));
 

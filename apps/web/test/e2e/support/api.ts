@@ -48,3 +48,14 @@ export async function signIn(page: Page) {
   await page.getByRole('button', { name: 'Entrar' }).click();
   await page.getByRole('heading', { name: 'Pedidos' }).waitFor();
 }
+
+/**
+ * Client-side navigation. The session lives in memory only, so `page.goto` (a full reload) would
+ * log the user out; this keeps the SPA, and therefore the session, alive.
+ */
+export async function navigateInApp(page: Page, path: string) {
+  await page.evaluate((target) => {
+    window.history.pushState({}, '', target);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  }, path);
+}

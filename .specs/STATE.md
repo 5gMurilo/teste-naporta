@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T43 concluídas, 43/53 tarefas concluídas.
-- **Completed**: T38–T42 commitadas (até `aa338ad`). T43: OrderForm criação/edição que não chama a API (entrega payload pronto ao onSubmit): número, status em pt-BR, previsão, CustomerFields, AddressFields, ItemsEditor; validação estrutural com foco no primeiro campo inválido (aplicado depois da renderização), envio único com formulário desabilitado e aria-busy, falha preserva tudo o que foi digitado, 409 no campo do número, 400 distribuído por campo (inclusive item N) com mensagens em pt-BR sem repetir texto da API, sem alteração na edição não envia e avisa, PATCH só com o que mudou, reinício completo ao trocar de pedido ou de versão salva (nunca mistura dois pedidos). Gates W e H e fechamento da etapa 7 verdes: 162 testes web (99,2% linhas, 92,8% branches), 18 e2e web, regressão da API e comandos da raiz.
+- **Phase / Task**: T1–T44 concluídas, 44/53 tarefas concluídas.
+- **Completed**: Etapa 7 encerrada em `2e62e32` (registro `0de6c17`); branch feat/naporta-web-orders. T44: rota /orders/:id com OrderDetailPage: campos públicos, endereço, itens e total em BRL por aritmética inteira (formatBRL; máximo R$ 1.000.000.000,00), data civil sem deslocamento de fuso, campos internos nunca renderizados, 404 com mensagem e link de volta sem retry, erro com retry, resposta antiga ignorada ao trocar de pedido; número do pedido na lista agora é link real. errorMessage passou a escrever pt-BR por código da API (nunca o texto em inglês). Browser real em 390 e 1280 px: lista para detalhe, deep link que volta ao pedido depois do login, pedido inexistente, total máximo. Gate H verde: 184 testes web (cobertura acima de 99% linhas), 23 e2e web.
 - **In-progress**: Nada.
-- **Next step**: T44 (Phase 8, branch feat/naporta-web-orders: detalhe do pedido).
+- **Next step**: T45 (criar pedido pela interface).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
-- **Branch**: feat/naporta-web-forms.
+- **Branch**: feat/naporta-web-orders.

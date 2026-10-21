@@ -40,11 +40,11 @@ describe('AsyncState (U33, U35)', () => {
     expect(screen.queryByRole('alert')).toBeNull();
   });
 
-  it('announces an API error with its safe detail and never as a success', () => {
+  it('announces an API error with a Portuguese message and never as a success', () => {
     const error = new ApiError({
       status: 503,
       code: 'SERVICE_UNAVAILABLE',
-      detail: 'O serviço está indisponível.',
+      detail: 'The service is temporarily unavailable. internal-db-host',
       requestId: 'req-secret-id',
     });
     render(
@@ -53,10 +53,12 @@ describe('AsyncState (U33, U35)', () => {
       </AsyncState>,
     );
 
-    expect(screen.getByRole('alert')).toHaveTextContent('O serviço está indisponível.');
+    expect(screen.getByRole('alert')).toHaveTextContent('temporariamente indisponível');
     expect(screen.queryByRole('status')).toBeNull();
     expect(screen.queryByText('conteúdo')).toBeNull();
-    expect(screen.getByRole('alert')).not.toHaveTextContent('req-secret-id');
+    expect(screen.getByRole('alert')).not.toHaveTextContent(
+      /req-secret-id|internal-db-host|temporarily/,
+    );
   });
 
   it.each([

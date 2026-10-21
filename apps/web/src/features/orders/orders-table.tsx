@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { OrderSummary } from '@/lib/api-types';
 import { formatCivilDate, formatInstant, STATUS_LABELS } from '@/lib/format';
 
@@ -29,7 +30,9 @@ export function OrdersTable({ orders }: { orders: OrderSummary[] }) {
           {orders.map((order) => (
             <tr key={order.id} className="border-b">
               <th scope="row" className="px-3 py-2 font-medium">
-                {order.orderNumber}
+                <Link to={`/orders/${order.id}`} className="underline underline-offset-4">
+                  {order.orderNumber}
+                </Link>
               </th>
               <td className="px-3 py-2">{STATUS_LABELS[order.status]}</td>
               <td className="px-3 py-2">{order.customer.name}</td>

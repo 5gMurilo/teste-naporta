@@ -92,7 +92,7 @@ test.describe('orders list in the browser', () => {
     });
 
     await signIn(page);
-    await expect(page.getByRole('alert')).toContainText('temporarily unavailable');
+    await expect(page.getByRole('alert')).toContainText('temporariamente indisponível');
     await page.getByRole('button', { name: 'Tentar novamente' }).click();
 
     await expect(page.getByRole('rowheader', { name: 'NP-RETRY' })).toBeVisible();
