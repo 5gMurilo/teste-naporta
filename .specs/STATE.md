@@ -15,10 +15,10 @@ None - o repositório começa vazio; as escolhas aprovadas para o bootstrap est�
 ## Handoff
 
 - **Feature**: orders-api (`.specs/features/orders-api/spec.md`).
-- **Phase / Task**: T1–T48 concluídas, 48/53 tarefas concluídas.
-- **Completed**: Etapa 8 encerrada em `8409d63` (registro `e0d5356`); branch feat/naporta-delivery. T48: apps/api/Dockerfile multi-stage (contexto na raiz) com node:22.22.3-slim, pnpm via corepack, instalação `--frozen-lockfile`, stages dependencies/build/production-dependencies/migrate/runtime; runtime só com dist, node_modules de produção (pnpm deploy) e package.json, usuário node (UID 1000), HEALTHCHECK em /api/v1/health, sem .env nem segredos; target migrate roda `prisma migrate deploy` uma vez como job, nunca no startup. .dockerignore na raiz. pnpm-workspace libera o postinstall de prisma e @prisma/engines (o motor de schema precisa dele). `pnpm test:containers [api]` (scripts/containers, Node test runner, Docker real): build frozen, UID não-root, conteúdo mínimo e sem segredos, migrations aplicadas e idempotentes em PostgreSQL vazio, health 200 e login 401 INVALID_CREDENTIALS contra o banco real com Redis inalcançável e zero usuários (sem seed no startup), healthcheck, configuração inválida sem vazar segredo. Gates C/API e H verdes: 7 testes de container, regressão completa.
+- **Phase / Task**: T1–T49 concluídas, 49/53 tarefas concluídas.
+- **Completed**: T48 `cc5d430`. T49: apps/web/Dockerfile (build com vite build, runtime nginxinc/nginx-unprivileged 1.29-alpine, UID 101, porta 8080) e nginx/default.conf.template renderizado pelo entrypoint com API_UPSTREAM: /api/ repassado sem reescrever status, corpo ou headers (Location, X-Request-Id), 502/504 do próprio nginx viram problem+json em vez de HTML, /assets/ (^~) com cache imutável e 404 real para arquivo ausente, qualquer caminho com extensão é arquivo ou 404, index.html sempre revalidado, rotas visuais caem na SPA, cabeçalhos de segurança e CSP restrita por snippet incluído em cada location. 7 testes de container (Docker real, upstream de teste e Chromium real): usuário não-root, só o bundle estático e sem .env, tipos e cache dos assets, recarga de rota profunda e 404 de arquivo, proxy fiel, 502 legível por máquina, headers e ausência de segredos no bundle, carga no browser sem violação de CSP. Gates C/web e H verdes: pnpm test:containers api e web, regressão web.
 - **In-progress**: Nada.
-- **Next step**: T49 (imagem da SPA com Nginx e proxy /api).
+- **Next step**: T50 (stack Compose completa).
 - **Blockers**: Nenhum conhecido. Docker disponível via OrbStack. `pnpm build` exige `DATABASE_URL` no ambiente (turbo `passThroughEnv`).
 - **Uncommitted files**: Nenhum rastreado.
 - **Branch**: feat/naporta-delivery.

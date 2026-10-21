@@ -1,0 +1,55 @@
+# Rendered by the nginx image entrypoint: only ${API_UPSTREAM} is substituted, nginx variables are untouched.
+server {
+  listen 8080;
+  server_name _;
+  root /usr/share/nginx/html;
+  index index.html;
+
+  server_tokens off;
+  gzip on;
+  gzip_types text/css application/javascript application/json image/svg+xml;
+
+  # nginx drops inherited add_header lines whenever a location sets its own, so each one includes this.
+  include /etc/nginx/snippets/security-headers.conf;
+
+  # The API: forwarded as is. Statuses, bodies, and headers (Location, X-Request-Id) are never rewritten,
+  # and an error is never answered with the SPA page.
+  location /api/ {
+    proxy_pass ${API_UPSTREAM};
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_read_timeout 30s;
+    error_page 502 504 = @api_unreachable;
+  }
+
+  # nginx itself could not reach the API: a machine-readable error, not an HTML page.
+  location @api_unreachable {
+    default_type application/problem+json;
+    return 502 '{"type":"about:blank","title":"Bad Gateway","status":502,"detail":"The API is unreachable.","code":"SERVICE_UNAVAILABLE"}';
+  }
+
+  # Hashed build assets never change: cache them for good, and a missing one is a real 404.
+  location ^~ /assets/ {
+    try_files $uri =404;
+    include /etc/nginx/snippets/security-headers.conf;
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+  }
+
+  # Any other path that looks like a file is a file or a 404, never the SPA page.
+  location ~* \.[a-z0-9]+$ {
+    try_files $uri =404;
+  }
+
+  # The entry document must always be revalidated: it points at the current hashed assets.
+  location = /index.html {
+    include /etc/nginx/snippets/security-headers.conf;
+    add_header Cache-Control "no-cache" always;
+  }
+
+  # Visual routes (/orders/123/edit, ...) are served by the SPA after a reload.
+  location / {
+    try_files $uri /index.html;
+  }
+}
