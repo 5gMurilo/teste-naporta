@@ -26,6 +26,9 @@
     "prisma:generate": "DATABASE_URL=${DATABASE_URL:-postgresql://generate:generate@localhost:5432/generate} prisma generate",
     "prisma:validate": "DATABASE_URL=${DATABASE_URL:-postgresql://validate:validate@localhost:5432/validate} prisma validate",
     "prisma:migrate:dev": "prisma migrate dev",
+    "db:generate": "pnpm prisma:generate",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "docs:openapi": "DATABASE_URL=postgresql://docs:docs@localhost:5432/docs pnpm build && node dist/docs/export-openapi.js",
     "docs:openapi:check": "DATABASE_URL=postgresql://docs:docs@localhost:5432/docs pnpm build && node dist/docs/export-openapi.js --check"

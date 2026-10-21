@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import { resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { createApplication } from './application.js';
 import { ConfigError, loadApiConfig } from './config/env.js';
+import { repositoryEnvPath } from './env-file.js';
 
-dotenv.config({ path: resolve(import.meta.dirname, '../../.env'), quiet: true });
+dotenv.config({ path: repositoryEnvPath(import.meta.dirname), quiet: true });
 
 async function bootstrap() {
   const config = loadApiConfig();

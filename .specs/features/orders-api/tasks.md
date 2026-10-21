@@ -730,6 +730,8 @@ Itens exigidos pela spec que nenhuma tarefa numerada cobria, entregues como comm
 | Item | Requisito | Commit |
 | --- | --- | --- |
 | CORS configurável (uma origem explícita, nada sem `CORS_ORIGIN`) e helmet, com CSP desligado só nas páginas `/docs` | Spec, seção Configuração; CORS na tabela de decisões | `feat(http): apply configurable cors and security headers` na branch `feat/naporta-web-platform` |
+| `.env` da raiz não era lido pela API após a relocation (caminho `../../.env` a partir de `apps/api/src`) | Spec, seção Configuração e Scripts | `fix(api): read the repository .env and expose the documented db and start scripts` na branch `feat/naporta-delivery` |
+| Aliases de script da spec (`db:generate`, `db:migrate:dev`, `db:migrate:deploy`, `start:prod` na raiz) | Spec, tabela de scripts | mesmo commit |
 
 ## Fechamento independente após T53
 
